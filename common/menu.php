@@ -39,7 +39,7 @@ echo "<nav class=\"navbar navbar-default\" role=\"navigation\">
 // Set the log in button
 // TODO : Check if the user is logged in. If this is the case, the login button should be changed to the name of the user
 echo "	    <ul class=\"nav navbar-nav navbar-right\">
-              <li><a href=\"#\" data-toggle=\"modal\" data-target=\"#login\">Log in</a></li>
+              <button type=\"button\" class=\"btn btn-default navbar-btn\" data-toggle=\"modal\" data-target=\"#login\">Log in</button>
             </ul>";
 
 // Closing the menu
