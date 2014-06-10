@@ -40,6 +40,9 @@ echo "<nav class=\"navbar navbar-default\" role=\"navigation\">
 if ($loggedUser) {
 	// Set the name of the user and the possibility to log out.
 	echo "<p class=\"navbar-text navbar-right\">Signed in as ". $loggedUserName . "</p>";
+
+	// We add a logout button
+	echo "<a class=\"btn btn-default navbar-right navbar-btn\" href=\"".$baseURL."index.php?indexAction=logout\">Log out</a>";
 } else {
     // Set the log in button
 	echo "	    <ul class=\"nav navbar-nav navbar-right\">
