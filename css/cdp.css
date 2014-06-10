@@ -10,3 +10,37 @@
 .profile-img{width:96px;height:96px;display:block;-moz-border-radius:50%;-webkit-border-radius:50%;border-radius:50%;margin:0 auto 10px;}
 .need-help{margin-top:10px;}
 .new-account{display:block;margin-top:10px;}
+
+
+body{
+  margin-top: 50px;
+}
+
+.divide-nav{
+  height: 50px;
+  background-color: #3498db;
+}
+
+.divide-text{
+    color:#fff;
+    line-height: 20px;
+    font-size:20px;
+    padding: 15px 0;
+}
+
+.affix {
+  top: 50px;
+  width:100%;
+}
+
+.filler{
+  min-height: 2000px;
+}
+
+.navbar-form {
+    padding: 10px 0;
+}
+
+.navbar-collapse{
+   padding-left:0; 
+}

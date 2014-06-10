@@ -1,4 +1,5 @@
 <?php
+global $loggedUser, $loggedUserName;
 // We create the navbar for the menu and set the title.
 echo "<nav class=\"navbar navbar-default\" role=\"navigation\">
         <div class=\"container-fluid\">
@@ -36,18 +37,23 @@ echo "<nav class=\"navbar navbar-default\" role=\"navigation\">
 //               <button type=\"submit\" class=\"btn btn-default\">Submit</button>
 //             </form>";
 
-// Set the log in button
-// TODO : Check if the user is logged in. If this is the case, the login button should be changed to the name of the user
-echo "	    <ul class=\"nav navbar-nav navbar-right\">
-              <button type=\"button\" class=\"btn btn-default navbar-btn\" data-toggle=\"modal\" data-target=\"#login\">Log in</button>
-            </ul>";
+if ($loggedUser) {
+	// Set the name of the user and the possibility to log out.
+	echo "<p class=\"navbar-text navbar-right\">Signed in as ". $loggedUserName . "</p>";
+} else {
+    // Set the log in button
+	echo "	    <ul class=\"nav navbar-nav navbar-right\">
+                 <button type=\"button\" class=\"btn btn-default navbar-btn\" data-toggle=\"modal\" data-target=\"#login\">Log in</button>
+                </ul>";	
+}
 
 // Closing the menu
 echo "	  </div>
         </div>
       </nav>";
 
-// TODO : If not logged in, make the login form
-require_once 'login.php';
-
+// If not logged in, make the login form
+if (!$loggedUser) {
+  require_once 'login.php';
+}
 ?>
