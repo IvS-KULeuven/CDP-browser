@@ -3,7 +3,5 @@
    - remove user
    - give user admin rights 
    - remove admin rights for user
-- Make it possible to sort the table on the columns
-    http://tutsme-webdesign.info/bootstrap-3-sortable-table/
-    http://mottie.github.io/tablesorter/docs/index.html
-- Make it possible to download a specific fits file
+ - Make it possible to download a specific fits file
+ - export the tables? -> http://mottie.github.io/tablesorter/docs/example-widget-output.html

@@ -15,7 +15,12 @@
   		  <script src=\"js/jquery-1.11.1.min.js\"></script>
           <!-- Include all compiled plugins (below), or include individual files as needed -->
           <script src=\"js/bootstrap.min.js\"></script>
-  		  <title>CDP browser</title>
+          <script src=\"js/jquery.tablesorter.min.js\"></script>
+          <script src=\"js/jquery.tablesorter.widgets.min.js\"></script>
+          <script src=\"js/jquery.tablesorter.pager.min.js\"></script>
+          <script src=\"js/widget-columnSelector.js\"></script>
+  		<link href=\"css/tablesorter.theme.bootstrap.css\" rel=\"stylesheet\">
+  		<title>CDP browser</title>
   		</head>";
 
   // The body of the html page
@@ -34,20 +39,6 @@
   echo "<div class=\"navbar navbar-default navbar-fixed-bottom\">
   		  <p class=\"navbar-text\">Copyright 2014</p>
   		</div>";
-
-//   // Pagination
-//   echo "<ul style=\"margin-top:0;\" class=\"pagination pull-right\">";
-//   echo " <li><a href=\"&amp;multiplepagenr=0\">&laquo;</a></li>";
-//   echo " <li><a href=\"&amp;multiplepagenr=0\">&lt;</a></li>";
-//   echo " <li><a href=\"#\"><input style=\"height:20px;\" value=\"5\"></input></a></li>";
-//   echo "<li><a href=\"&amp;multiplepagenr=1\">&gt;</a></li>";
-//   echo "<li><a href=\"&amp;multiplepagenr=1\">&raquo;</a></li>";
-//   echo "&nbsp;</ul>";
-  
-//   echo "<span style=\"padding-top:6px;\" class=\"pull-right\">";
-//   echo "&nbsp;(24 resultaten in 2 paginas)&nbsp;";
-//   echo "</span>";
-  
   
   if(isset($entryMessage)&&$entryMessage) {                                                                 // dispays $entryMessage if any
   	echo "<div class=\"modal fade\" id=\"errorModal\" tabindex=\"-1\">
