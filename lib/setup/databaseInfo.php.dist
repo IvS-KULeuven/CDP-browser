@@ -4,7 +4,7 @@ databaseInfo();
 
 function databaseInfo()
 {
-  global $host,$user,$pass,$dbname,$instDir,$baseURL;
+  global $host,$user,$pass,$dbname,$instDir,$baseURL, $cdpLocation;
 
   // Change the following to make CDP work with your database
   $host           = "localhost";
@@ -15,5 +15,7 @@ function databaseInfo()
   // Installation directory and url (each one has to end on a slash!)
   $instDir      = "/software/www/htdocs/CDP/";
   $baseURL      = "http://localhost/CDP/";
+  
+  $cdpLocation  = "/STER/ftp/miri/Deliveries/";
 }
 ?>

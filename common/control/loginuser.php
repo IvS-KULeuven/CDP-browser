@@ -44,11 +44,7 @@ function login()
   	  $passwd_db = $objUser->getUserProperty($login,'password');                  // get password from database 
       if($passwd_db==$passwd)                                                     // check if passwords match
       {
-        if($objUser->getUserProperty($login,'role',2)=="2")                         // user in waitlist already tries to log in
-  			{ $loginErrorCode="LangWelcome5";
-  			  $loggedUser="";
-  			} 
-        elseif($objUser->getUserProperty($login,'role',2)=="1")                     // validated user
+        if($objUser->getUserProperty($login,'role',2)=="1")                     // validated user
         { session_regenerate_id(true);
   			  $_SESSION['cdp_id']=$login;                                      // set session variable
           $_SESSION['admin']="no";                                                // set session variable

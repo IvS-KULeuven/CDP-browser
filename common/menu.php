@@ -1,5 +1,5 @@
 <?php
-global $loggedUser, $loggedUserName;
+global $loggedUser, $loggedUserName,$baseURL;
 // We create the navbar for the menu and set the title.
 echo "<nav class=\"navbar navbar-default\" role=\"navigation\">
         <div class=\"container-fluid\">
@@ -10,7 +10,7 @@ echo "<nav class=\"navbar navbar-default\" role=\"navigation\">
               <span class=\"icon-bar\"></span>
               <span class=\"icon-bar\"></span>
             </button>
-            <a class=\"navbar-brand\" href=\"#\">CDP browser</a>
+            <a class=\"navbar-brand\" href=\"".$baseURL."\">CDP browser</a>
           </div>
 		  <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">";
 
