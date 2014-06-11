@@ -1,0 +1,7 @@
+- Admin menu to 
+   - add user
+   - remove user
+   - give user admin rights 
+   - remove admin rights for user
+- Make it possible to sort the table on the columns
+- Make it possible to download a specific fits file
