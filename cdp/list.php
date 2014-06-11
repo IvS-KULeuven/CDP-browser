@@ -9,7 +9,7 @@ $ftp_server = "ftp.ster.kuleuven.be";
 $conn_id = ftp_connect($ftp_server);
 
 if (!$conn_id) {
-	$entryMessage= "Couldn't connect to $ftp_server";
+	$entryMessage = "Couldn't connect to $ftp_server";
 } else {
 	echo "<div class=\"container-fluid\">";
 	echo " <ul id=\"tabs\" class=\"nav nav-tabs\" data-tabs=\"tabs\">
@@ -22,14 +22,40 @@ if (!$conn_id) {
 	        <div class=\"tab-pane active\" id=\"cdp3\">";
 	
 	// We make a table with all files from the ftp site
-	echo "   <table class=\"table\">";
+	echo "   <table class=\"table table-striped table-hover\">";
 	echo "    <thead><th>Filename</th><th>Size</th><th>Action</th></thead>";
 	echo "    <tbody>";
 	
-	$contents = ftp_nlist($conn_id, "/miri/CDP/");
+	// try to login
+	if (@ftp_login($conn_id, 'anonymous', '')) {
+		if (is_array($children = @ftp_rawlist($conn_id, "/miri/CDP/"))) {
+			$items = array();
+		
+			foreach ($children as $child) {
+				$chunks = preg_split("/\s+/", $child);
+				list($item['rights'], $item['number'], $item['user'], $item['group'], $item['size'], $item['month'], $item['day'], $item['time']) = $chunks;
+				$item['type'] = $chunks[0]{0} === 'd' ? 'directory' : 'file';
+				array_splice($chunks, 0, 8);
+				$items[implode(" ", $chunks)] = $item;
+			}
+		
+	  foreach ($items as $key => $value) {
+	  	if ($key != '.' && $key != '..') {
+	        echo "<tr>";
+	  		echo "<td>". $key . "</td>"; 
+	  		echo "<td>" . $value['size'] . "</td>";
+	  		echo "<td><span class=\"glyphicon glyphicon-download\"></span></td>";
+	        echo "</tr>\n";
+	  	}
+	  }
+	  }
+	} else {
+	  $entryMessage = "Couldn't connect to $ftp_server";
+	}
 	
-	// output $contents
-	print_r($contents);
+	// Close the connection to the ftp server
+	ftp_close($conn_id);
+
 	echo "    </tbody>
 			 </table>";
 	echo "  </div>";
