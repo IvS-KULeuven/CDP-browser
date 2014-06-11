@@ -1,3 +1,4 @@
 /.settings
 /.buildpath
 /.project
+lib/setup/databaseInfo.php

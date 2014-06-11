@@ -11,7 +11,8 @@ $objDatabase=new Database();
 print "Database table for the use will be added.\n";
 
 $sql ="DROP TABLE IF EXISTS users";
-$run = mysql_query($sql) or die(mysql_error());
+$objDatabase->execSQL($sql);
+
 $sql = "CREATE TABLE users (
              id              VARCHAR(200)            NOT NULL DEFAULT '',
              name            VARCHAR(200)            NOT NULL DEFAULT '',
@@ -21,13 +22,12 @@ $sql = "CREATE TABLE users (
              role            INT(3)                  NOT NULL default '2',
 		     PRIMARY KEY(id)
              )";
-$run = mysql_query($sql) or die(mysql_error());
-
+$objDatabase->execSQL($sql);
 
 // Role : Admin = 0, User = 1, Waitlist = 2
 // Make a user 'wim'
 $sql = "INSERT INTO users ( id, name, firstname, email, password, role ) VALUES ( \"wim\", \"De Meester\", \"Wim\", \"wim.demeester@ster.kuleuven.be\", \"" . md5("test") . "\", 0)";
-$run = mysql_query($sql) or die(mysql_error());
+$objDatabase->execSQL($sql);
 
 print "Database update successful.\n";
 ?>
