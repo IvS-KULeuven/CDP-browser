@@ -37,7 +37,7 @@
   
   // Making the footer
   echo "<div class=\"navbar navbar-default navbar-fixed-bottom\">
-  		  <p class=\"navbar-text\">Copyright 2014</p>
+  		  <p class=\"navbar-text\">Copyright 2014 Wim De Meester. All Rights Reserved.</p>
   		</div>";
   
   if(isset($entryMessage)&&$entryMessage) {                                                                 // dispays $entryMessage if any
