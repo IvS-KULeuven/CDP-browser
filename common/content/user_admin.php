@@ -1,5 +1,5 @@
 <?php
-  global $objUser;
+  global $objUser, $baseURL;
   
   // We create an array with all users
   $users = $objUser->getUsers();
@@ -12,7 +12,12 @@
               <div id=\"columnSelector\" class=\"columnSelector\">
               </div>
 	         </div>";
-    
+  
+  // Add a button to add a new user
+  echo "<button type=\"button\" class=\"btn btn-success pull-right\" data-toggle=\"modal\" data-target=\"#addUser\">
+  		 <span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Add a new user
+  		</button>";	
+  
   // We make a table with all files from the ftp site
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
   echo "    <thead>
@@ -60,6 +65,31 @@
                </tfoot>
 			 </table>";
   echo "  </div>";
+  
+  // Setting the log in modal form
+  echo "<div class=\"modal fade\" id=\"addUser\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+          <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+              <div class=\"modal-body\">
+  		        <h1 class=\"text-center login-title\">Add a new user</h1>
+                <div class=\"account-wall\">
+                  <form class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+                    <input type=\"text\" name=\"id\" class=\"form-control\" placeholder=\"id\" required autofocus>
+                    <input type=\"text\" name=\"firstname\" class=\"form-control\" placeholder=\"First Name\" required>
+                    <input type=\"text\" name=\"name\" class=\"form-control\" placeholder=\"Name\" required>
+                    <input type=\"email\" name=\"email\" class=\"form-control\" placeholder=\"email address\" required>
+               		<input type=\"password\" name=\"passwd\" class=\"form-control\" placeholder=\"Password\" required>
+                    <input type=\"hidden\" name=\"indexAction\" value=\"add_user\" />
+                  	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
+                      Add user
+  		            </button>
+                  </form>
+  		        </div>
+  	  	      </div>
+            </div>
+          </div>
+        </div>
+  	  </body>";
   
   // Make the table sorter, add the pager and add the column chooser
   echo "<script type=\"text/javascript\">";

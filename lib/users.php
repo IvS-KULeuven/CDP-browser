@@ -5,7 +5,7 @@
 class Users
 { public  function addUser($id, $name, $firstname, $email, $password)
   { global $objDatabase; 
-    return $objDatabase->execSQL("INSERT INTO users (id, name, firstname, email, password, role) VALUES (\"$id\", \"$name\", \"$firstname\", \"$email\", \"$password\", \"2\")");
+    return $objDatabase->execSQL("INSERT INTO users (id, name, firstname, email, password, role) VALUES (\"$id\", \"$name\", \"$firstname\", \"$email\", \"$password\", \"1\")");
   }
   public  function getAdministrators()
   { global $objDatabase; 
@@ -18,6 +18,18 @@ class Users
   public  function getUsers()
   { global $objDatabase;
     return $objDatabase->selectSingleArray("SELECT * FROM users",'id');
+  }
+  public  function userIdAlreadyTaken($id)
+  { global $objDatabase;
+    $users = $this->getUsers();
+    
+    $taken = false;
+    foreach($users as $value) {
+    	if ($value["id"] == $id) {
+    		$taken = true;
+    	}
+    }
+    return $taken;
   }
   public  function setUserProperty($id, $property, $propertyValue)
   { // sets a new value for the property of the user

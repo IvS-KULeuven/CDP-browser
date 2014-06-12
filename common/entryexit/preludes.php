@@ -17,4 +17,10 @@ function preludesA()
         require_once "lib/util.php";                   $objUtil=new Utils;
         require_once "lib/users.php";                  $objUser=new Users;
         require_once "common/control/loginuser.php";
+        
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_user', 'common/control/adduser.php')));
+
+		if ($indexActionInclude != "") {
+			require_once $indexActionInclude;
+		}
 }

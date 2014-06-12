@@ -39,8 +39,6 @@
   // Page with the list of cdp files
   require_once $includeFile;
   
-//require_once 'cdp/list.php';
-  
   // Making the footer
   echo "<div class=\"navbar navbar-default navbar-fixed-bottom\">
   		  <p class=\"navbar-text\">Copyright 2014 Wim De Meester. All Rights Reserved.</p>
