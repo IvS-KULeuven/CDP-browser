@@ -28,11 +28,23 @@ class Database
       if ($get[$name]!='')
 	    return $get[$name];
       else
-	    return null;
+	    return $nullvalue;
       else
-	    return null;
+	    return $nullvalue;
   }
 
+  public function selectSingleArray($sql)
+  { if(!$this->databaseId) {echo "Database connection lost..."; $this->newLogin();}
+    try {
+      $run = $this->databaseId->query($sql);
+    } catch(PDOException $ex) {
+      $entryMessage = "A database error occured!"; //user friendly message
+    }
+
+    $get = $run->fetchAll();
+    return $get;
+  }
+  
   function __construct()
   { global $dbname,$host,$user,$pass;
     if(!$this->databaseId)

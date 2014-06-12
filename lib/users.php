@@ -15,12 +15,13 @@ class Users
   { global $objDatabase; 
     return $objDatabase->selectSingleValue("SELECT ".$property." FROM users WHERE id=\"".$id."\"",$property,$defaultValue);
   }
-  public  function getSortedUsers($sort)
-  { global $objDatabase; 
-    return $objDatabase->selectSingleArray("SELECT users.id FROM observers ORDER BY $sort",'id');
+  public  function getUsers()
+  { global $objDatabase;
+    return $objDatabase->selectSingleArray("SELECT * FROM users",'id');
   }
-  public  function setUserProperty($id, $property, $propertyValue)                                                 // sets a new value for the property of the observer
-  { global $objDatabase; 
+  public  function setUserProperty($id, $property, $propertyValue)
+  { // sets a new value for the property of the user
+   global $objDatabase; 
    $objDatabase->execSQL("UPDATE users SET ".$property."=\"".$propertyValue."\" WHERE id=\"".$id."\"");
   }
   public  function validateDeleteUser()

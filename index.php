@@ -2,7 +2,8 @@
   if(!array_key_exists('indexAction',$_GET)&&array_key_exists('indexAction',$_POST))
 	$_GET['indexAction']=$_POST['indexAction'];
 
-  require_once 'common/entryexit/preludes.php';                                                 // Includes of all classes and assistance files
+  // Includes of all classes and assistance files
+  require_once 'common/entryexit/preludes.php';
   
   // HTML 5
   echo "<!DOCTYPE html>";
@@ -30,17 +31,23 @@
   require_once "lib/setup/databaseInfo.php";
   
   // Making the menu
-  require_once 'common/menu.php';                                                                // Includes of all classes and assistance files
+  require_once 'common/menu.php';
 
+  // Determine the page to show
+  $includeFile=$objUtil->utilitiesDispatchIndexAction();
+  
   // Page with the list of cdp files
-  require_once 'cdp/list.php';
+  require_once $includeFile;
+  
+//require_once 'cdp/list.php';
   
   // Making the footer
   echo "<div class=\"navbar navbar-default navbar-fixed-bottom\">
   		  <p class=\"navbar-text\">Copyright 2014 Wim De Meester. All Rights Reserved.</p>
   		</div>";
   
-  if(isset($entryMessage)&&$entryMessage) {                                                                 // dispays $entryMessage if any
+  // dispays $entryMessage if any
+  if(isset($entryMessage)&&$entryMessage) {
   	echo "<div class=\"modal fade\" id=\"errorModal\" tabindex=\"-1\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
