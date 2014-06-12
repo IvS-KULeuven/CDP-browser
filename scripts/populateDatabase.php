@@ -24,7 +24,7 @@ $sql = "CREATE TABLE users (
              )";
 $objDatabase->execSQL($sql);
 
-// Role : Admin = 0, User = 1, Waitlist = 2
+// Role : Admin = 0, User = 1
 // Make a user 'wim'
 $sql = "INSERT INTO users ( id, name, firstname, email, password, role ) VALUES ( \"wim\", \"De Meester\", \"Wim\", \"wim.demeester@ster.kuleuven.be\", \"" . md5("test") . "\", 0)";
 $objDatabase->execSQL($sql);

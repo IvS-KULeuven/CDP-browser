@@ -1,7 +1,7 @@
-- Admin menu to 
-   - add user
-   - remove user
-   - give user admin rights 
-   - remove admin rights for user
- - Make it possible to download a specific fits file
- - export the tables? -> http://mottie.github.io/tablesorter/docs/example-widget-output.html
+- Admin menu : 
+ - add user
+ - remove user
+ - give user admin rights 
+ - remove admin rights for user
+- Make it possible to download a specific fits file
+- export the tables? -> http://mottie.github.io/tablesorter/docs/example-widget-output.html
