@@ -1,5 +1,5 @@
 <?php
-  global $objUser, $baseURL, $objUtil;
+  global $objUser, $baseURL, $objUtil, $loggedUser;
   
   // We create an array with all users
   $users = $objUser->getUsers();
@@ -30,13 +30,20 @@
 	  		echo "<td>" . $value['firstname'] . "</td>";
 	  		echo "<td>" . $value['name'] . "</td>";
 	  		echo "<td>" . $value['email'] . "</td>";
-	  		echo "<td>" . $value['role'] . "</td>";
+	  		echo "<td>" . ($value['role'] == 0?"Admin":"User") . "</td>";
 	  		if ($value['role'] > 0) {
               echo "<td>
-              		 <a style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_user&id=". $value["id"] . "\" class=\"glyphicon glyphicon-trash \"></a>
-       		 		</td>";
+              		 <a title=\"Remove user\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_user&id=". $value["id"] . "\" class=\"glyphicon glyphicon-trash \"></a>
+              		 &nbsp;
+              		 <a title=\"Make administrator\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=change_role&id=". $value["id"] . "\" class=\"glyphicon glyphicon-ok \"></a>
+              		</td>";
 	  		} else {
-              echo "<td>&nbsp;</td>";
+              echo "<td>";
+              // It is not possible to change the role of yourself
+              if ($value["id"] != $loggedUser) {
+                echo " <a title=\"Remove administrator role\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=change_role&id=". $value["id"] . "\" class=\"glyphicon glyphicon-remove \"></a>";
+              }
+	  		  echo "</td>";
 	  		}
 	        echo "</tr>\n";
   }

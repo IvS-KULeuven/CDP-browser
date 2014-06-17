@@ -48,6 +48,16 @@ class Users
   		return false;
   	}
   }
+  public function changeRole($id) {
+  	if ($this->getUserProperty($id, "role") == 0) {
+  		$this->setUserProperty($id, "role", 1);
+  		$message = "User <strong>" . $id . "</strong> is not longer an administrator, but is a regular user now.";
+  	} else {
+  		$this->setUserProperty($id, "role", 0);
+  		$message = "User <strong>" . $id . "</strong> is now an administrator.";
+  	}
+  	return $message;
+  }
   public  function validateUser()
   { global $objDatabase,$objUtil, $entryMessage;
     $objDatabase->execSQL("UPDATE users SET role = \"".($role=1)."\" WHERE id=\"".($id=$objUtil->checkGetKey('validate'))."\"");
