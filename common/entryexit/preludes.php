@@ -19,7 +19,8 @@ function preludesA()
         require_once "common/control/loginuser.php";
         
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_user', 'common/control/adduser.php')));
-
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('delete_user', 'common/control/deleteuser.php')));
+        
 		if ($indexActionInclude != "") {
 			require_once $indexActionInclude;
 		}

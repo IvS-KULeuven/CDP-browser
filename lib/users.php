@@ -36,10 +36,9 @@ class Users
    global $objDatabase; 
    $objDatabase->execSQL("UPDATE users SET ".$property."=\"".$propertyValue."\" WHERE id=\"".$id."\"");
   }
-  public  function validateDeleteUser()
-  { global $objDatabase,$entryMessage,$loggedUser;
-    $objDatabase->execSQL("DELETE FROM users WHERE id=\"".($id=$objUtil->checkGetKey('validateDelete'))."\"");
-    return "The user has been erased.";
+  public  function deleteUser($id)
+  { global $objDatabase,$loggedUser;
+    $objDatabase->execSQL("DELETE FROM users WHERE id=\"".$id."\"");
   }
   public  function isAdministrator($userId) {
   	$role = $this->getUserProperty($userId, "role");
@@ -49,7 +48,7 @@ class Users
   		return false;
   	}
   }
-  public  function validateObserver()
+  public  function validateUser()
   { global $objDatabase,$objUtil, $entryMessage;
     $objDatabase->execSQL("UPDATE users SET role = \"".($role=1)."\" WHERE id=\"".($id=$objUtil->checkGetKey('validate'))."\"");
 

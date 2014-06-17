@@ -26,12 +26,18 @@
   
   foreach ($users as $key => $value) {
 	        echo "<tr>";
-	  		echo "<td>". $value["id"] . "</td>"; 
+	  		echo "<td>". $value["id"] . "</td>";
 	  		echo "<td>" . $value['firstname'] . "</td>";
 	  		echo "<td>" . $value['name'] . "</td>";
 	  		echo "<td>" . $value['email'] . "</td>";
 	  		echo "<td>" . $value['role'] . "</td>";
-	  		echo "<td><span class=\"glyphicon glyphicon-trash\"></span></td>";
+	  		if ($value['role'] > 0) {
+              echo "<td>
+              		 <a style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_user&id=". $value["id"] . "\" class=\"glyphicon glyphicon-trash \"></a>
+       		 		</td>";
+	  		} else {
+              echo "<td>&nbsp;</td>";
+	  		}
 	        echo "</tr>\n";
   }
   echo "    </tbody>

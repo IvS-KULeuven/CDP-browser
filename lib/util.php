@@ -8,8 +8,7 @@ class Utils
   public  function utilitiesDispatchIndexAction()
   {
   	if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('admin_users', 'common/content/user_admin.php')))
-//  	if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('add_user', 'common/control/adduser.php')))
-
+  		 
   	if ($indexActionInclude == "") {
   		$indexActionInclude = 'cdp/list.php';
   	}
@@ -33,7 +32,7 @@ class Utils
   	return $includefile;
   }
   
-  // Add the table, including the pager
+  // Add the table
   public function addTableColumSelector() {
   	// Add the button for the columns    
     echo "   <div class=\"columnSelectorWrapper\">
@@ -43,7 +42,7 @@ class Utils
               </div>
 	         </div>";
   }
-  
+  // Add the pager for the table
   public function addTablePager() {
   	echo "<!-- pager -->
           <div id=\"pager\" class=\"pager\">
@@ -63,7 +62,7 @@ class Utils
            </form>
           </div>";
   }
-  
+  // Add the javascript for the table
   public function addTableJavascript() {
     // Make the table sorter, add the pager and add the column chooser
     echo "<script type=\"text/javascript\">";
