@@ -144,3 +144,27 @@ C. I am not decided on what the best way would be to associate certain types of 
 One possibility would be the DELIVERY keyword; the idea being that cdp files, algorithms, and documentation collected within a single delivery should be consistent. Note: there are currently examples of cdp files that do not have corresponding algorithms / updated-documentation / test cases. 
 
 D. we ideally will not need both TYPE and REFTYPE. Translating all of our TYPE to STScI REFTYPE is an ongoing discussion that may take a while still. Until then, it seems prudent to keep both.
+
+
+Comments of Jane
+----------------
+
+Couple of other things. Since you are cleaning up the keywords I think 
+now is the time to get rid
+of keywords that we do not need. So
+1. I vote to get rid of 'TYPE" and use 'REFTYPE'
+2. for DETECTOR - I vote to get rid of 'IM','SW','LW' and go with a 
+standard set of MIRIMAGE,MIRIFULONG, MIRIFUSHORT
+3. For the PIPELINE MODULE keyword - what exactly is the keyword. 
+PIPELINE_MODULE is too long. I am updating
+my CDP files now so I will add this if you tell me what it is.
+4. I guess I do not understand the keywords for documentation. These are 
+PDF files. So you want keywords
+associated with them so you can store them in a data base. Is that right 
+?  So when we turn in a documentation
+you just want us to tell you what, FILETYPE, DOCTYPE, DOCVERSION are  or 
+have I misunderstood ?
+5. MODELNAM - You might have that keyword because I used to require it 
+for FM or JPL data. I suppose it does
+flag if a CDP file is only for JPL test data. I do not need that any 
+more you can get rid of it or  keep it if you like.
