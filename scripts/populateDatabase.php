@@ -174,31 +174,197 @@ $objDatabase->execSQL($sql);
 $sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"MODELNAM\", \"LIST\", \"FM\")";
 $objDatabase->execSQL($sql);
 
+// Add the READPATT metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"READPATT\", \"LIST\", \"FAST\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"READPATT\", \"LIST\", \"SLOW\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"READPATT\", \"LIST\", \"ANY\")";
+$objDatabase->execSQL($sql);
+
+// Add the SUBARRAY metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"FULL\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"MASK1140\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"MASK1550\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"MASK1065\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"MASKLYOT\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"BRIGHTSKY\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"SUB256\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"SUB128\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"SUB64\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBARRAY\", \"LIST\", \"SPLITLESSPRISM\")";
+$objDatabase->execSQL($sql);
+
+// Add the FILTER metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F560W\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F770W\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F1000W\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F1130W\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F1280W\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F1500W\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F1800W\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F2100W\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F2550W\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F2550WR\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F1065C\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F1140C\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F1550C\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"F2300C\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"P750L\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"FLEND\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"FND\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILTER\", \"LIST\", \"OPAQUE\")";
+$objDatabase->execSQL($sql);
+
+// Add the CHANNEL metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"CHANNEL\", \"LIST\", \"1\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"CHANNEL\", \"LIST\", \"2\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"CHANNEL\", \"LIST\", \"3\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"CHANNEL\", \"LIST\", \"4\")";
+$objDatabase->execSQL($sql);
+
+// Add the BAND metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"BAND\", \"LIST\", \"A\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"BAND\", \"LIST\", \"B\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"BAND\", \"LIST\", \"C\")";
+$objDatabase->execSQL($sql);
+
+// Add the GRATINGA metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"GRATINGA\", \"LIST\", \"A\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"GRATINGA\", \"LIST\", \"B\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"GRATINGA\", \"LIST\", \"C\")";
+$objDatabase->execSQL($sql);
+
+// Add the GRATINGB metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"GRATINGB\", \"LIST\", \"A\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"GRATINGB\", \"LIST\", \"B\")";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"GRATINGB\", \"LIST\", \"C\")";
+$objDatabase->execSQL($sql);
+
+// Add the TELESCOP metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"TELESCOP\", \"LIST\", \"JWST\")";
+$objDatabase->execSQL($sql);
+
+// Add the INSTRUME metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"INSTRUME\", \"LIST\", \"MIRI\")";
+$objDatabase->execSQL($sql);
+
+// Add the FILENAME metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILENAME\", \"STRING\", \"\")";
+$objDatabase->execSQL($sql);
+
+// Add the DESCRIP metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"DESCRIP\", \"STRING\", \"\")";
+$objDatabase->execSQL($sql);
+
+// Add the AUTHOR metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"AUTHOR\", \"STRING\", \"\")";
+$objDatabase->execSQL($sql);
+
+// Add the PEDIGREE metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILENAME\", \"LIST\", \"GROUND\")";
+$objDatabase->execSQL($sql);
+
+// Add the SUBSTRT1 metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBSTRT1\", \"INTEGER\", \"\")";
+$objDatabase->execSQL($sql);
+
+// Add the SUBSIZE1 metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBSIZE1\", \"INTEGER\", \"\")";
+$objDatabase->execSQL($sql);
+
+// Add the SUBSTRT2 metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBSTRT2\", \"INTEGER\", \"\")";
+$objDatabase->execSQL($sql);
+
+// Add the SUBSIZE2 metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SUBSIZE2\", \"INTEGER\", \"\")";
+$objDatabase->execSQL($sql);
+
+// Add the FASTAXIS metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FASTAXIS\", \"LIST\", \"1\")";
+$objDatabase->execSQL($sql);
+
+// Add the SLOWAXIS metadata
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"SLOWAXIS\", \"LIST\", \"2\")";
+$objDatabase->execSQL($sql);
+
+
 
 
 /*
-- READPATT         string  valid values: 'FAST', 'SLOW', or 'ANY'
-- SUBARRAY   string  valid values: 'FULL', 'MASK1140', 'MASK1550', 'MASK1065', 'MASKLYOT', 'BRIGHTSKY', 'SUB256', 'SUB128', 'SUB64' or 'SLITLESSPRISM'  (defaults to 'FULL')
-- FILTER   string    valid values: 'F560W','F770W','F1000W','F1130W', 'F1280W','F1500W','F1800W', 'F2100W', 'F2550W', 'F2550WR','F1065C', 'F1140C', 'F1550C','F2300C','P750L','FLENS', 'FND', or 'OPAQUE' (only required if filter specific)
-- CHANNEL   string  valid values: '1', '2', '3' or '4'
-- BAND      string  valid values: 'A', 'B' or 'C'
-- GRATINGA  string  valid values: 'A', 'B' or 'C'
-- GRATINGB  string  valid values: 'A', 'B' or 'C'
-
-- TELESCOP   String   always 'JWST'
-- INSTRUME   String   always 'MIRI'
-- FILENAME   string
-- DESCRIP    string   short summary of content
-- AUTHOR     string
-- PEDIGREE   string   always 'GROUND' for now
-- SUBSTRT1   integer
-- SUBSIZE1   integer
-- SUBSTRT2   integer
-- SUBSIZE2   integer
-- FASTAXIS   integer  always 1   (only for pixel-based CDPs)
-- SLOWAXIS   integer  always 2   (only for pixel-based CDPs)
-
-
 Metadata that would not be in FITS files:
 - PIPELINE MODULE  String  valid values: 'CALDETECTOR1', 'CALIMAGE2', 'CALSPEC2_LRS', 'CALSPEC2_MRS', 'CALIMAGE3', 'CALCORON3', 'CALSLIT3', 'CALSLITLESS3', 'CALIFU3'
 - PIPELINE STEP    String  valid values: 'data_rejection', 'droop_correction', 'reset_correction', 'saturation_check', 'dark_correction', 'linearity_correction', 'jump_correction', 'latent_correction', 'absolute_flux_calibration', 'flatfield_correction', 'source extraction', 'fringe_correction', 'distortion_wavelength_calibration'
