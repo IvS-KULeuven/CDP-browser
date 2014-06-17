@@ -168,3 +168,49 @@ have I misunderstood ?
 for FM or JPL data. I suppose it does
 flag if a CDP file is only for JPL test data. I do not need that any 
 more you can get rid of it or  keep it if you like.
+
+--------------
+Answer Vincent
+--------------
+
+Hi all,
+
+Thank you for the comments received. Some answers, and a follow-up question to Jane, below:
+
+On 11/06/14 15:14, Jane Morrison wrote:> FYI
+> Under algorithms -
+>     It is nice to have a python code but not necessary.
+>     for all ramps to slopes steps I will just provide the documentation describing the step.
+>     The code is c++ and in a class in the DHAS.
+Ok, clear, so the algorithms directory in my example may be empty for some CDPs.
+
+On 11/06/14 21:29, Jane Morrison wrote:
+> So if you just add all this information in a static directory structure I think that would be fine.
+I'll echo Fred's response, it is elaborate, but meant to keep our CDPs organized for the next couple of years.
+
+> 1. I vote to get rid of 'TYPE" and use 'REFTYPE'
+Agreed. STScI made a compelling point that TYPE is very generic, and they need to accommodate different "type" keywords for several categories.
+
+> 2. for DETECTOR - I vote to get rid of 'IM','SW','LW' and go with a standard set of MIRIMAGE,MIRIFULONG, MIRIFUSHORT
+Agreed, will do this for CDP-3.
+
+> 3. For the PIPELINE MODULE keyword - what exactly is the keyword. PIPELINE_MODULE is too long. I am updating my CDP files now so I will add this if you tell me what it is.
+I proposed this as metadata for our CDP database to identify that e.g. Bad Pixel Mask is a CDP that belongs with PIPELINE_MODULE="CALDETECTOR1". I do not think this needs to be a keyword in the CDP file themselves. The same applies to PIPELINE_STEP. So, in both cases, this would be information that would need to be supplied separately as we "check-in" some files into our CDP database.
+
+> 4. I guess I do not understand the keywords for documentation. These are PDF files. So you want keywords associated with them so you can store them in a data base. Is that right ? 
+That's right. Similar to the PIPELINE_MODULE keyword above, I see these as keywords just to be used by the database.
+
+> So when we turn in a documentation you just want us to tell you what, FILETYPE, DOCTYPE, DOCVERSION are  or have I misunderstood ?
+Yes, it was my intention to provide the values for these separately, every time we add some CDP/documentation/algorithms to the database, with:
+- FILETYPE: to distinguish between 'documentation', 'algorithm', 'referencefile', 'testcase file'
+- DOCTYPE: to distinguish between 'cdp report' and 'pipeline algorithm'
+- DOCVERSION: to record the version of the documentation
+
+Along these lines, I now think we should also track the version of the algorithm files, e.g. ALGVERSION, and possibly an ALGTYPE to distinguish between algorithms for testing the CDP and those for creating the CDP (if we end up delivering such).
+
+> 5. MODELNAM - You might have that keyword because I used to require it for FM or JPL data. I suppose it does flag if a CDP file is only for JPL test data. I do not need that any more you can get rid of it or  keep it if you like.
+I have that keyword since it has been part of our CDPs in the past and has been on our list of CDP metadata:
+http://miri.ster.kuleuven.be/bin/view/Internal/Software/MiriCalfileMetaData
+STScI does not define it. 
+
+Jane, I am happy to remove it if we do not need it anymore, but could you first explain why you do not need it anymore? How are you then distinguishing JPL from FM data?
