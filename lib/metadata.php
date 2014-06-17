@@ -4,7 +4,9 @@
 
 class Metadata {
   public  function getValidValues($key) {
-
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray("select * from metadata where id = \"" . $key . "\"", "value");
   }
   public  function getKeys() {
     global $objDatabase;
