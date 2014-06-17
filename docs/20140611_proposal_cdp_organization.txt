@@ -1,0 +1,146 @@
+===============
+Proposal is to:
+- store all CDP-related files in a flat structure
+- maintain a database of metadata describing the files
+- create methods of retrieving CDP-files or information about the CDP-files
+
+===============
+Below are examples of how we would like to retrieve the CDP files.
+Best viewed with fixed-width font.
+
+Example 1: download all CDP-related files, organized by delivery:
+/CDP1/
+-----/CALDETECTOR1/
+------------------/data_rejection/
+---------------------------------/files/
+---------------------------------------/MIRI_FM_LW_Bad_02.01.01.fits
+---------------------------------/documentation/
+-----------------------------------------------/description_cdp_file.pdf
+-----------------------------------------------/description_pipeline_algorithm.pdf
+---------------------------------/algorithms/
+--------------------------------------------/example_of_how_to_apply_cdp.py
+---------------------------------/test_case/
+-------------------------------------------/file_before_correction.fits
+-------------------------------------------/file_after_correction.fits
+
+Example 2: download all CDP-related files organized by pipeline module/step:
+/CALDETECTOR1/
+-------------/data_rejection/
+----------------------------/CDP1/
+---------------------------------/files/
+---------------------------------------/MIRI_FM_LW_Bad_02.01.01.fits
+---------------------------------/documentation/
+-----------------------------------------------/description_cdp_file.pdf
+-----------------------------------------------/description_pipeline_algorithm.pdf
+---------------------------------/algorithms/
+--------------------------------------------/example_of_how_to_apply_cdp.py
+---------------------------------/test_case/
+-------------------------------------------/file_before_correction.fits
+-------------------------------------------/file_after_correction.fits
+
+Example 3: Download just the CDP (aka reference) files, as a flat structure:
+/CDP/
+----/MIRI_FM_LW_Bad_02.01.01.fits
+
+Example 4: Download a table summarizing all existing MIRI CDPs with info on their updates:
+Pipeline Module  |  Pipeline Step  |  REFTYPE  |  DETECTOR  |  updated in delivery:
+                 |                 |           |            |  CDP1 | CDP2 | CDP3 etc.
+
+Example 5: Download a table summarizing the very latest version of all existing CDPs
+Pipeline Module  |  Pipeline Step  |  REFTYPE  |  DETECTOR  |  names of latest cdpfiles  |  names of latest documentation
+
+
+===============
+Proposed extra functionality:
+
+- include a parameter to specify which version of the CDPs to download, e.g.:
+'latest'   : determined from VERSION  (can be a mix of different deliveries)
+'delivery' : only files updated in specific DELIVERY (might not include all types of CDPs)
+'all'      : all versions of all CDPs 
+
+- include a parameter to include / exclude 'non-delivered/beta' files.
+
+- include a parameter for whether or not to create a complete set of CDPs when downloading a specific delivery X;  by including CDPs from a previous delivery (X-1, X-2, etc..), for those CDPs that were not updated in delivery X.
+
+
+===============
+The following is my proposed list of metadata needed to describe our CDP database.
+
+Listed are proposed keywords, their type, and valid values. 
+
+The selection request should be able to handle an array of multiple valid values, in order to allow the download of e.g. multiple deliveries, multiple pipeline steps, etc.
+
+Both keywords and the valid values are likely subject to change, leading up to CDP-3, and beyond; so having the flexibility to change these will be necessary.
+
+1. Metadata that would be used in selecting CDPs
+Most appear in FITS headers, but not all.
+
+*all CDP related files*
+- PIPELINE MODULE  String  valid values: 'CALDETECTOR1', 'CALIMAGE2', 'CALSPEC2', 'CALIMAGE3', 'CALCORON3', 'CALSLIT3', 'CALSLITLESS3'
+- PIPELINE STEP    String  valid values: 'data_rejection', 'droop_correction', 'reset_correction', 'saturation_check', 'dark_correction', 'linearity_correction', 'jump_correction', 'latent_correction', 'absolute_flux_calibration', 'flatfield_correction', 'source extraction', 'fringe_correction', 'distortion_wavelength_calibration'
+- FILETYPE         String  valid values: 'documentation', 'algorithm', 'referencefile', 'testcase file'
+- DELIVERY         String  valid values: '1', '2', '2.1', '3', etc
+- DETECTOR         string  valid values: 'MIRIMAGE', 'MIRIFUSHORT', 'MIRIFULONG', IM', 'LW', or 'SW'
+
+*documentation files*
+- DOCTYPE          string  valid values: 'cdp report', 'pipeline algorithm'
+- DOCVERSION       string  valid values: (can be taken from title pages, might not be standardized)
+
+*all CDP files*
+- TYPE             String  valid values: 'AbsFlux', 'Bad', 'ColCorr', 'D2W', 'D2C', 'Dark', 'Distort', 'Droop', 'FringeFlat', 'Latent', 'Lin', 'NThresh', 'PixFlat', 'PSF', 'SRF', 'MRSRSRF', 'Sat', 'SkyFlat', 'TelEm'
+- REFTYPE          String  valid values: 'IPC', 'MASK', 'SATURATION', 'DARK', 'LINEARITY', 'GAIN', 'READNOISE', 'WCS', 'FLAT', 'PHOTOM', 'AREA', 'FRINGE', 'PHOTOM'
+- VERSION          String  has format of '00.11.22'
+- USEAFTER         string  has format of yyyy-mm-dd
+- MODELNAM         String  valid values: 'VM', 'JPL' or 'FM'
+- READPATT         string  valid values: 'FAST', 'SLOW', or 'ANY'
+- DOCNAME          string  contains filename of 'cdp report' describing these files.
+
+*MIRIMAGE CDP files*
+- SUBARRAY   string  valid values: 'FULL', 'MASK1140', 'MASK1550', 'MASK1065', 'MASKLYOT', 'BRIGHTSKY', 'SUB256', 'SUB128', 'SUB64' or 'SLITLESSPRISM'  (defaults to 'FULL')
+- FILTER   string    valid values: 'F560W','F770W','F1000W','F1130W', 'F1280W','F1500W','F1800W', 'F2100W', 'F2550W', 'F2550WR','F1065C', 'F1140C', 'F1550C','F2300C','P750L','FLENS', 'FND', or 'OPAQUE' (only required if filter specific)
+
+*MIRIFUSHORT, MIRIFULONG CDP files*
+- CHANNEL   string  valid values: '1', '2', '3' or '4'
+- BAND      string  valid values: 'A', 'B' or 'C'
+- GRATINGA  string  valid values: 'A', 'B' or 'C'
+- GRATINGB  string  valid values: 'A', 'B' or 'C'
+(these are still subject to change)
+
+2. Metadata that is required in CDPs, but not expected to be used in selecting CDPs:
+- TELESCOP   String   always 'JWST'
+- INSTRUME   String   always 'MIRI'
+- FILENAME   string
+- DESCRIP    string   short summary of content
+- AUTHOR     string   
+- PEDIGREE   string   always 'GROUND' for now
+- SUBSTRT1   integer
+- SUBSIZE1   integer
+- SUBSTRT2   integer
+- SUBSIZE2   integer
+- FASTAXIS   integer  always 1   (only for pixel-based CDPs)
+- SLOWAXIS   integer  always 2   (only for pixel-based CDPs)
+
+3. Not required metadata, but possibly useful to store:
+- HISTORY      string  additional info on source of the data, from fits header if present
+- UPLOAD DATE  string  (keep track of when file is uploaded to MIRI database)
+
+
+===============
+Open issues:
+
+A. organizing by pipeline step requires that we work with an agreed-upon list of (short) names for these pipeline steps. These would become the names of the directories where the CDPs are stored. 
+I made up the list that appears above. Do we want to standardize on an official list?
+
+B. do we want/need something to distinguish between LRS and MRS, e.g. w.r.t. CALSPEC2?
+As it stands now, both LRS and MRS CDPs would be located under the same pipeline module, and in some cases even under the identically-named pipeline step, so they end up mixed into the same directory, distinguished only by the presence of DETECTOR in their filename.
+
+C. I am not decided on what the best way would be to associate certain types of files with each other. In particular, I think of associating:
+- cdp files with corresponding documentation
+- cdp files with corresponding algorithms
+- cdp files with test case
+- algorithms with corresponding documentation
+- algorithms with test case
+
+One possibility would be the DELIVERY keyword; the idea being that cdp files, algorithms, and documentation collected within a single delivery should be consistent. Note: there are currently examples of cdp files that do not have corresponding algorithms / updated-documentation / test cases. 
+
+D. we ideally will not need both TYPE and REFTYPE. Translating all of our TYPE to STScI REFTYPE is an ongoing discussion that may take a while still. Until then, it seems prudent to keep both.

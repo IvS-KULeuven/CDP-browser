@@ -8,7 +8,7 @@ require_once "../lib/database.php";
 
 $objDatabase=new Database();
 
-print "Database table for the use will be added.\n";
+print "Database table for the user will be added.\n";
 
 $sql ="DROP TABLE IF EXISTS users";
 $objDatabase->execSQL($sql);
