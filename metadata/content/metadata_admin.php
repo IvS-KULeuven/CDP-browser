@@ -56,11 +56,11 @@
   		</button>";
     
      if ($objMetadata->getType($value[0]) == "LIST") {
-//        if (sizeof($validValues) > 1) {
-//          echo "<button type=\"button\" title=\"Delete possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deleteValue" . $value[0] . "\" >
-//                 <span class=\"glyphicon glyphicon-minus\"></span>
-//                </button>";
-//        }
+       if (sizeof($validValues) > 1) {
+         echo "<button type=\"button\" title=\"Delete possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deleteValue" . $value[0] . "\" >
+                <span class=\"glyphicon glyphicon-minus\"></span>
+               </button>";
+       }
        echo "<button type=\"button\" title=\"Add possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#addValue" . $value[0] . "\" >
               <span class=\"glyphicon glyphicon-plus\"></span>
              </button>";
@@ -204,6 +204,35 @@
                     <input type=\"hidden\" name=\"indexAction\" value=\"add_possible_metadata_value\" />
                   	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
                       Add value
+  		            </button>
+                  </form>
+  		        </div>
+  	  	      </div>
+            </div>
+          </div>
+        </div>";
+
+    // Setting the delete possible value modal form
+    echo "<div class=\"modal fade\" id=\"deleteValue" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+          <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+              <div class=\"modal-body\">
+  		        <h1 class=\"text-center login-title\">Delete a possible value for keyword " . $value[0] . "</h1>
+                <div class=\"account-wall\">
+                  <form class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+                    <div class=\"input-group\">
+                      <span class=\"input-group-addon\">Value to delete</span>";
+    echo "           <select name=\"currentValue\" class=\"form-control\">";
+
+    foreach ($validValues as $valid) {
+      echo "          <option value=\"" . $valid[2] . "\">" . $valid[2] . "</option>";
+    }
+    echo "           </select>";
+    echo "          </div>
+                    <input type=\"hidden\" name=\"keyword\" value=\"" . $value[0] . "\" />
+                    <input type=\"hidden\" name=\"indexAction\" value=\"delete_possible_metadata_value\" />
+                  	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
+                      Delete value
   		            </button>
                   </form>
   		        </div>

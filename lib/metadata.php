@@ -63,5 +63,9 @@ class Metadata {
 
     return $this->addMetadata($keyword, $type, $value);
   }
+  public  function deleteValue($keyword, $value) {
+    global $objDatabase;
+    return $objDatabase->execSQL("DELETE FROM metadata WHERE value = \"$value\" AND id = \"$keyword\"");
+  }
 }
 ?>
