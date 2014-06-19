@@ -334,7 +334,7 @@ $sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"AUTHOR\", \"STR
 $objDatabase->execSQL($sql);
 
 // Add the PEDIGREE metadata
-$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"FILENAME\", \"LIST\", \"GROUND\")";
+$sql = "INSERT INTO metadata ( id, valueType, value ) VALUES ( \"PEDIGREE\", \"LIST\", \"GROUND\")";
 $objDatabase->execSQL($sql);
 
 // Add the SUBSTRT1 metadata

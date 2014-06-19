@@ -23,11 +23,27 @@
   $metadata = $objMetadata->getKeys();
   
   foreach ($metadata as $key => $value) {
+    $validValues = $objMetadata->getValidValues($value[0]);
+    
     echo "<tr>";
     echo "<td>" . $value[0] . "</td>";
     echo "<td>" . $objMetadata->getType($value[0]) . "</td>";
-//           echo "<td>" . $value['size'] . "</td>";
-//           echo "<td><span class=\"glyphicon glyphicon-download\"></span></td>";
+    
+    if (sizeof($validValues) > 1) {
+      echo "<td>
+             <div class=\"btn-group\">
+             <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\">" . $validValues[0][2] . "<span class=\"caret\"></span></button>";
+      echo " <ul class=\"dropdown-menu\">";
+    
+      foreach ($validValues as $valid) {
+        echo "   <li>" . $valid[2] . "</li>";
+      }
+      echo "</ul></div></td>";
+    } else {
+      echo "<td>" . $validValues[0][2] . "</td>";
+    }
+    
+    echo "<td><span class=\"glyphicon glyphicon-download\"></span></td>";
     echo "</tr>\n";
   }
 
@@ -40,9 +56,9 @@
   
   echo "</div>";
   
-  // We just print all the metadata types :
+  echo "<br /><br />";
   
 //   // We also print the possible values for DETECTOR
 //   print "<br />Possible DETECTOR values : <br />";
-//   print_r($objMetadata->getValidValues("DETECTOR"));
+//   print_r();
 ?>
