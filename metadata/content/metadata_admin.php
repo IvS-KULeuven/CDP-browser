@@ -47,11 +47,24 @@
       foreach ($validValues as $valid) {
         echo "   <li>" . $valid[2] . "</li>";
       }
-      echo "</ul></div></td>";
+      echo "</ul></div>";
     } else {
-      echo "<td style=\"vertical-align: middle;\">" . $validValues[0][2] . "</td>";
+      echo "<td style=\"vertical-align: middle;\">" . $validValues[0][2];
     }
-
+    echo "<button type=\"button\" title=\"Change possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeMetadataValue" . $value[0] . "\" >
+  		 <span class=\"glyphicon glyphicon-pencil\"></span>
+  		</button>";
+    
+//     if ($objMetadata->getType($value[0]) == "LIST") {
+//       echo "<button type=\"button\" title=\"Delete possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeTypeMetadata" . $value[0] . "\" >
+//   		 <span class=\"glyphicon glyphicon-minus\"></span>
+//   		</button>";
+//       echo "<button type=\"button\" title=\"Add possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeTypeMetadata" . $value[0] . "\" >
+//   		 <span class=\"glyphicon glyphicon-plus\"></span>
+//   		</button>";
+//     }
+    
+    echo "</td>";
     echo "<td><a title=\"Remove keyword " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keyword&keyword=". $value[0] . "\" class=\"glyphicon glyphicon-trash \"></a></td>";
     echo "</tr>\n";
   }
@@ -98,11 +111,50 @@
   	  	      </div>
             </div>
           </div>
-        </div>
-  	  </body>";
+        </div>";
   
-  // Setting the change metadata type modal form
   foreach ($metadata as $key => $value) {
+    // Setting the change metadata value modal form
+    $validValues = $objMetadata->getValidValues($value[0]);
+    
+    echo "<div class=\"modal fade\" id=\"changeMetadataValue" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+          <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+              <div class=\"modal-body\">
+  		        <h1 class=\"text-center login-title\">Change possible value for keyword " . $value[0] . "</h1>
+                <div class=\"account-wall\">
+                  <form class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+                    <div class=\"input-group\">
+                      <span class=\"input-group-addon\">Current value</span>";
+    if ($objMetadata->getType($value[0]) == "LIST") {
+      echo "           <select name=\"currentValue\" class=\"form-control\">";
+
+      foreach ($validValues as $valid) {
+        echo "          <option value=\"" . $valid[2] . "\">" . $valid[2] . "</option>";
+      }
+      echo "           </select>";
+    } else {
+      echo "           <input type=\"text\" name=\"currentValue\" class=\"form-control\" placeholder=\"Value\" value=\"". $validValues[0][2] . "\" disabled>";
+      echo "           <input type=\"hidden\" name=\"currentValue\" value=\"" . $validValues[0][2] . "\" />";
+    }
+    echo "          </div>
+                    <div class=\"input-group\">
+                      <span class=\"input-group-addon\">  New value  </span>
+                      <input type=\"text\" name=\"newValue\" class=\"form-control\" placeholder=\"Value\">
+                    </div>
+                    <input type=\"hidden\" name=\"keyword\" value=\"" . $value[0] . "\" />
+                    <input type=\"hidden\" name=\"indexAction\" value=\"change_metadata_value\" />
+                  	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
+                      Change value
+  		            </button>
+                  </form>
+  		        </div>
+  	  	      </div>
+            </div>
+          </div>
+        </div>";
+
+    // Setting the change metadata type modal form
     echo "<div class=\"modal fade\" id=\"changeTypeMetadata" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
@@ -132,9 +184,9 @@
   	  	      </div>
             </div>
           </div>
-        </div>
-  	  </body>";
+        </div>";
   }
-  
+
+  echo "</body>";
   $objUtil->addTableJavascript();
 ?>

@@ -1,5 +1,5 @@
 <?php
-global $objMetadata, $entryMessage;
+global $objMetadata;
 
 $keyword = $_POST['keyword'];
 $type = $_POST['type'];

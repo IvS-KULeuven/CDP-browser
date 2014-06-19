@@ -43,5 +43,9 @@ class Metadata {
     $this->deleteKeyword($keyword);
     $this->addMetadata($keyword, $type, $value);
   }
+  public  function changeValue($keyword, $currentValue, $newValue) {
+    global $objDatabase;
+    return $objDatabase->execSQL("UPDATE metadata SET value = \"$newValue\" WHERE id = \"$keyword\" AND value=\"$currentValue\"");
+  }
 }
 ?>
