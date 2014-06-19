@@ -9,6 +9,11 @@
   // Add the button for the columns
   $objUtil->addTableColumSelector();
   
+  // Add a button to add a new keyword
+  echo "<button type=\"button\" class=\"btn btn-success pull-right\" data-toggle=\"modal\" data-target=\"#addMetadataKeyword\">
+  		 <span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Add a new keyword
+  		</button>";
+  
   // We make a table with all cdp keywords
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
   echo "    <thead>
@@ -51,13 +56,45 @@
   
   echo $objUtil->addTablePager();
   
-  $objUtil->addTableJavascript();
-  
   echo "</div>";
   
   echo "<br /><br />";
   
-//   // We also print the possible values for DETECTOR
-//   print "<br />Possible DETECTOR values : <br />";
-//   print_r();
+  // Setting the add new user modal form
+  echo "<div class=\"modal fade\" id=\"addMetadataKeyword\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+          <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+              <div class=\"modal-body\">
+  		        <h1 class=\"text-center login-title\">Add a new keyword</h1>
+                <div class=\"account-wall\">
+                  <form class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+                    <div class=\"input-group\">
+                      <span class=\"input-group-addon\">Metadata keyword</span>
+                      <input type=\"text\" name=\"id\" class=\"form-control\" placeholder=\"keyword\" required autofocus>
+                    </div>
+                    <div class=\"input-group\">
+                      <span class=\"input-group-addon\">Type</span>
+                      <select class=\"form-control\">
+                       <option value=\"Integer\">Integer</option>
+                       <option value=\"String\">String</option>
+                       <option value=\"List\">List</option>
+                      </select>
+                    </div>
+                      <div class=\"input-group\">
+                      <span class=\"input-group-addon\">Default value</span>
+                      <input type=\"text\" name=\"name\" class=\"form-control\" placeholder=\"Value\">
+                    </div>
+                    <input type=\"hidden\" name=\"indexAction\" value=\"add_metadata_keyword\" />
+                  	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
+                      Add keyword
+  		            </button>
+                  </form>
+  		        </div>
+  	  	      </div>
+            </div>
+          </div>
+        </div>
+  	  </body>";
+  
+  $objUtil->addTableJavascript();
 ?>
