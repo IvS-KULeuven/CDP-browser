@@ -13,5 +13,10 @@ class Metadata {
     
     return $objDatabase->selectSingleArray("select DISTINCT(id) from metadata;");
   }
+  public  function getType($key) {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleValue("select * from metadata where id = \"" . $key . "\"", "valueType");
+  }
 }
 ?>

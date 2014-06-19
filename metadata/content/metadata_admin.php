@@ -25,8 +25,7 @@
   foreach ($metadata as $key => $value) {
     echo "<tr>";
     echo "<td>" . $value[0] . "</td>";
-    
-//           echo "<td>". $key . "</td>";
+    echo "<td>" . $objMetadata->getType($value[0]) . "</td>";
 //           echo "<td>" . $value['size'] . "</td>";
 //           echo "<td><span class=\"glyphicon glyphicon-download\"></span></td>";
     echo "</tr>\n";
