@@ -5,6 +5,7 @@
   $users = $objUser->getUsers();
   
   echo "<div class=\"container-fluid\">";
+  echo "<h2>User administration</h2>";
   $objUtil->addTableColumSelector();
 
   // Add a button to add a new user
