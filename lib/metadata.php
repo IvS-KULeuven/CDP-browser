@@ -37,6 +37,11 @@ class Metadata {
   public  function deleteKeyword($keyword)
   { global $objDatabase;
     return $objDatabase->execSQL("DELETE FROM metadata where id = \"" . $keyword . "\"");
-  } 
+  }
+  public  function changeType($keyword, $type, $value) {
+    // First, we remove the keyword, and then we add a new keyword with the given properties
+    $this->deleteKeyword($keyword);
+    $this->addMetadata($keyword, $type, $value);
+  }
 }
 ?>

@@ -24,6 +24,7 @@ function preludesA()
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_metadata_keyword', 'metadata/control/addkeyword.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('delete_user', 'common/control/deleteuser.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('delete_keyword', 'metadata/control/deletekeyword.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_metadata_type', 'metadata/control/changekeyword.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_role', 'common/control/changeUserRole.php')));
         
 		if ($indexActionInclude != "") {

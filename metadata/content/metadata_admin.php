@@ -31,7 +31,12 @@
     
     echo "<tr>";
     echo "<td>" . $value[0] . "</td>";
-    echo "<td>" . $objMetadata->getType($value[0]) . "</td>";
+    echo "<td>" . $objMetadata->getType($value[0]) . 
+         "<button type=\"button\" title=\"Edit type\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeTypeMetadata" . $value[0] . "\" >
+  		 <span class=\"glyphicon glyphicon-pencil\"></span>
+  		</button>";
+    
+    //<a title=\"Edit type\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=change_metadata_type&keyword=". $value[0] . "\" class=\"pull-right glyphicon glyphicon-pencil \"></a></td>";
     
     if (sizeof($validValues) > 1) {
       echo "<td>
@@ -44,7 +49,7 @@
       }
       echo "</ul></div></td>";
     } else {
-      echo "<td>" . $validValues[0][2] . "</td>";
+      echo "<td style=\"vertical-align: middle;\">" . $validValues[0][2] . "</td>";
     }
 
     echo "<td><a title=\"Remove keyword " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keyword&keyword=". $value[0] . "\" class=\"glyphicon glyphicon-trash \"></a></td>";
@@ -80,7 +85,7 @@
                        <option value=\"List\">List</option>
                       </select>
                     </div>
-                      <div class=\"input-group\">
+                    <div class=\"input-group\">
                       <span class=\"input-group-addon\">Default value</span>
                       <input type=\"text\" name=\"value\" class=\"form-control\" placeholder=\"Value\">
                     </div>
@@ -95,6 +100,41 @@
           </div>
         </div>
   	  </body>";
+  
+  // Setting the change metadata type modal form
+  foreach ($metadata as $key => $value) {
+    echo "<div class=\"modal fade\" id=\"changeTypeMetadata" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+          <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+              <div class=\"modal-body\">
+  		        <h1 class=\"text-center login-title\">Change type for keyword " . $value[0] . "</h1>
+                <div class=\"account-wall\">
+                  <form class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+                    <div class=\"input-group\">
+                      <span class=\"input-group-addon\">Type</span>
+                      <select name=\"type\" class=\"form-control\">
+                       <option value=\"Integer\"" . ($objMetadata->getType($value[0]) == "INTEGER"?" selected":"") . ">Integer</option>
+                       <option value=\"String\"" . ($objMetadata->getType($value[0]) == "STRING"?" selected":"") . ">String</option>
+                       <option value=\"List\"" . ($objMetadata->getType($value[0]) == "LIST"?" selected":"") . ">List</option>
+                      </select>
+                    </div>
+                    <div class=\"input-group\">
+                      <span class=\"input-group-addon\">Default value</span>
+                      <input type=\"text\" name=\"value\" class=\"form-control\" placeholder=\"Value\">
+                    </div>
+                    <input type=\"hidden\" name=\"keyword\" value=\"" . $value[0] . "\" />
+                    <input type=\"hidden\" name=\"indexAction\" value=\"change_metadata_type\" />
+                  	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
+                      Change type
+  		            </button>
+                  </form>
+  		        </div>
+  	  	      </div>
+            </div>
+          </div>
+        </div>
+  	  </body>";
+  }
   
   $objUtil->addTableJavascript();
 ?>
