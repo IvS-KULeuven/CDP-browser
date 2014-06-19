@@ -47,5 +47,21 @@ class Metadata {
     global $objDatabase;
     return $objDatabase->execSQL("UPDATE metadata SET value = \"$newValue\" WHERE id = \"$keyword\" AND value=\"$currentValue\"");
   }
+  public  function isValidValue($keyword, $value) {
+    $values = $this->getValidValues($keyword);
+    $toReturn = false;
+    foreach ($values as $key) {
+      if ($key[2] == $value) {
+        return true;
+      }
+    }
+    return false;
+  }
+  public  function addValue($keyword, $value) {
+    // type is always LIST
+    $type = "LIST";
+
+    return $this->addMetadata($keyword, $type, $value);
+  }
 }
 ?>

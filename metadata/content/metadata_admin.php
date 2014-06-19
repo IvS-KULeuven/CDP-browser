@@ -55,14 +55,16 @@
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
   		</button>";
     
-//     if ($objMetadata->getType($value[0]) == "LIST") {
-//       echo "<button type=\"button\" title=\"Delete possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeTypeMetadata" . $value[0] . "\" >
-//   		 <span class=\"glyphicon glyphicon-minus\"></span>
-//   		</button>";
-//       echo "<button type=\"button\" title=\"Add possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeTypeMetadata" . $value[0] . "\" >
-//   		 <span class=\"glyphicon glyphicon-plus\"></span>
-//   		</button>";
-//     }
+     if ($objMetadata->getType($value[0]) == "LIST") {
+//        if (sizeof($validValues) > 1) {
+//          echo "<button type=\"button\" title=\"Delete possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deleteValue" . $value[0] . "\" >
+//                 <span class=\"glyphicon glyphicon-minus\"></span>
+//                </button>";
+//        }
+       echo "<button type=\"button\" title=\"Add possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#addValue" . $value[0] . "\" >
+              <span class=\"glyphicon glyphicon-plus\"></span>
+             </button>";
+     }
     
     echo "</td>";
     echo "<td><a title=\"Remove keyword " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keyword&keyword=". $value[0] . "\" class=\"glyphicon glyphicon-trash \"></a></td>";
@@ -178,6 +180,30 @@
                     <input type=\"hidden\" name=\"indexAction\" value=\"change_metadata_type\" />
                   	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
                       Change type
+  		            </button>
+                  </form>
+  		        </div>
+  	  	      </div>
+            </div>
+          </div>
+        </div>";
+
+    // Setting the add possible value modal form
+    echo "<div class=\"modal fade\" id=\"addValue" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+          <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+              <div class=\"modal-body\">
+  		        <h1 class=\"text-center login-title\">Add a possible value for keyword " . $value[0] . "</h1>
+                <div class=\"account-wall\">
+                  <form class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+                    <div class=\"input-group\">
+                      <span class=\"input-group-addon\">New value</span>
+                      <input type=\"text\" name=\"value\" class=\"form-control\" placeholder=\"Value\">
+                    </div>
+                    <input type=\"hidden\" name=\"keyword\" value=\"" . $value[0] . "\" />
+                    <input type=\"hidden\" name=\"indexAction\" value=\"add_possible_metadata_value\" />
+                  	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
+                      Add value
   		            </button>
                   </form>
   		        </div>
