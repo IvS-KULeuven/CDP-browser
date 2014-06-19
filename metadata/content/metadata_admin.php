@@ -60,7 +60,7 @@
   
   echo "<br /><br />";
   
-  // Setting the add new user modal form
+  // Setting the add new metadata keyword modal form
   echo "<div class=\"modal fade\" id=\"addMetadataKeyword\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
@@ -70,11 +70,11 @@
                   <form class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
                     <div class=\"input-group\">
                       <span class=\"input-group-addon\">Metadata keyword</span>
-                      <input type=\"text\" name=\"id\" class=\"form-control\" placeholder=\"keyword\" required autofocus>
+                      <input type=\"text\" name=\"keyword\" class=\"form-control\" placeholder=\"keyword\" required autofocus>
                     </div>
                     <div class=\"input-group\">
                       <span class=\"input-group-addon\">Type</span>
-                      <select class=\"form-control\">
+                      <select name=\"type\" class=\"form-control\">
                        <option value=\"Integer\">Integer</option>
                        <option value=\"String\">String</option>
                        <option value=\"List\">List</option>
@@ -82,7 +82,7 @@
                     </div>
                       <div class=\"input-group\">
                       <span class=\"input-group-addon\">Default value</span>
-                      <input type=\"text\" name=\"name\" class=\"form-control\" placeholder=\"Value\">
+                      <input type=\"text\" name=\"value\" class=\"form-control\" placeholder=\"Value\">
                     </div>
                     <input type=\"hidden\" name=\"indexAction\" value=\"add_metadata_keyword\" />
                   	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">

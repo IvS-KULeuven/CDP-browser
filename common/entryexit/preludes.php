@@ -21,6 +21,7 @@ function preludesA()
         
         // WATCH OUT : No ; at the end of the following if statement!!!!!!
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_user', 'common/control/adduser.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_metadata_keyword', 'metadata/control/addkeyword.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('delete_user', 'common/control/deleteuser.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_role', 'common/control/changeUserRole.php')));
         
