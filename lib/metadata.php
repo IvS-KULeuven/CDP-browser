@@ -34,5 +34,9 @@ class Metadata {
   { global $objDatabase;
     return $objDatabase->execSQL("INSERT INTO metadata (id, valueType, value) VALUES (\"$keyword\", \"" . strtoupper($type) . "\", \"$value\")");
   }
+  public  function deleteKeyword($keyword)
+  { global $objDatabase;
+    return $objDatabase->execSQL("DELETE FROM metadata where id = \"" . $keyword . "\"");
+  } 
 }
 ?>

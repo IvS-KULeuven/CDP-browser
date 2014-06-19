@@ -46,8 +46,8 @@
     } else {
       echo "<td>" . $validValues[0][2] . "</td>";
     }
-    
-    echo "<td><span class=\"glyphicon glyphicon-download\"></span></td>";
+
+    echo "<td><a title=\"Remove keyword " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keyword&keyword=". $value[0] . "\" class=\"glyphicon glyphicon-trash \"></a></td>";
     echo "</tr>\n";
   }
 

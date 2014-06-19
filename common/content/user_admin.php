@@ -34,7 +34,7 @@
 	  		echo "<td>" . ($value['role'] == 0?"Admin":"User") . "</td>";
 	  		if ($value['role'] > 0) {
               echo "<td>
-              		 <a title=\"Remove user\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_user&id=". $value["id"] . "\" class=\"glyphicon glyphicon-trash \"></a>
+              		 <a title=\"Remove user " . $value["id"] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_user&id=". $value["id"] . "\" class=\"glyphicon glyphicon-trash \"></a>
               		 &nbsp;
               		 <a title=\"Make administrator\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=change_role&id=". $value["id"] . "\" class=\"glyphicon glyphicon-ok \"></a>
               		</td>";
