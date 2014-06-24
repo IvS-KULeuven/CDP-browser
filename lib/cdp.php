@@ -50,5 +50,15 @@ class Cdp
     
     return $objDatabase->selectSingleArray("SELECT * from cdp where filename=\"" . $filename . "\"");
   }
+  public function getUsedCdpVersions() {
+    global $objDatabase;
+    
+    return array_reverse($objDatabase->selectSingleArray("SELECT DISTINCT(delivery) from cdp"));
+  }
+  public function getFilesForCdpDelivery($delivery) {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray("SELECT * from cdp where delivery = \"" . $delivery . "\"");
+  }
 }
 ?>
