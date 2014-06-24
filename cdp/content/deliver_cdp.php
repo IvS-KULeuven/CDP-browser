@@ -21,9 +21,6 @@ echo "    <tbody>";
 $items = $objCdp->getFilesFromFtpServer();
 
 foreach ($items as $key => $value) {
-//[time] => 2013 [day] => 3 [month] => Sep
-//[time] => 09:28 [day] => 4 [month] => Mar
-
   // Getting the date from the information
   $year = $value["time"];
   if (strpos($year, ":")) {
@@ -34,10 +31,24 @@ foreach ($items as $key => $value) {
   $date .= sprintf("%02d", $value["day"]);
 
   echo "<tr>";
-  echo "<td>". $key . "&nbsp;<span class=\"pull-right badge\">CDP 1</span>&nbsp;<span class=\"pull-right badge alert-success\">CDP 2</span>&nbsp;</td>"; 
-  echo "<td>" . $date . "</td>";
-  echo "<td>" . $value['size'] . "</td>";
-  echo "<td><span class=\"glyphicon glyphicon-download\"></span></td>";
+  echo "<td style=\"vertical-align: middle\">". $key . "&nbsp;";
+  
+  // Here we check if the file is already delivered. If so, we add a badge.
+  $cdpDelivery = $objCdp->getDelivery($key);
+  
+  if (sizeof($cdpDelivery) > 0) {
+    foreach($cdpDelivery as $number) {
+      echo "<span class=\"pull-right badge alert-success\">CDP " . ($number['delivery']) . "</span>&nbsp;";
+    }
+  }
+
+  echo "<td style=\"vertical-align: middle\">" . $date . "</td>";
+  echo "<td style=\"vertical-align: middle\">" . $value['size'] . "</td>";
+  echo "<td style=\"vertical-align: middle\">";
+//          <a title=\"Remove keyword " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keygfword&keyword=". $key. "\" class=\"glyphicon glyphicon-remove \"></a>
+//          &nbsp;
+  echo " <a title=\"Deliver CDP file " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=deliver_file&filename=". $key . "\" class=\"glyphicon glyphicon-pencil \"></a>
+        </td>";
   echo "</tr>\n";
 }
 

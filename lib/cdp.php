@@ -40,5 +40,15 @@ class Cdp
       return $items;
     }
   }
+  public function deliver_file($filename, $delivery) {
+    global $objDatabase;
+    
+    $objDatabase->execSQL("INSERT INTO cdp ( filename, delivery) VALUES ( \"" . $filename . "\", \"" . $delivery . "\") ");
+  }
+  public function getDelivery($filename) {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray("SELECT * from cdp where filename=\"" . $filename . "\"");
+  }
 }
 ?>
