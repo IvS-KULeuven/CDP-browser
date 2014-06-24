@@ -31,18 +31,18 @@
     $validValues = $objMetadata->getValidValues($value[0]);
 
     echo "<tr>";
-    echo "<td>" . $value[0] . "</td>";
-    echo "<td>" . $objMetadata->getLocation($value[0]) . 
+    echo "<td style=\"vertical-align: middle\">" . $value[0] . "</td>";
+    echo "<td style=\"vertical-align: middle\">" . $objMetadata->getLocation($value[0]) . 
         "<button type=\"button\" title=\"Edit location\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeLocationMetadata" . str_replace(' ', '_', $value[0]) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
   		</button></td>";
-    echo "<td>" . $objMetadata->getType($value[0]) . 
+    echo "<td style=\"vertical-align: middle\">" . $objMetadata->getType($value[0]) . 
          "<button type=\"button\" title=\"Edit type\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeTypeMetadata" . str_replace(' ', '_', $value[0]) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
   		</button></td>";
     
     if (sizeof($validValues) > 1) {
-      echo "<td>
+      echo "<td style=\"vertical-align: middle\">
              <div class=\"btn-group\">
              <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\">" . $validValues[0]["value"] . "<span class=\"caret\"></span></button>";
       echo " <ul class=\"dropdown-menu\">";
@@ -70,7 +70,7 @@
      }
     
     echo "</td>";
-    echo "<td><a title=\"Remove keyword " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keyword&keyword=". $value[0] . "\" class=\"glyphicon glyphicon-trash \"></a></td>";
+    echo "<td style=\"vertical-align: middle\"><a title=\"Remove keyword " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keyword&keyword=". $value[0] . "\" class=\"glyphicon glyphicon-trash \"></a></td>";
     echo "</tr>\n";
   }
 
