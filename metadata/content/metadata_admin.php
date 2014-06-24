@@ -25,10 +25,10 @@
   echo "    <tbody>";
   
   $metadata = $objMetadata->getKeys();
-  
+
   foreach ($metadata as $key => $value) {
     $validValues = $objMetadata->getValidValues($value[0]);
-    
+
     echo "<tr>";
     echo "<td>" . $value[0] . "</td>";
     echo "<td>" . $objMetadata->getType($value[0]) . 
@@ -41,15 +41,15 @@
     if (sizeof($validValues) > 1) {
       echo "<td>
              <div class=\"btn-group\">
-             <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\">" . $validValues[0][2] . "<span class=\"caret\"></span></button>";
+             <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\">" . $validValues[0]["value"] . "<span class=\"caret\"></span></button>";
       echo " <ul class=\"dropdown-menu\">";
     
       foreach ($validValues as $valid) {
-        echo "   <li>" . $valid[2] . "</li>";
+        echo "   <li>" . $valid["value"] . "</li>";
       }
       echo "</ul></div>";
     } else {
-      echo "<td style=\"vertical-align: middle;\">" . $validValues[0][2];
+      echo "<td style=\"vertical-align: middle;\">" . $validValues[0]["value"];
     }
     echo "<button type=\"button\" title=\"Change possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeMetadataValue" . $value[0] . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
