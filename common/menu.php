@@ -14,8 +14,8 @@ echo "<nav class=\"navbar navbar-default\" role=\"navigation\">
           </div>
 		  <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">";
 
-// If we are logged in as administrator, we show the admin menu.
 
+// The menu when not logged in.
 echo "     <ul class=\"nav navbar-nav\">
         	     <li class=\"dropdown\">
             	   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">View <b class=\"caret\"></b></a>
@@ -25,7 +25,7 @@ echo "     <ul class=\"nav navbar-nav\">
             	 </li>
            		</ul>";
 
-// Two links and a dropdown link
+// The extra menu's for the users.
 if ($loggedUser) {
   echo "     <ul class=\"nav navbar-nav\">
         	     <li class=\"dropdown\">
@@ -36,6 +36,7 @@ if ($loggedUser) {
             	 </li>
              </ul>";
   
+  // If we are logged in as administrator, we show the admin menu.
   if ($objUser->isAdministrator($loggedUser)) {
 		echo "     <ul class=\"nav navbar-nav\">
         	     <li class=\"dropdown\">

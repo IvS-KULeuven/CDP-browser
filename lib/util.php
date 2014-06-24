@@ -9,9 +9,10 @@ class Utils
   {
   	if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('admin_users', 'common/content/user_admin.php')))
   	if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('admin_metadata', 'metadata/content/metadata_admin.php')))
+  	if(!($indexActionInclude=$this->utilitiesCheckIndexActionMember('deliver_cdp', 'cdp/content/deliver_cdp.php')))
   	   
   	if ($indexActionInclude == "") {
-  		$indexActionInclude = 'cdp/list.php';
+  		$indexActionInclude = 'cdp/content/list.php';
   	}
   		
     return $indexActionInclude;
