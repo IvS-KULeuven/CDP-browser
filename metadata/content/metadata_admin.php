@@ -33,15 +33,13 @@
     echo "<tr>";
     echo "<td>" . $value[0] . "</td>";
     echo "<td>" . $objMetadata->getLocation($value[0]) . 
-        "<button type=\"button\" title=\"Edit location\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeLocationMetadata" . $value[0] . "\" >
+        "<button type=\"button\" title=\"Edit location\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeLocationMetadata" . str_replace(' ', '_', $value[0]) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
   		</button></td>";
     echo "<td>" . $objMetadata->getType($value[0]) . 
-         "<button type=\"button\" title=\"Edit type\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeTypeMetadata" . $value[0] . "\" >
+         "<button type=\"button\" title=\"Edit type\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeTypeMetadata" . str_replace(' ', '_', $value[0]) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
   		</button></td>";
-    
-    //<a title=\"Edit type\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=change_metadata_type&keyword=". $value[0] . "\" class=\"pull-right glyphicon glyphicon-pencil \"></a></td>";
     
     if (sizeof($validValues) > 1) {
       echo "<td>
@@ -56,17 +54,17 @@
     } else {
       echo "<td style=\"vertical-align: middle;\">" . $validValues[0]["value"];
     }
-    echo "<button type=\"button\" title=\"Change possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeMetadataValue" . $value[0] . "\" >
+    echo "<button type=\"button\" title=\"Change possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeMetadataValue" . str_replace(' ', '_', $value[0]) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
   		</button>";
     
      if ($objMetadata->getType($value[0]) == "LIST") {
        if (sizeof($validValues) > 1) {
-         echo "<button type=\"button\" title=\"Delete possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deleteValue" . $value[0] . "\" >
+         echo "<button type=\"button\" title=\"Delete possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deleteValue" . str_replace(' ', '_', $value[0]) . "\" >
                 <span class=\"glyphicon glyphicon-minus\"></span>
                </button>";
        }
-       echo "<button type=\"button\" title=\"Add possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#addValue" . $value[0] . "\" >
+       echo "<button type=\"button\" title=\"Add possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#addValue" . str_replace(' ', '_', $value[0]) . "\" >
               <span class=\"glyphicon glyphicon-plus\"></span>
              </button>";
      }
@@ -98,6 +96,13 @@
                       <input type=\"text\" name=\"keyword\" class=\"form-control\" placeholder=\"keyword\" required autofocus>
                     </div>
                     <div class=\"input-group\">
+                      <span class=\"input-group-addon\">Location</span>
+                      <select name=\"location\" class=\"form-control\">
+                       <option value=\"FITS\">FITS</option>
+                       <option value=\"External\">External</option>
+                      </select>
+                    </div>
+                    <div class=\"input-group\">
                       <span class=\"input-group-addon\">Type</span>
                       <select name=\"type\" class=\"form-control\">
                        <option value=\"Integer\">Integer</option>
@@ -124,7 +129,7 @@
     // Setting the change metadata value modal form
     $validValues = $objMetadata->getValidValues($value[0]);
     
-    echo "<div class=\"modal fade\" id=\"changeMetadataValue" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+    echo "<div class=\"modal fade\" id=\"changeMetadataValue" . str_replace(' ', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">
@@ -162,7 +167,7 @@
         </div>";
 
     // Setting the change metadata type modal form
-    echo "<div class=\"modal fade\" id=\"changeTypeMetadata" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+    echo "<div class=\"modal fade\" id=\"changeTypeMetadata" . str_replace(' ', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">
@@ -194,7 +199,7 @@
         </div>";
 
     // Setting the change location type modal form
-    echo "<div class=\"modal fade\" id=\"changeLocationMetadata" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+    echo "<div class=\"modal fade\" id=\"changeLocationMetadata" . str_replace(' ', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">
@@ -221,7 +226,7 @@
         </div>";
     
     // Setting the add possible value modal form
-    echo "<div class=\"modal fade\" id=\"addValue" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+    echo "<div class=\"modal fade\" id=\"addValue" . str_replace(' ', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">
@@ -245,7 +250,7 @@
         </div>";
 
     // Setting the delete possible value modal form
-    echo "<div class=\"modal fade\" id=\"deleteValue" . $value[0] . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+    echo "<div class=\"modal fade\" id=\"deleteValue" . str_replace(' ', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">

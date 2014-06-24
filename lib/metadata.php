@@ -41,9 +41,14 @@ class Metadata {
     }
     return $taken;
   }
-  public  function addMetadata($keyword, $type, $value)
+  public  function addMetadata($keyword, $location, $type, $value)
   { global $objDatabase;
-    return $objDatabase->execSQL("INSERT INTO metadata (id, valueType, value) VALUES (\"$keyword\", \"" . strtoupper($type) . "\", \"$value\")");
+    if ($location == "FITS") {
+      $locationBit = 1;
+    } else {
+      $locationBit = 0;
+    }
+    return $objDatabase->execSQL("INSERT INTO metadata (id, inFits, valueType, value) VALUES (\"$keyword\", \"$locationBit\", \"" . strtoupper($type) . "\", \"$value\")");
   }
   public  function deleteKeyword($keyword)
   { global $objDatabase;
