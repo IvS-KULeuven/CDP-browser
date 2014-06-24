@@ -12,6 +12,9 @@ if (!$conn_id) {
 	$entryMessage = "Couldn't connect to $ftp_server";
 } else {
 	echo "<div class=\"container-fluid\">";
+	
+	echo "<h2>List of CDP files</h2>";
+	
 	echo " <ul id=\"tabs\" class=\"nav nav-tabs\" data-tabs=\"tabs\">
 	           <li class=\"active\"><a href=\"#allcdp\" data-toggle=\"tab\">All CDP files</a></li>";
 //	           <li><a href=\"#cdp2\" data-toggle=\"tab\">CDP 2</a></li>

@@ -8,7 +8,8 @@ class Utils
   public  function utilitiesDispatchIndexAction()
   {
   	if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('admin_users', 'common/content/user_admin.php')))
-  		 
+  	if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('admin_metadata', 'metadata/content/metadata_admin.php')))
+  	   
   	if ($indexActionInclude == "") {
   		$indexActionInclude = 'cdp/list.php';
   	}
