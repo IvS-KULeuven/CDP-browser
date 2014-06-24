@@ -18,6 +18,17 @@ class Metadata {
     
     return $objDatabase->selectSingleValue("select * from metadata where id = \"" . $key . "\"", "valueType");
   }
+  public  function getLocation($key) {
+    global $objDatabase;
+    
+    $inFits = $objDatabase->selectSingleValue("select * from metadata where id = \"" . $key . "\"", "inFits");
+    
+    if ($inFits) {
+      return "FITS";
+    } else {
+      return "External";
+    }
+  }
   public  function keywordAlreadyTaken($key)
   { global $objDatabase;
     $keys = $this->getKeys();

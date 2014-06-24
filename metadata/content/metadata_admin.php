@@ -18,6 +18,7 @@
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
   echo "    <thead>
              <th data-priority=\"critical\">Keyword</th>
+             <th data-priority=\"4\">Location</th>
              <th data-priority=\"2\">Type</th>
              <th data-priority=\"2\">Possible values</th>
       <th class=\"filter-false columnSelector-disable\" data-sorter=\"false\">Action</th>
@@ -31,6 +32,7 @@
 
     echo "<tr>";
     echo "<td>" . $value[0] . "</td>";
+    echo "<td>" . $objMetadata->getLocation($value[0]) . "</td>";
     echo "<td>" . $objMetadata->getType($value[0]) . 
          "<button type=\"button\" title=\"Edit type\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#changeTypeMetadata" . $value[0] . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
