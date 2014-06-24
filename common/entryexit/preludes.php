@@ -21,7 +21,14 @@ function preludesA()
         
         // WATCH OUT : No ; at the end of the following if statement!!!!!!
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_user', 'common/control/adduser.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_metadata_keyword', 'metadata/control/addkeyword.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('delete_user', 'common/control/deleteuser.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('delete_keyword', 'metadata/control/deletekeyword.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_metadata_type', 'metadata/control/changekeyword.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_metadata_value', 'metadata/control/changevalue.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_metadata_location', 'metadata/control/changelocation.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_possible_metadata_value', 'metadata/control/addvalue.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('delete_possible_metadata_value', 'metadata/control/deletevalue.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_role', 'common/control/changeUserRole.php')));
         
 		if ($indexActionInclude != "") {
