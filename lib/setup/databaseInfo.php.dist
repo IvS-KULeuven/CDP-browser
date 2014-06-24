@@ -17,7 +17,7 @@ function databaseInfo()
   $baseURL      = "http://localhost/CDP/";
   
   // Add the version number here
-  $version      = "master";
+  $version      = "0.1";
   
   $cdpLocation  = "/STER/ftp/miri/Deliveries/";
 }
