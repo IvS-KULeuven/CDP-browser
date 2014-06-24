@@ -4,7 +4,7 @@ databaseInfo();
 
 function databaseInfo()
 {
-  global $host,$user,$pass,$dbname,$instDir,$baseURL, $cdpLocation, $version;
+  global $host,$user,$pass,$dbname,$instDir,$baseURL, $ftp_server, $version;
 
   // Change the following to make CDP work with your database
   $host           = "localhost";
@@ -19,6 +19,6 @@ function databaseInfo()
   // Add the version number here
   $version      = "0.1";
   
-  $cdpLocation  = "/STER/ftp/miri/Deliveries/";
+  $ftp_server = "ftp.ster.kuleuven.be";
 }
 ?>

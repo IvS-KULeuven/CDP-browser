@@ -1,9 +1,7 @@
 <?php
-global $cdpLocation, $objUtil;
+global $objUtil;
 
 // We make some tabs, to see the different CDP releases
-
-$ftp_server = "ftp.ster.kuleuven.be";
 
 // set up a connection or die
 $conn_id = ftp_connect($ftp_server);
