@@ -16,9 +16,27 @@ echo "<nav class=\"navbar navbar-default\" role=\"navigation\">
 
 // If we are logged in as administrator, we show the admin menu.
 
+echo "     <ul class=\"nav navbar-nav\">
+        	     <li class=\"dropdown\">
+            	   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">View <b class=\"caret\"></b></a>
+	               <ul class=\"dropdown-menu\">
+    	             <li><a href=\"". $baseURL . "index.php\">All CDP files</a></li>
+        	       </ul>
+            	 </li>
+           		</ul>";
+
 // Two links and a dropdown link
 if ($loggedUser) {
-	if ($objUser->isAdministrator($loggedUser)) {
+  echo "     <ul class=\"nav navbar-nav\">
+        	     <li class=\"dropdown\">
+            	   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Change <b class=\"caret\"></b></a>
+	               <ul class=\"dropdown-menu\">
+    	             <li><a href=\"". $baseURL . "index.php?indexAction=deliver_cdp\">Deliver CDP files</a></li>
+        	       </ul>
+            	 </li>
+             </ul>";
+  
+  if ($objUser->isAdministrator($loggedUser)) {
 		echo "     <ul class=\"nav navbar-nav\">
         	     <li class=\"dropdown\">
             	   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Admin <b class=\"caret\"></b></a>
