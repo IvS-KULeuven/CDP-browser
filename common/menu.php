@@ -10,7 +10,7 @@ echo "<nav class=\"navbar navbar-default\" role=\"navigation\">
               <span class=\"icon-bar\"></span>
               <span class=\"icon-bar\"></span>
             </button>
-            <a class=\"navbar-brand\" href=\"".$baseURL."\">CDP browser</a>
+            <a class=\"navbar-brand\" href=\"".$baseURL."\">CDP browser " . $version . "</a>
           </div>
 		  <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">";
 
