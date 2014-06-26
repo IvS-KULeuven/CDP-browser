@@ -6,13 +6,14 @@
   
   echo "<div class=\"container-fluid\">";
   echo "<h2>User administration</h2>";
-  $objUtil->addTableColumSelector();
 
   // Add a button to add a new user
   echo "<button type=\"button\" class=\"btn btn-success pull-right\" data-toggle=\"modal\" data-target=\"#addUser\">
   		 <span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Add a new user
   		</button>";	
  
+  echo "<br /><br />";
+
   // We make a table with all files from the ftp site
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
   echo "    <thead>

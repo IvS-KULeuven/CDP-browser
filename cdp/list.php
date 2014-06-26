@@ -19,9 +19,6 @@ if (!$conn_id) {
 //	           <li><a href=\"#cdp1\" data-toggle=\"tab\">CDP 1</a></li>
 	echo " </ul>";
 
-	// Add the button for the columns
-	$objUtil->addTableColumSelector();
-	
 	echo " <div id=\"my-tab-content\" class=\"tab-content\">
 	        <div class=\"tab-pane active\" id=\"cdp3\">";
 
@@ -48,7 +45,9 @@ if (!$conn_id) {
 	        echo "<tr>";
 	  		echo "<td>". $key . "</td>"; 
 	  		echo "<td>" . $value['size'] . "</td>";
-	  		echo "<td><span class=\"glyphicon glyphicon-download\"></span></td>";
+	  		echo "<td>";
+	  		//<span class=\"glyphicon glyphicon-download\"></span>
+	  		echo "</td>";
 	        echo "</tr>\n";
 	  	}
 	  }
