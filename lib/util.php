@@ -43,7 +43,7 @@ class Utils
             <span class=\"pagedisplay\"></span> <!-- this can be any element, including an input -->
             <span class=\"glyphicon glyphicon-forward next\"></span>
             <span class=\"glyphicon glyphicon-step-forward last\"></span>
-            <select class=\"pagesize\">
+            <select class=\"pagesize\" title=\"Items per page\">
              <option selected=\"selected\" value=\"10\">10</option>
              <option value=\"20\">20</option>
              <option value=\"30\">30</option>
