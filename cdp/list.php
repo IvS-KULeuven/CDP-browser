@@ -45,7 +45,9 @@ if (!$conn_id) {
 	        echo "<tr>";
 	  		echo "<td>". $key . "</td>"; 
 	  		echo "<td>" . $value['size'] . "</td>";
-	  		echo "<td><span class=\"glyphicon glyphicon-download\"></span></td>";
+	  		echo "<td>";
+	  		//<span class=\"glyphicon glyphicon-download\"></span>
+	  		echo "</td>";
 	        echo "</tr>\n";
 	  	}
 	  }
