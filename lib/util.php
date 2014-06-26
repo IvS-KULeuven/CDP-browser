@@ -33,16 +33,6 @@ class Utils
   	return $includefile;
   }
   
-  // Add the table
-  public function addTableColumSelector() {
-  	// Add the button for the columns    
-    echo "   <div class=\"columnSelectorWrapper\">
-              <input id=\"colSelect1\" type=\"checkbox\" class=\"hidden\">
-              <label class=\"columnSelectorButton\" for=\"colSelect1\">Column</label>
-              <div id=\"columnSelector\" class=\"columnSelector\">
-              </div>
-	         </div>";
-  }
   // Add the pager for the table
   public function addTablePager() {
   	echo "<!-- pager -->
@@ -71,38 +61,8 @@ class Utils
             theme: \"bootstrap\",
             widthFixed: true,
             headerTemplate: '{content} {icon}',
-            widgets: [\"uitheme\", \"columnSelector\", \"filter\", \"zebra\"],
+            widgets: [\"uitheme\", \"filter\", \"zebra\"],
             widgetOptions : {
-              // target the column selector markup
-              columnSelector_container : $('#columnSelector'),
-              // column status, true = display, false = hide
-              // disable = do not display on list
-              columnSelector_columns : {
-                0: 'disable' /* set to disabled; not allowed to unselect it */
-              },
-              // remember selected columns (requires $.tablesorter.storage)
-              columnSelector_saveColumns: true,
-    
-              // container layout
-              columnSelector_layout : '<label><input type=\"checkbox\">{name}</label>',
-              // data attribute containing column name to use in the selector container
-              columnSelector_name  : 'data-selector-name',
-    
-             /* Responsive Media Query settings */
-             // enable/disable mediaquery breakpoints
-             columnSelector_mediaquery: true,
-             // toggle checkbox name
-             columnSelector_mediaqueryName: 'Auto: ',
-             // breakpoints checkbox initial setting
-             columnSelector_mediaqueryState: true,
-             // responsive table hides columns with priority 1-6 at these breakpoints
-             // see http://view.jquerymobile.com/1.3.2/dist/demos/widgets/table-column-toggle/#Applyingapresetbreakpoint
-             // *** set to false to disable ***
-             columnSelector_breakpoints : [ '20em', '30em', '40em', '50em', '60em', '70em' ],
-             // data attribute containing column priority
-             // duplicates how jQuery mobile uses priorities:
-             // http://view.jquerymobile.com/1.3.2/dist/demos/widgets/table-column-toggle/
-             columnSelector_priority : 'data-priority'
             }
           })
     

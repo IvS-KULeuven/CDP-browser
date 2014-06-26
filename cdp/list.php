@@ -19,9 +19,6 @@ if (!$conn_id) {
 //	           <li><a href=\"#cdp1\" data-toggle=\"tab\">CDP 1</a></li>
 	echo " </ul>";
 
-	// Add the button for the columns
-	$objUtil->addTableColumSelector();
-	
 	echo " <div id=\"my-tab-content\" class=\"tab-content\">
 	        <div class=\"tab-pane active\" id=\"cdp3\">";
 

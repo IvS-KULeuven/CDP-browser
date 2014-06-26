@@ -5,15 +5,14 @@
   echo "<div class=\"container-fluid\">";
   
   echo "<h2>Metadata administration</h2>";
-
-  // Add the button for the columns
-  $objUtil->addTableColumSelector();
   
   // Add a button to add a new keyword
   echo "<button type=\"button\" class=\"btn btn-success pull-right\" data-toggle=\"modal\" data-target=\"#addMetadataKeyword\">
   		 <span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Add a new keyword
   		</button>";
   
+  echo "<br /><br />";
+
   // We make a table with all cdp keywords
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
   echo "    <thead>
