@@ -19,7 +19,7 @@
              <th data-priority=\"critical\">Keyword</th>
              <th data-priority=\"4\">Location</th>
              <th data-priority=\"2\">Type</th>
-             <th data-priority=\"2\">Possible values</th>
+             <th data-priority=\"2\">Possible values / format of value</th>
       <th class=\"filter-false columnSelector-disable\" data-sorter=\"false\">Action</th>
             </thead>";
   echo "    <tbody>";
