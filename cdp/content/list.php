@@ -16,9 +16,6 @@ foreach($cdpVersions as $key) {
 }
 echo " </ul>";
 
-// Add the button for the columns
-$objUtil->addTableColumSelector();
-	
 echo " <div id=\"my-tab-content\" class=\"tab-content\">";
 
 $active = " active";

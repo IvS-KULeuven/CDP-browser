@@ -5,22 +5,21 @@
   echo "<div class=\"container-fluid\">";
   
   echo "<h2>Metadata administration</h2>";
-
-  // Add the button for the columns
-  $objUtil->addTableColumSelector();
   
   // Add a button to add a new keyword
   echo "<button type=\"button\" class=\"btn btn-success pull-right\" data-toggle=\"modal\" data-target=\"#addMetadataKeyword\">
   		 <span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Add a new keyword
   		</button>";
   
+  echo "<br /><br />";
+
   // We make a table with all cdp keywords
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
   echo "    <thead>
              <th data-priority=\"critical\">Keyword</th>
              <th data-priority=\"4\">Location</th>
              <th data-priority=\"2\">Type</th>
-             <th data-priority=\"2\">Possible values</th>
+             <th data-priority=\"2\">Possible values / format of value</th>
       <th class=\"filter-false columnSelector-disable\" data-sorter=\"false\">Action</th>
             </thead>";
   echo "    <tbody>";
