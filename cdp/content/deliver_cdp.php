@@ -3,10 +3,7 @@ global $objUtil, $objCdp;
 
 echo "<div class=\"container-fluid\">";
 
-echo "<h2>List of CDP files</h2>";
-
-// Add the button for the columns
-$objUtil->addTableColumSelector();
+echo "<h2>Deliver CDP files</h2>";
 
 // We make a table with all files from the ftp site
 echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
