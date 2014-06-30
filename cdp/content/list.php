@@ -32,7 +32,9 @@ foreach($cdpVersions as $key) {
     echo "<tr>";
     echo "<td>". $key["filename"] . "</td>"; 
   	echo "<td></td>";
-  	echo "<td><span class=\"glyphicon glyphicon-download\"></span></td>";
+  	echo "<td>";
+  	//<span class=\"glyphicon glyphicon-download\"></span>
+  	echo "</td>";
     echo "</tr>\n";
   }
 	
