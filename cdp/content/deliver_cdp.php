@@ -63,7 +63,7 @@ echo "    <tbody>";
     echo "<td style=\"vertical-align: middle\">";
 //          <a title=\"Remove keyword " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keygfword&keyword=". $key. "\" class=\"glyphicon glyphicon-remove \"></a>
 //          &nbsp;
-   echo " <a title=\"Deliver CDP file " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=deliver_file&filename=". $value[0] . "\" class=\"glyphicon glyphicon-pencil \"></a>
+   echo " <a title=\"Deliver CDP file " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=deliver_file&size=". $value[2] . "&filename=". $value[0] . "\" class=\"glyphicon glyphicon-pencil \"></a>
          </td>";
     echo "</tr>\n";
  }
@@ -106,7 +106,7 @@ foreach ($delivered as $key => $value) {
   echo "<td style=\"vertical-align: middle\">";
   //          <a title=\"Remove keyword " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keygfword&keyword=". $key. "\" class=\"glyphicon glyphicon-remove \"></a>
   //          &nbsp;
-  echo " <a title=\"Deliver CDP file " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=deliver_file&filename=". $value[0] . "\" class=\"glyphicon glyphicon-pencil \"></a>
+  echo " <a title=\"Deliver CDP file " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=deliver_file&size=". $value[2] . "&filename=". $value[0] . "\" class=\"glyphicon glyphicon-pencil \"></a>
          </td>";
   echo "</tr>\n";
 }

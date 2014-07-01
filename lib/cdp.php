@@ -60,5 +60,20 @@ class Cdp
     
     return $objDatabase->selectSingleArray("SELECT * from cdp where name = \"delivery\" AND keyvalue = \"" . $delivery . "\"");
   }
+  public function addKey($filename, $name, $keyvalue) {
+    global $objDatabase;
+    
+    // Only add the key if the key was not yet known. If the key is already in the database, we need to update the value.
+    if ($objDatabase->selectSingleArray("SELECT * from cdp where filename = \"". $filename . "\" AND name = \"" . $name . "\"")) {
+      $objDatabase->execSQL("UPDATE cdp SET keyvalue = \"" . $keyvalue . "\" WHERE filename = \"" . $filename . "\" AND name = \"" . $name . "\"");
+    } else {
+      $objDatabase->execSQL("INSERT INTO cdp ( filename, name, keyvalue ) VALUES ( \"" . $filename . "\", \"" . $name . "\", \"" . $keyvalue . "\") ");
+    }
+  }
+  public function getProperty($filename, $keyword) {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray("SELECT * from cdp where filename=\"" . $filename . "\" AND name=\"" . $keyword . "\"");
+  }
 }
 ?>

@@ -2,6 +2,7 @@
 global $objMetadata;
 
 $filename = $_GET['filename'];
+$size = $_GET['size'];
 
 echo "<div class=\"container-fluid\">";
 
@@ -43,6 +44,7 @@ echo "  </select>
 //        </div>
 echo "  <input type=\"hidden\" name=\"indexAction\" value=\"deliver_cdp_file\" />
         <input type=\"hidden\" name=\"filename\" value=\"". $filename ."\" />
+        <input type=\"hidden\" name=\"size\" value=\"". $size ."\" />
         <button class=\"btn btn-lg btn-primary\" type=\"submit\">
          Deliver CDP file
         </button>";

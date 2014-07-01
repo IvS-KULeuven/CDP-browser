@@ -32,10 +32,13 @@ foreach($cdpVersions as $key) {
   echo "    <tbody>";
 
   $items = $objCdp->getFilesForCdpDelivery($key['keyvalue']);
+  
   foreach ($items as $key) {
     echo "<tr>";
-    echo "<td>". $key["filename"] . "</td>"; 
-  	echo "<td></td>";
+    echo "<td>". $key["filename"] . "</td>";
+    
+    $properties = $objCdp->getProperty($key['filename'], "size");
+  	echo "<td>" . $properties[0][2] . "</td>";
   	echo "<td>";
   	//<span class=\"glyphicon glyphicon-download\"></span>
   	echo "</td>";
