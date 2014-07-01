@@ -5,7 +5,17 @@ echo "<div class=\"container-fluid\">";
 
 echo "<h2>Deliver CDP files</h2>";
 
+// We make a tab for the delivered files and for the files that are not delivered yet. 
+echo " <ul id=\"tabs\" class=\"nav nav-tabs\" data-tabs=\"tabs\">";
+
+echo "<li class=\"active\"><a href=\"#toDeliver\" data-toggle=\"tab\">To deliver</a></li>";
+echo "<li><a href=\"#alreadyDelivered\" data-toggle=\"tab\">Already delivered</a></li>";
+
+echo "</ul>";
+
 // We make a table with all files from the ftp site
+echo " <div id=\"my-tab-content\" class=\"tab-content\">";
+echo "  <div class=\"tab-pane active\" id=\"toDeliver\">";
 echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
 echo "    <thead>
            <th data-priority=\"critical\">Filename</th>
@@ -56,4 +66,12 @@ echo "  </div>";
 echo "  <br /><br />";
 
 $objUtil->addTableJavascript();
+echo " </div>";
+
+// Tab with the already delivered CDP files
+echo "  <div class=\"tab-pane\" id=\"alreadyDelivered\">";
+
+echo "Already delivered";
+echo "</div>";
+
 ?>
