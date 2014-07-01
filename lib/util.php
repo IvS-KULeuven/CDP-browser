@@ -36,9 +36,9 @@ class Utils
   }
   
   // Add the pager for the table
-  public function addTablePager() {
+  public function addTablePager($id = "") {
   	echo "<!-- pager -->
-          <div id=\"pager\" class=\"pager\">
+          <div id=\"pager" . $id . "\" class=\"pager\">
            <form>
             <span class=\"glyphicon glyphicon-step-backward first\"></span>
             <span class=\"glyphicon glyphicon-backward prev\"></span>
@@ -56,7 +56,7 @@ class Utils
           </div>";
   }
   // Add the javascript for the table
-  public function addTableJavascript() {
+  public function addTableJavascript($id = "") {
     // Make the table sorter, add the pager and add the column chooser
     echo "<script type=\"text/javascript\">";
     echo "$(\"table\").tablesorter({
@@ -71,7 +71,7 @@ class Utils
   		 var pagerOptions = {
     
     // target the pager markup - see the HTML block below
-    container: $(\".pager\"),
+    container: $(\".pager" . $id . "\"),
     
     // use this url format \"http:/mydatabase.com?page={page}&size={size}&{sortList:col}\"
     ajaxUrl: null,
