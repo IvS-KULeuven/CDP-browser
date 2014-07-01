@@ -106,7 +106,7 @@ foreach ($delivered as $key => $value) {
   echo "<button type=\"button\" title=\"Deliver CDP file " . $value[0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace('.', '_', $value[0]) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
   		</button></td>";
-  
+
   echo "</tr>\n";
 }
 
@@ -119,6 +119,8 @@ echo " </div>";
 $objUtil->addTableJavascript("1");
 
 echo "</div>";
+
+$externalKeywords = $objMetadata->getExternalKeywords();
 
 // Setting the deliver CDP file modal form
 $keywords = array_merge($delivered, $notYetDelivered);
@@ -133,18 +135,44 @@ foreach ($keywords as $key => $value) {
                 <div class=\"account-wall\">
                   <form role=\"form\" class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
        <div class=\"input-group\">
-        <span class=\"input-group-addon\">Delivery</span>
-        <select id=\"delivery\" name=\"delivery\" class=\"form-control\" required autofocus>";
+        <span class=\"input-group-addon\">DELIVERY</span>
+        <select id=\"DELIVERY\" name=\"DELIVERY\" class=\"form-control\" required autofocus>";
 
+  echo "<option value=\"\"></option>";
 
-echo "<option value=\"\"></option>";
+  foreach ($delivery as $key2) {
+    echo "<option value=\"" . $key2['value'] . "\">" . $key2['value'] . "</option>";
+  }
 
-foreach ($delivery as $key2) {
-  echo "<option value=\"" . $key2['value'] . "\">" . $key2['value'] . "</option>";
-}
+  echo "  </select>
+         </div>";
 
-echo "  </select>
-       </div>";
+  // Loop over al the external Keywords
+  foreach($externalKeywords as $key2 => $value2) {
+    if ($value2[0] != "DELIVERY") {
+      $type = $objMetadata->getType($value2[0]);
+      echo "<div class=\"input-group\">
+           <span class=\"input-group-addon\">" . $value2[0] . "</span>";
+      
+      if ($type == "LIST") {
+        $validValues = $objMetadata->getValidValues($value2[0]);
+        echo "<select id=\"" . $value2[0] . "\" name=\"" . $value2[0] . "\" class=\"form-control\" required autofocus>
+               <option value=\"\"></option>";
+
+        foreach ($validValues as $key3) {
+          echo "<option value=\"" . $key3['value'] . "\">" . $key3['value'] . "</option>";
+        }
+        echo "</select>";
+      } else {
+        $validValues = $objMetadata->getValidValues($value2[0]);
+        echo " <input type=\"text\" name=\"" . $value2[0] . "\" class=\"form-control\" placeholder=\"" . $validValues[0]["value"] .  "\" value=\"\" required>";
+      }    
+      echo "</div>";
+
+    
+    }
+  }
+
 echo "  <input type=\"hidden\" name=\"indexAction\" value=\"deliver_cdp_file\" />
         <input type=\"hidden\" name=\"filename\" value=\"". $value[0] ."\" />
         <input type=\"hidden\" name=\"size\" value=\"". $value[2] ."\" />
