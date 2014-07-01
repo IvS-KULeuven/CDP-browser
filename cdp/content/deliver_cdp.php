@@ -54,17 +54,16 @@ echo "    <thead>
           </thead>";
 echo "    <tbody>";
 
- foreach ($notYetDelivered as $key => $value) {
+  foreach ($notYetDelivered as $key => $value) {
     echo "<tr>";
     echo "<td style=\"vertical-align: middle\">". $value[0] . "</td>&nbsp;";
   
     echo "<td style=\"vertical-align: middle\">" . $value[1] . "</td>";
     echo "<td style=\"vertical-align: middle\">" . $value[2] . "</td>";
     echo "<td style=\"vertical-align: middle\">";
-//          <a title=\"Remove keyword " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keygfword&keyword=". $key. "\" class=\"glyphicon glyphicon-remove \"></a>
-//          &nbsp;
-   echo " <a title=\"Deliver CDP file " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=deliver_file&size=". $value[2] . "&filename=". $value[0] . "\" class=\"glyphicon glyphicon-pencil \"></a>
-         </td>";
+    echo "<button type=\"button\" title=\"Deliver CDP file " . $value[0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace('.', '_', $value[0]) . "\" >
+  	        <span class=\"glyphicon glyphicon-pencil\"></span>
+  		  </button></td>";
     echo "</tr>\n";
  }
 
@@ -104,10 +103,10 @@ foreach ($delivered as $key => $value) {
   echo "<td style=\"vertical-align: middle\">" . $value[1] . "</td>";
   echo "<td style=\"vertical-align: middle\">" . $value[2] . "</td>";
   echo "<td style=\"vertical-align: middle\">";
-  //          <a title=\"Remove keyword " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keygfword&keyword=". $key. "\" class=\"glyphicon glyphicon-remove \"></a>
-  //          &nbsp;
-  echo " <a title=\"Deliver CDP file " . $key . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=deliver_file&size=". $value[2] . "&filename=". $value[0] . "\" class=\"glyphicon glyphicon-pencil \"></a>
-         </td>";
+  echo "<button type=\"button\" title=\"Deliver CDP file " . $value[0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace('.', '_', $value[0]) . "\" >
+  		 <span class=\"glyphicon glyphicon-pencil\"></span>
+  		</button></td>";
+  
   echo "</tr>\n";
 }
 
@@ -121,4 +120,42 @@ $objUtil->addTableJavascript("1");
 
 echo "</div>";
 
+// Setting the deliver CDP file modal form
+$keywords = array_merge($delivered, $notYetDelivered);
+$delivery = $objMetadata->getValidValues("DELIVERY");
+
+foreach ($keywords as $key => $value) {
+  echo "<div class=\"modal fade\" id=\"deliver". str_replace('.', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+          <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+              <div class=\"modal-body\">
+  		        <h1 class=\"text-center login-title\">Deliver " . $value[0] . "</h1>
+                <div class=\"account-wall\">
+                  <form role=\"form\" class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+       <div class=\"input-group\">
+        <span class=\"input-group-addon\">Delivery</span>
+        <select id=\"delivery\" name=\"delivery\" class=\"form-control\" required autofocus>";
+
+
+echo "<option value=\"\"></option>";
+
+foreach ($delivery as $key2) {
+  echo "<option value=\"" . $key2['value'] . "\">" . $key2['value'] . "</option>";
+}
+
+echo "  </select>
+       </div>";
+echo "  <input type=\"hidden\" name=\"indexAction\" value=\"deliver_cdp_file\" />
+        <input type=\"hidden\" name=\"filename\" value=\"". $value[0] ."\" />
+        <input type=\"hidden\" name=\"size\" value=\"". $value[2] ."\" />
+                  	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
+                      Deliver CDP file
+  		            </button>
+                  </form>
+  		        </div>
+  	  	      </div>
+            </div>
+          </div>
+        </div>";
+}
 ?>
