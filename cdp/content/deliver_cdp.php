@@ -94,9 +94,9 @@ foreach ($delivered as $key => $value) {
 
   // Here we check if the file is already delivered.
   $cdpDelivery = $objCdp->getDelivery($value[0]);
-
+  
   foreach($cdpDelivery as $number) {
-    echo "<span class=\"pull-right badge alert-success\">CDP " . ($number['delivery']) . "</span>&nbsp;";
+    echo "<span class=\"pull-right badge alert-success\">CDP " . ($number['keyvalue']) . "</span>&nbsp;";
   }
   
   echo "</td>";

@@ -43,22 +43,22 @@ class Cdp
   public function deliver_file($filename, $delivery) {
     global $objDatabase;
     
-    $objDatabase->execSQL("INSERT INTO cdp ( filename, delivery) VALUES ( \"" . $filename . "\", \"" . $delivery . "\") ");
+    $objDatabase->execSQL("INSERT INTO cdp ( filename, name, keyvalue ) VALUES ( \"" . $filename . "\", \"delivery\", \"" . $delivery . "\") ");
   }
   public function getDelivery($filename) {
     global $objDatabase;
     
-    return $objDatabase->selectSingleArray("SELECT * from cdp where filename=\"" . $filename . "\"");
+    return $objDatabase->selectSingleArray("SELECT * from cdp where name=\"delivery\" AND filename=\"" . $filename . "\"");
   }
   public function getUsedCdpVersions() {
     global $objDatabase;
     
-    return array_reverse($objDatabase->selectSingleArray("SELECT DISTINCT(delivery) from cdp"));
+    return array_reverse($objDatabase->selectSingleArray("SELECT DISTINCT(keyvalue) from cdp where name=\"delivery\""));
   }
   public function getFilesForCdpDelivery($delivery) {
     global $objDatabase;
     
-    return $objDatabase->selectSingleArray("SELECT * from cdp where delivery = \"" . $delivery . "\"");
+    return $objDatabase->selectSingleArray("SELECT * from cdp where name = \"delivery\" AND keyvalue = \"" . $delivery . "\"");
   }
 }
 ?>

@@ -9,9 +9,13 @@ echo "<h2>List of CDP files</h2>";
 echo " <ul id=\"tabs\" class=\"nav nav-tabs\" data-tabs=\"tabs\">";
 
 $cdpVersions = $objCdp->getUsedCdpVersions();
+
+// Sort to see the most recent cdp version as the first version.
+rsort($cdpVersions);
+
 $active = " class=\"active\"";
 foreach($cdpVersions as $key) {
-  echo "<li" . $active . "><a href=\"#cdp". str_replace('.', '_', $key['delivery']) . "\" data-toggle=\"tab\">CDP " . $key['delivery'] . "</a></li>";
+  echo "<li" . $active . "><a href=\"#cdp". str_replace('.', '_', $key['keyvalue']) . "\" data-toggle=\"tab\">CDP " . $key['keyvalue'] . "</a></li>";
   $active = "";
 }
 echo " </ul>";
@@ -20,14 +24,14 @@ echo " <div id=\"my-tab-content\" class=\"tab-content\">";
 
 $active = " active";
 foreach($cdpVersions as $key) {
-  echo "  <div class=\"tab-pane" . $active . "\" id=\"cdp" . str_replace('.', '_', $key['delivery']) . "\">";
+  echo "  <div class=\"tab-pane" . $active . "\" id=\"cdp" . str_replace('.', '_', $key['keyvalue']) . "\">";
   $active = "";
   // We make a table with all files from the ftp site
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
   echo "    <thead><th data-priority=\"critical\">Filename</th><th data-priority=\"2\">Size</th><th class=\"filter-false columnSelector-disable\" data-sorter=\"false\">Action</th></thead>";
   echo "    <tbody>";
 
-  $items = $objCdp->getFilesForCdpDelivery($key['delivery']);
+  $items = $objCdp->getFilesForCdpDelivery($key['keyvalue']);
   foreach ($items as $key) {
     echo "<tr>";
     echo "<td>". $key["filename"] . "</td>"; 
