@@ -1,8 +1,11 @@
 <?php
-global $objCdp;
+global $objCdp, $objFits, $ftp_server;
 
 $filename = $_POST['filename'];
 $delivery = $_POST['DELIVERY'];
+
+print_r($objFits->getHeader($filename));
+//exit;
 $objCdp->deliver_file($filename, $delivery);
 
 // Add all the other keys

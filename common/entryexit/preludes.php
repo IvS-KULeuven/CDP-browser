@@ -8,7 +8,7 @@ if($loginErrorCode||$loginErrorText)
 }
 
 function preludesA()
-{ global $objDatabase, $objUtil,
+{ global $objDatabase, $objUtil, $objFits,
          $objUser, $objMetadata, $objCdp;
 
         if(!session_id()) session_start();
@@ -18,6 +18,7 @@ function preludesA()
         require_once "lib/users.php";                  $objUser=new Users;
         require_once "lib/metadata.php";               $objMetadata=new Metadata;
         require_once "lib/cdp.php";                    $objCdp=new Cdp;
+        require_once "lib/fits.php";                   $objFits=new Fits;
         require_once "common/control/loginuser.php";
         
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_user', 'common/control/adduser.php')))
