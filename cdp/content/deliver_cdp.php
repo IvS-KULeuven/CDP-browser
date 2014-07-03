@@ -71,7 +71,7 @@ echo "    </tbody>
 		 </table>";
 echo $objUtil->addTablePager();
 echo "  </div>";
-
+echo "<br /><br />";
 $objUtil->addTableJavascript();
 
 // Tab with the already delivered CDP files
@@ -115,6 +115,7 @@ echo "    </tbody>
 echo $objUtil->addTablePager("1");
 
 echo " </div>";
+echo "<br /><br />";
 
 $objUtil->addTableJavascript("1");
 

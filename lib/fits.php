@@ -24,15 +24,17 @@ class Fits
                 $end = true;
               } else {
                 $fitsValue = explode("=", $buffer);
-                $keyword = explode(" ", $fitsValue[0])[0];
-                $value = rtrim(ltrim(explode("/", $fitsValue[1])[0]));
+                if (substr($fitsValue[0], 0, 7) != "COMMENT") {
+                  $keyword = explode(" ", $fitsValue[0])[0];
+                  $value = rtrim(ltrim(explode("/", $fitsValue[1])[0]));
 
-                $value = str_replace("'", "", $value);
+                  $value = str_replace("'", "", $value);
 
-                // Check in the database which keywords can be used and only add this metadata to the array to return
-                foreach ($keys as $key) {
-                  if ($keyword == $key["id"]) {
-                    $toReturn[$keyword] = $value;
+                  // Check in the database which keywords can be used and only add this metadata to the array to return
+                  foreach ($keys as $key) {
+                    if ($keyword == $key["id"]) {
+                      $toReturn[$keyword] = $value;
+                    }
                   }
                 }
               }
