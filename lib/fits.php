@@ -8,20 +8,8 @@ class Fits
     global $objMetadata, $ftp_server;
 
     // We make a connection to the ftp server
-    $conn_id = ftp_connect($ftp_server);
-    
-    if (!$conn_id) {
-      $entryMessage = "Couldn't connect to $ftp_server";
-      return;
-    } else {
-      // try to login
-      if (@ftp_login($conn_id, 'anonymous', '')) {
+          $handle = fopen("ftp://anonymous:'wim.demeester@ster.kuleuven.be'@" . $ftp_server . "/miri/CDP/" . $filename, "r");
 
-        if (ftp_get($conn_id, "/tmp/cdp.fits", "/miri/CDP/" . $filename, FTP_BINARY)) {
-          ftp_close($conn_id);
-
-          $handle = fopen("/tmp/cdp.fits", "r");
-          
           $toReturn = array();
           
           if($handle) {
@@ -38,9 +26,9 @@ class Fits
                 $fitsValue = explode("=", $buffer);
                 $keyword = explode(" ", $fitsValue[0])[0];
                 $value = rtrim(ltrim(explode("/", $fitsValue[1])[0]));
-          
+
                 $value = str_replace("'", "", $value);
-          
+
                 // Check in the database which keywords can be used and only add this metadata to the array to return
                 foreach ($keys as $key) {
                   if ($keyword == $key["id"]) {
@@ -49,19 +37,12 @@ class Fits
                 }
               }
             }
-          
-            fclose($handle);
+            @fclose($handle);
           } else {
             $entryMessage = "Problem reading fits file!";
+            return;
           }
-        } else {
-          ftp_close($conn_id);
-          $entryMessage = "Problem reading fits file!";
-          return;
-        }
         return $toReturn;
-      }
-    }
   }
 }
 ?>
