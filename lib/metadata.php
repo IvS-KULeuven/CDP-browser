@@ -95,5 +95,9 @@ class Metadata {
     global $objDatabase;
     return $objDatabase->execSQL("DELETE FROM metadata WHERE value = \"$value\" AND id = \"$keyword\"");
   }
+  public  function getExternalKeywords() {
+    global $objDatabase;
+    return $objDatabase->selectSingleArray("SELECT DISTINCT(id) FROM metadata WHERE inFits = \"0\"");
+  }
 }
 ?>
