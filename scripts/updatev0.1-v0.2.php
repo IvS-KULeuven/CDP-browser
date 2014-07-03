@@ -14,7 +14,7 @@ $objDatabase->execSQL($sql);
 
 $sql = "CREATE TABLE cdp (
              filename        VARCHAR(200)            NOT NULL DEFAULT '',
-             name            VARCHAR(200)            NOT NULL DEFAULT '',
+             name            VARCHAR(50)             NOT NULL DEFAULT '',
              keyvalue        VARCHAR(200)            NOT NULL DEFAULT '',
              PRIMARY KEY(filename, name)
              )";
