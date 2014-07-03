@@ -25,8 +25,10 @@ class Fits
               } else {
                 $fitsValue = explode("=", $buffer);
                 if (substr($fitsValue[0], 0, 7) != "COMMENT") {
-                  $keyword = explode(" ", $fitsValue[0])[0];
-                  $value = rtrim(ltrim(explode("/", $fitsValue[1])[0]));
+                  $keyword = explode(" ", $fitsValue[0]);
+                  $keyword = $keyword[0];
+                  $value = explode("/", $fitsValue[1]);
+                  $value = rtrim(ltrim($value[0]));
 
                   $value = str_replace("'", "", $value);
 
