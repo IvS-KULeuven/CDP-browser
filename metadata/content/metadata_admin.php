@@ -73,9 +73,25 @@
     // The required keyword
     echo "<td style=\"vertical-align: middle\">";
     if ($objMetadata->isRequired($value[0])) {
-      print "<span class=\"glyphicon glyphicon-ok\"></span>";
+      print "<form action=\"".$baseURL."index.php\" method=\"post\">
+              <span class=\"glyphicon glyphicon-ok\"></span>
+              <input type=\"hidden\" name=\"indexAction\" value=\"metadata_required\" />
+              <input type=\"hidden\" name=\"setRequired\" value=\"0\" />
+              <input type=\"hidden\" name=\"id\" value=\"" . str_replace(' ', '_', $value[0]) . "\" />
+              <button title=\"Make no longer required\" class=\"btn btn-default pull-right\" type=\"submit\" >
+          	   <span class=\"glyphicon glyphicon-pencil\"></span>
+  		      </button>
+          	 </form></td>";          
     } else {
-      print "<span class=\"glyphicon glyphicon-remove\"></span>";
+      print "<form action=\"".$baseURL."index.php\" method=\"post\">
+              <span class=\"glyphicon glyphicon-remove\"></span>
+              <input type=\"hidden\" name=\"indexAction\" value=\"metadata_required\" />
+              <input type=\"hidden\" name=\"setRequired\" value=\"1\" />
+              <input type=\"hidden\" name=\"id\" value=\"" . str_replace(' ', '_', $value[0]) . "\" />
+              <button title=\"Make no longer required\" class=\"btn btn-default pull-right\" type=\"submit\" >
+          	   <span class=\"glyphicon glyphicon-pencil\"></span>
+  		      </button>
+          	 </form></td>";          
     }
     echo "</td>\n";
     echo "<td style=\"vertical-align: middle\"><a title=\"Remove keyword " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keyword&keyword=". $value[0] . "\" class=\"glyphicon glyphicon-trash \"></a></td>";

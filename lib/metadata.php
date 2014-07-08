@@ -73,6 +73,10 @@ class Metadata {
     }
     return $objDatabase->execSQL("UPDATE metadata SET inFits = \"" . $locationBit . "\" WHERE id = \"$keyword\"");
   }
+  public  function changeRequired($keyword, $newValue) {
+    global $objDatabase;
+    return $objDatabase->execSQL("UPDATE metadata SET required = \"$newValue\" WHERE id = \"$keyword\"");
+  }
   public  function isValidValue($keyword, $value) {
     $values = $this->getValidValues($keyword);
     $toReturn = false;

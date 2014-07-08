@@ -29,6 +29,7 @@ function preludesA()
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_metadata_type', 'metadata/control/changekeyword.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_metadata_value', 'metadata/control/changevalue.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_metadata_location', 'metadata/control/changelocation.php')))
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('metadata_required', 'metadata/control/changerequired.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_possible_metadata_value', 'metadata/control/addvalue.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('delete_possible_metadata_value', 'metadata/control/deletevalue.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('change_role', 'common/control/changeUserRole.php')));
