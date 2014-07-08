@@ -29,10 +29,11 @@ echo "     <ul class=\"nav navbar-nav\">
 if ($loggedUser) {
   echo "     <ul class=\"nav navbar-nav\">
         	     <li class=\"dropdown\">
-            	   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Change <b class=\"caret\"></b></a>
+            	   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">CDP files <b class=\"caret\"></b></a>
 	               <ul class=\"dropdown-menu\">
-    	             <li><a href=\"". $baseURL . "index.php?indexAction=deliver_cdp\">Deliver CDP files</a></li>
-        	       </ul>
+    	             <li><a href=\"". $baseURL . "index.php?indexAction=deliver_cdp\">Deliver</a></li>
+    	             <li><a href=\"". $baseURL . "index.php?indexAction=import_csv_file\">Deliver using CSV file</a></li>
+    	           </ul>
             	 </li>
              </ul>";
   

@@ -32,7 +32,13 @@ foreach ($items as $key => $value) {
   }
 }
 
-
+// We make a button to add CDP files using a CSV file
+echo "<form action=\"".$baseURL."index.php\" method=\"post\">
+       <input type=\"hidden\" name=\"indexAction\" value=\"import_csv_file\" />
+       <button type=\"submit\" class=\"btn btn-success pull-right\">
+  	    <span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Deliver using CSV file
+  	   </button>
+      </form>";
 
 // We make a tab for the delivered files and for the files that are not delivered yet. 
 echo " <ul id=\"tabs\" class=\"nav nav-tabs\" data-tabs=\"tabs\">";
