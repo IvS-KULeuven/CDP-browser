@@ -138,7 +138,14 @@
                       <span class=\"input-group-addon\">Default value</span>
                       <input type=\"text\" name=\"value\" class=\"form-control\" placeholder=\"Value\">
                     </div>
-                    <input type=\"hidden\" name=\"indexAction\" value=\"add_metadata_keyword\" />
+                    <div class=\"input-group\">
+                      <span class=\"input-group-addon\">Required</span>
+                      <select name=\"required\" class=\"form-control\">
+                       <option value=\"1\">Yes</option>
+                       <option value=\"0\">No</option>
+                      </select>
+                    </div>
+                      <input type=\"hidden\" name=\"indexAction\" value=\"add_metadata_keyword\" />
                   	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
                       Add keyword
   		            </button>
