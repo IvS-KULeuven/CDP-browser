@@ -80,7 +80,7 @@ echo "  <div class=\"tab-pane\" id=\"alreadyDelivered\">";
 echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
 echo "    <thead>
            <th data-priority=\"critical\">Filename</th>
-           <th data-priority=\"2\">Date</th>
+           <th data-priority=\"2\">Delivery Date</th>
            <th data-priority=\"4\">Size</th>
            <th class=\"filter-false columnSelector-disable\" data-sorter=\"false\">Action</th>
           </thead>";
@@ -93,17 +93,18 @@ foreach ($delivered as $key => $value) {
 
   // Here we check if the file is already delivered.
   $cdpDelivery = $objCdp->getDelivery($value[0]);
-  
   foreach($cdpDelivery as $number) {
     echo "<span class=\"pull-right badge alert-success\">CDP " . ($number['keyvalue']) . "</span>&nbsp;";
   }
   
   echo "</td>";
+
+  $date = $objCdp->getProperty($value[0], "UPLOAD_DATE");
   
-  echo "<td style=\"vertical-align: middle\">" . $value[1] . "</td>";
+  echo "<td style=\"vertical-align: middle\">" . $date[0]['keyvalue'] . "</td>";
   echo "<td style=\"vertical-align: middle\">" . $value[2] . "</td>";
   echo "<td style=\"vertical-align: middle\">";
-  echo "<button type=\"button\" title=\"Deliver CDP file " . $value[0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace('.', '_', $value[0]) . "\" >
+  echo "<button type=\"button\" title=\"Edit CDP file " . $value[0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace('.', '_', $value[0]) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
   		</button></td>";
 
