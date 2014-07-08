@@ -13,6 +13,7 @@ foreach ($_POST as $key => $value) {
   }
 }
 
+// Add all the keys from the fits file
 if (substr($filename, -5) == ".fits") {
   $fitsKeywords = $objFits->getHeader($filename);
   foreach($fitsKeywords as $key => $value) {

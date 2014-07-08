@@ -66,8 +66,23 @@ class Cdp
     return $objDatabase->selectSingleArray("SELECT * from cdp where name = \"delivery\" AND keyvalue = \"" . $delivery . "\"");
   }
   public function addKey($filename, $name, $keyvalue) {
-    global $objDatabase;
+    global $objDatabase, $entryMessage;
     
+    if ($name == "UPLOAD_DATE") {
+      $dateArray = date_parse($keyvalue);
+      
+      if (!($dateArray['year'] && $dateArray['month'] && $dateArray['day'])) {
+        $entryMessage = "Invalid date format! <strong>UPLOAD DATE</strong> is not changed!";
+        return;
+      } else {
+        if (checkdate($dateArray['month'], $dateArray['day'], $dateArray['year'])) {
+          $keyvalue = $dateArray['year'] . '-' . sprintf("%02d", $dateArray['month']) . '-' . sprintf("%02d", $dateArray['day']);
+        } else {
+          $entryMessage = "Invalid date! <strong>UPLOAD DATE</strong> is not changed!";
+          return;
+        }
+      }
+    }
     // Only add the key if the key was not yet known. If the key is already in the database, we need to update the value.
     if ($objDatabase->selectSingleArray("SELECT * from cdp where filename = \"". $filename . "\" AND name = \"" . $name . "\"")) {
       $objDatabase->execSQL("UPDATE cdp SET keyvalue = \"" . $keyvalue . "\" WHERE filename = \"" . $filename . "\" AND name = \"" . $name . "\"");
