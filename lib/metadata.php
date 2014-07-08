@@ -57,8 +57,9 @@ class Metadata {
   public  function changeType($keyword, $type, $value) {
     // First, we remove the keyword, and then we add a new keyword with the given properties
     $inFits = $this->getLocation($keyword);
+    $required = $this->isRequired($keyword);
     $this->deleteKeyword($keyword);
-    $this->addMetadata($keyword, $inFits, $type, $value);
+    $this->addMetadata($keyword, $inFits, $type, $value, $required);
   }
   public  function changeValue($keyword, $currentValue, $newValue) {
     global $objDatabase;
@@ -97,8 +98,9 @@ class Metadata {
     $type = "LIST";
 
     $inFits = $this->getLocation($keyword);
+    $required = $this->isRequired($keyword);
     
-    return $this->addMetadata($keyword, $inFits, $type, $value);
+    return $this->addMetadata($keyword, $inFits, $type, $value, $required);
   }
   public  function deleteValue($keyword, $value) {
     global $objDatabase;
