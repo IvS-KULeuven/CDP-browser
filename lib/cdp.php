@@ -45,6 +45,11 @@ class Cdp
     
     $objDatabase->execSQL("INSERT INTO cdp ( filename, name, keyvalue ) VALUES ( \"" . $filename . "\", \"delivery\", \"" . $delivery . "\") ");
   }
+  public function undeliver_file($filename) {
+    global $objDatabase;
+    
+    $objDatabase->execSQL("DELETE FROM cdp where filename = \"" . $filename . "\";");
+  }
   public function getDelivery($filename) {
     global $objDatabase;
     

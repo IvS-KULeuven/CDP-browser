@@ -106,7 +106,15 @@ foreach ($delivered as $key => $value) {
   echo "<td style=\"vertical-align: middle\">";
   echo "<button type=\"button\" title=\"Edit CDP file " . $value[0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace('.', '_', $value[0]) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
-  		</button></td>";
+         </button>
+         <form action=\"".$baseURL."index.php\" method=\"post\">
+          <input type=\"hidden\" name=\"indexAction\" value=\"undeliver_cdp_file\" />
+          <input type=\"hidden\" name=\"cdpfile\" value=\"". $value[0] . "\" />
+          <button type=\"submit\" title=\"Remove " . $value[0] . " from list of delivered CDP files\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#undeliver" . str_replace('.', '_', $value[0]) . "\" >
+ 		   <span class=\"glyphicon glyphicon-remove\"></span>
+ 		  </button>
+         </form>
+        </td>";
 
   echo "</tr>\n";
 }
