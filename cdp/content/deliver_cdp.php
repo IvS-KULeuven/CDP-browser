@@ -106,15 +106,10 @@ foreach ($delivered as $key => $value) {
   echo "<td style=\"vertical-align: middle\">";
   echo "<button type=\"button\" title=\"Edit CDP file " . $value[0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace('.', '_', $value[0]) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
-         </button>
-         <form action=\"".$baseURL."index.php\" method=\"post\">
-          <input type=\"hidden\" name=\"indexAction\" value=\"undeliver_cdp_file\" />
-          <input type=\"hidden\" name=\"cdpfile\" value=\"". $value[0] . "\" />
-          <button type=\"submit\" title=\"Remove " . $value[0] . " from list of delivered CDP files\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#undeliver" . str_replace('.', '_', $value[0]) . "\" >
- 		   <span class=\"glyphicon glyphicon-remove\"></span>
- 		  </button>
-         </form>
-        </td>";
+        </button>
+        <button type=\"button\" title=\"Remove " . $value[0] . " from list of delivered CDP files\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#undeliver" . str_replace('.', '_', $value[0]) . "\" >
+         <span class=\"glyphicon glyphicon-remove\"></span>
+ 		</button>";
 
   echo "</tr>\n";
 }
@@ -237,5 +232,26 @@ echo "  <input type=\"hidden\" name=\"indexAction\" value=\"deliver_cdp_file\" /
             </div>
           </div>
         </div>";
+
+// Make the undeliver CDP modal
+if ($update) {
+  echo "<div class=\"modal fade\" id=\"undeliver". str_replace('.', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+          <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+              <div class=\"modal-body\">
+  		        <h1 class=\"text-center login-title\">Remove $value[0] from list of delivered CDP files?</h1>
+                <div class=\"account-wall\">
+                  <form role=\"form\" class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+                   <input type=\"hidden\" name=\"indexAction\" value=\"undeliver_cdp_file\" />
+                   <input type=\"hidden\" name=\"cdpfile\" value=\"". $value[0] . "\" />
+                   <button type=\"submit\" title=\"Remove" . $value[0] . "!\" class=\"btn btn-lg btn-block btn-danger\">Remove!
+                   </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>";
+}
 }
 ?>
