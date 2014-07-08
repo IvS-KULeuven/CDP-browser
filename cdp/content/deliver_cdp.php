@@ -161,7 +161,8 @@ foreach ($keywords as $key => $value) {
     $del = $objCdp->getDelivery($value[0]);
   }
   foreach ($delivery as $key2) {
-    if ($key2['value'] == $del[0][2]) {
+    $del0 = $del[0];
+    if ($key2['value'] == $del0[2]) {
       $selected = " selected";
     } else {
       $selected = "";
