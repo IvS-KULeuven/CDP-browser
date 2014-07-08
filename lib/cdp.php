@@ -80,5 +80,16 @@ class Cdp
     
     return $objDatabase->selectSingleArray("SELECT * from cdp where filename=\"" . $filename . "\" AND name=\"" . $keyword . "\"");
   }
+  public function isDelivered($filename) {
+    global $objDatabase;
+    
+    $count = $objDatabase->selectSingleValue("select COUNT(*) from cdp where filename = \"" . $filename . "\";", "COUNT(*)");
+
+    if ($count > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 ?>

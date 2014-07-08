@@ -137,11 +137,22 @@ $keywords = array_merge($delivered, $notYetDelivered);
 $delivery = $objMetadata->getValidValues("DELIVERY");
 
 foreach ($keywords as $key => $value) {
+  if ($objCdp->isDelivered($value[0])) {
+     $update = true;
+   } else {
+     $update = false;
+   }
   echo "<div class=\"modal fade\" id=\"deliver". str_replace('.', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">
-  		        <h1 class=\"text-center login-title\">Deliver " . $value[0] . "</h1>
+  		        <h1 class=\"text-center login-title\">";
+  if ($update) {
+    echo "Update ";
+  } else {
+    echo "Deliver ";
+  }
+  echo $value[0] . "</h1>
                 <div class=\"account-wall\">
                   <form role=\"form\" class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
        <div class=\"input-group\">
@@ -150,8 +161,17 @@ foreach ($keywords as $key => $value) {
 
   echo "<option value=\"\"></option>";
 
+  $del = -1;
+  if ($update) {
+    $del = $objCdp->getDelivery($value[0]);
+  }
   foreach ($delivery as $key2) {
-    echo "<option value=\"" . $key2['value'] . "\">" . $key2['value'] . "</option>";
+    if ($key2['value'] == $del[0][2]) {
+      $selected = " selected";
+    } else {
+      $selected = "";
+    }
+    echo "<option " . $selected . " value=\"" . $key2['value'] . "\">" . $key2['value'] . "</option>";
   }
 
   echo "  </select>
