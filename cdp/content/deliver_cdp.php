@@ -161,7 +161,7 @@ foreach ($keywords as $key => $value) {
 
   echo "<option value=\"\"></option>";
 
-  $del = -1;
+  $del = "";
   if ($update) {
     $del = $objCdp->getDelivery($value[0]);
   }
@@ -187,6 +187,12 @@ foreach ($keywords as $key => $value) {
       } else {
         $req = "";
       }
+
+      $del = "";
+      if ($update) {
+        $del = $objCdp->getProperty($value[0], str_replace(' ', '_', $value2[0]));
+      }
+      
       echo "<div class=\"input-group\">
            <span class=\"input-group-addon $req\">" . $value2[0] . "</span>";
       
@@ -196,12 +202,22 @@ foreach ($keywords as $key => $value) {
                <option value=\"\"></option>";
 
         foreach ($validValues as $key3) {
-          echo "<option value=\"" . $key3['value'] . "\">" . $key3['value'] . "</option>";
+          $selected = "";
+          if ($update) {
+            if ($key3['value'] == $del[0][2]) {
+              $selected = " selected";
+            }
+          }
+          echo "<option" . $selected . " value=\"" . $key3['value'] . "\">" . $key3['value'] . "</option>";
         }
         echo "</select>";
       } else {
         $validValues = $objMetadata->getValidValues($value2[0]);
-        echo " <input type=\"text\" name=\"" . $value2[0] . "\" class=\"form-control\" placeholder=\"" . $validValues[0]["value"] .  "\" value=\"\" $req>";
+        echo " <input type=\"text\" name=\"" . $value2[0] . "\" class=\"form-control\" placeholder=\"" . $validValues[0]["value"] .  "\" value=\"";
+        if ($update) {
+          echo $del[0][2];
+        }
+        echo "\" $req>";
       }    
       echo "</div>";
 
