@@ -83,6 +83,11 @@ class Metadata {
     }
     return false;
   }
+  public  function isRequired($key) {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleValue("select * from metadata where id = \"" . $key . "\"", "required");
+  }
   public  function addValue($keyword, $value) {
     // type is always LIST
     $type = "LIST";

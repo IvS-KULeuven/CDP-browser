@@ -20,7 +20,8 @@
              <th data-priority=\"4\">Location</th>
              <th data-priority=\"2\">Type</th>
              <th data-priority=\"2\">Possible values / format of value</th>
-      <th class=\"filter-false columnSelector-disable\" data-sorter=\"false\">Action</th>
+             <th data-sorter=\"false\" data-priority=\"5\">Required</th>
+             <th class=\"filter-false columnSelector-disable\" data-sorter=\"false\">Action</th>
             </thead>";
   echo "    <tbody>";
   
@@ -69,6 +70,14 @@
      }
     
     echo "</td>";
+    // The required keyword
+    echo "<td style=\"vertical-align: middle\">";
+    if ($objMetadata->isRequired($value[0])) {
+      print "<span class=\"glyphicon glyphicon-ok\"></span>";
+    } else {
+      print "<span class=\"glyphicon glyphicon-remove\"></span>";
+    }
+    echo "</td>\n";
     echo "<td style=\"vertical-align: middle\"><a title=\"Remove keyword " . $value[0] . "\" style=\"color: black;text-decoration: none;\" href=\"". $baseURL . "index.php?indexAction=delete_keyword&keyword=". $value[0] . "\" class=\"glyphicon glyphicon-trash \"></a></td>";
     echo "</tr>\n";
   }
