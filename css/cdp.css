@@ -132,3 +132,8 @@ td.tablesorter-pager {
   filter: alpha(opacity=50);
   cursor: default;
 }
+.input-group-addon.required {
+    color: rgb(255, 255, 255);
+    background-color: rgb(92, 184, 92);
+    border-color: rgb(76, 174, 76);
+}

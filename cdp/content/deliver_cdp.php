@@ -136,7 +136,7 @@ foreach ($keywords as $key => $value) {
                 <div class=\"account-wall\">
                   <form role=\"form\" class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
        <div class=\"input-group\">
-        <span class=\"input-group-addon\">DELIVERY</span>
+        <span class=\"input-group-addon required\">DELIVERY</span>
         <select id=\"DELIVERY\" name=\"DELIVERY\" class=\"form-control\" required autofocus>";
 
   echo "<option value=\"\"></option>";
@@ -152,12 +152,18 @@ foreach ($keywords as $key => $value) {
   foreach($externalKeywords as $key2 => $value2) {
     if ($value2[0] != "DELIVERY") {
       $type = $objMetadata->getType($value2[0]);
+      $required = $objMetadata->isRequired($value2[0]);
+      if ($required) {
+        $req = " required";
+      } else {
+        $req = "";
+      }
       echo "<div class=\"input-group\">
-           <span class=\"input-group-addon\">" . $value2[0] . "</span>";
+           <span class=\"input-group-addon $req\">" . $value2[0] . "</span>";
       
       if ($type == "LIST") {
         $validValues = $objMetadata->getValidValues($value2[0]);
-        echo "<select id=\"" . $value2[0] . "\" name=\"" . $value2[0] . "\" class=\"form-control\" required autofocus>
+        echo "<select id=\"" . $value2[0] . "\" name=\"" . $value2[0] . "\" class=\"form-control\" $req autofocus>
                <option value=\"\"></option>";
 
         foreach ($validValues as $key3) {
@@ -166,7 +172,7 @@ foreach ($keywords as $key => $value) {
         echo "</select>";
       } else {
         $validValues = $objMetadata->getValidValues($value2[0]);
-        echo " <input type=\"text\" name=\"" . $value2[0] . "\" class=\"form-control\" placeholder=\"" . $validValues[0]["value"] .  "\" value=\"\" required>";
+        echo " <input type=\"text\" name=\"" . $value2[0] . "\" class=\"form-control\" placeholder=\"" . $validValues[0]["value"] .  "\" value=\"\" $req>";
       }    
       echo "</div>";
 
