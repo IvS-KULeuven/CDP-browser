@@ -173,7 +173,7 @@
       echo "           <select name=\"currentValue\" class=\"form-control\">";
 
       foreach ($validValues as $valid) {
-        echo "          <option value=\"" . $valid[2] . "\">" . $valid[2] . "</option>";
+        echo "          <option value=\"" . $valid[3] . "\">" . $valid[3] . "</option>";
       }
       echo "           </select>";
     } else {
@@ -293,7 +293,7 @@
     echo "           <select name=\"currentValue\" class=\"form-control\">";
 
     foreach ($validValues as $valid) {
-      echo "          <option value=\"" . $valid[2] . "\">" . $valid[2] . "</option>";
+      echo "          <option value=\"" . $valid[3] . "\">" . $valid[3] . "</option>";
     }
     echo "           </select>";
     echo "          </div>
