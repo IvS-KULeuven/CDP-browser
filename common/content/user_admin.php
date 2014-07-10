@@ -77,8 +77,7 @@
   	  	      </div>
             </div>
           </div>
-        </div>
-  	  </body>";
+        </div>";
   
   $objUtil->addTableJavascript();
 ?>

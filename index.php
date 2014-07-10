@@ -13,7 +13,7 @@
   echo "<head>
   		  <link href=\"css/cdp.css\" rel=\"stylesheet\" type=\"text/css\">
   		  <link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">
-  		  <script src=\"js/jquery-1.11.1.min.js\"></script>
+          <script src=\"js/jquery-1.11.1.min.js\"></script>
           <!-- Include all compiled plugins (below), or include individual files as needed -->
           <script src=\"js/bootstrap.min.js\"></script>
           <script src=\"js/jquery.tablesorter.min.js\"></script>
@@ -21,8 +21,8 @@
           <script src=\"js/jquery.tablesorter.pager.min.js\"></script>
           <script src=\"js/widget-columnSelector.js\"></script>
   		<link href=\"css/tablesorter.theme.bootstrap.css\" rel=\"stylesheet\">
-  		<title>CDP browser</title>
-  		</head>";
+  		<title>CDP browser</title>";
+  echo "</head>";
 
   // The body of the html page
   echo "<body>";
@@ -67,7 +67,7 @@
   	echo "</script>";
   }
   
-  
+  echo "</body>";
   // Closing the html page
   echo "</html>"
 ?>

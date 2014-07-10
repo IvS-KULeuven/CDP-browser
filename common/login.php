@@ -18,7 +18,6 @@ echo "<div class=\"modal fade\" id=\"login\" tabindex=\"-1\" role=\"dialog\" ari
   	  	      </div>
             </div>
           </div>
-        </div>
-  	  </body>";
+        </div>";
 
 ?>

@@ -310,6 +310,5 @@
         </div>";
   }
 
-  echo "</body>";
   $objUtil->addTableJavascript();
 ?>
