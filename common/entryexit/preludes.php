@@ -21,6 +21,7 @@ function preludesA()
         require_once "lib/fits.php";                   $objFits=new Fits;
         require_once "common/control/loginuser.php";
         
+        if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_csv', 'cdp/control/addcsv.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_user', 'common/control/adduser.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('add_metadata_keyword', 'metadata/control/addkeyword.php')))
         if(!($indexActionInclude=$objUtil->utilitiesCheckIndexActionAdmin('delete_user', 'common/control/deleteuser.php')))

@@ -88,6 +88,16 @@ class Metadata {
     }
     return false;
   }
+  public  function hasKey($key) {
+    $keys = $this->getExternalKeywords();
+    foreach($keys as $value) {
+      print_r($value);
+      if (strtoupper($value['id']) == strtoupper($key)) {
+        return true;
+      }
+    }
+    return false;
+  }
   public  function isRequired($key) {
     global $objDatabase;
     
