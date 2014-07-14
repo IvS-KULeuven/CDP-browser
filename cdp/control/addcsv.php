@@ -17,11 +17,10 @@ if($_FILES['csv']['tmp_name']) {
     $_GET['indexAction']='import_csv_file';
     return;    
   }
-  
+
   // We check the rest of the keywords. If they don't exist, we return with an error.
   for ($i = 1;$i < sizeof($keys_array);$i++) {
-    // TODO : hasKey method should be tested!
-    if ($objMetadata->hasKey($keys_array[$i])) {
+    if ($objMetadata->hasKey(rtrim($keys_array[$i]))) {
       print($keys_array[$i] . "<br/>\n");
     }
   }

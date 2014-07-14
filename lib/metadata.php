@@ -89,9 +89,8 @@ class Metadata {
     return false;
   }
   public  function hasKey($key) {
-    $keys = $this->getExternalKeywords();
+    $keys = $this->getKeys();
     foreach($keys as $value) {
-      print_r($value);
       if (strtoupper($value['id']) == strtoupper($key)) {
         return true;
       }
