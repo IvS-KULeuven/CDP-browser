@@ -26,6 +26,7 @@ if ($_FILES ['csv'] ['tmp_name']) {
       $correctCSV = false;
     }
   }
+
   if (! $correctCSV) {
     $entryMessage = "Incorrect keywords in the CSV file!";
     $_GET ['indexAction'] = 'import_csv_file';
@@ -34,8 +35,8 @@ if ($_FILES ['csv'] ['tmp_name']) {
       // All keywords are correct, we read the first line.
       $line = explode ( "|", $data_array [$i] );
       $filename = $line [0];
-      $delivery = $line [1];
-      $upload_date = $line [2];
+      $delivery = $line [array_search("DELIVERY", $keys_array)];
+      $upload_date = $line [array_search("UPLOAD DATE", $keys_array)];
       
       // Check if the file exists... We only add the files which are available on the ftp server.
       if ($objCdp->existOnFtpServer ( $filename )) {
