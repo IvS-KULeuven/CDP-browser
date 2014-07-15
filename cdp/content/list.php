@@ -23,6 +23,7 @@ echo " </ul>";
 echo " <div id=\"my-tab-content\" class=\"tab-content\">";
 
 $active = " active";
+$counter = 0;
 foreach($cdpVersions as $key) {
   echo "  <div class=\"tab-pane" . $active . "\" id=\"cdp" . str_replace('.', '_', $key['keyvalue']) . "\">";
   $active = "";
@@ -47,12 +48,13 @@ foreach($cdpVersions as $key) {
 	
   echo "    </tbody>
            </table>";
-  echo $objUtil->addTablePager();
+  echo $objUtil->addTablePager($counter);
   echo "  </div>";
+  $objUtil->addTableJavascript($counter);
+  $counter++;
 }
 echo "  </div>
 	   </div><br /><br />";
 
-$objUtil->addTableJavascript();
 
 ?>

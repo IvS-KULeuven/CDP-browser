@@ -75,10 +75,10 @@ echo "    <tbody>";
 
 echo "    </tbody>
 		 </table>";
-echo $objUtil->addTablePager();
+echo $objUtil->addTablePager("0");
 echo "  </div>";
 echo "<br /><br />";
-$objUtil->addTableJavascript();
+$objUtil->addTableJavascript("0");
 
 // Tab with the already delivered CDP files
 echo "  <div class=\"tab-pane\" id=\"alreadyDelivered\">";

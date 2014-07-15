@@ -71,7 +71,7 @@ class Utils
   		 var pagerOptions = {
     
     // target the pager markup - see the HTML block below
-    container: $(\".pager" . $id . "\"),
+    container: $(\"#pager" . $id . "\"),
     
     // use this url format \"http:/mydatabase.com?page={page}&size={size}&{sortList:col}\"
     ajaxUrl: null,
