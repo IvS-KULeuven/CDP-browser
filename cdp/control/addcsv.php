@@ -51,12 +51,13 @@ if ($_FILES ['csv'] ['tmp_name']) {
       $delivery = $line [array_search ( "DELIVERY", $keys_array )];
       
       // Check if the file exists... We only add the files which are available on the ftp server.
-      if ($objCdp->existOnFtpServer ( $filename )) {
+      $size = $objCdp->getSizeFromFtp ( $filename );
+      if ($size) {
         // We deliver the files.
         $objCdp->deliver_file ( $filename, $delivery );
         
         // Add the size of the file
-        $objCdp->addKey ( $filename, "size", $objCdp->getSizeFromFtp ( $filename ) );
+        $objCdp->addKey ( $filename, "size", $size );
         
         for($j = 1; $j < sizeof ( $keys_array ); $j ++) {
           if (strtoupper ( str_replace ( ' ', '_', trim ( $keys_array [$j] ) ) ) != "DELIVERY") {
