@@ -55,6 +55,9 @@ if ($_FILES ['csv'] ['tmp_name']) {
         // We deliver the files.
         $objCdp->deliver_file ( $filename, $delivery );
         
+        // Add the size of the file
+        $objCdp->addKey ( $filename, "size", $objCdp->getSizeFromFtp ( $filename ) );
+        
         for($j = 1; $j < sizeof ( $keys_array ); $j ++) {
           if (strtoupper ( str_replace ( ' ', '_', trim ( $keys_array [$j] ) ) ) != "DELIVERY") {
             // Check if the keywords have a valid value.
@@ -72,8 +75,6 @@ if ($_FILES ['csv'] ['tmp_name']) {
             }
           }
         }
-        // Add the size of the file
-        $objCdp->addKey ( $filename, "size", $objCdp->getSizeFromFtp ( $filename ) );
       }
     }
   }

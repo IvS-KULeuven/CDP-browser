@@ -16,9 +16,6 @@ function databaseInfo()
   $instDir      = "/software/www/htdocs/CDP/";
   $baseURL      = "http://localhost/CDP/";
   
-  // Add the version number here
-  $version      = "master";
-  
   $ftp_server = "ftp.ster.kuleuven.be";
 }
 ?>

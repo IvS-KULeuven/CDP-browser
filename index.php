@@ -2,6 +2,9 @@
   if(!array_key_exists('indexAction',$_GET)&&array_key_exists('indexAction',$_POST))
 	$_GET['indexAction']=$_POST['indexAction'];
 
+  // Include the version number
+  require_once 'lib/setup/version.php';
+
   // Includes of all classes and assistance files
   require_once 'common/entryexit/preludes.php';
   
