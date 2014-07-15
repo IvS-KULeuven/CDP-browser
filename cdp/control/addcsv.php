@@ -1,5 +1,5 @@
 <?php
-global $objMetadata, $objCdp;
+global $objMetadata, $objCdp, $entryMessage;
 
 // We check the file name
 if ($_FILES ['csv'] ['tmp_name']) {
@@ -26,7 +26,21 @@ if ($_FILES ['csv'] ['tmp_name']) {
       $correctCSV = false;
     }
   }
-
+  
+  // Check if all mandatory keywords are in the CSV file.
+  foreach ( $objMetadata->getExternalKeywords () as $key => $value ) {
+    if ($objMetadata->isRequired ( $value ['id'] )) {
+      // If the required metadata is not in the csv file, we return with an error.
+      if (array_search ( $value ['id'], $keys_array )) {
+      } else {
+        $entryMessage = "Problem importing CSV file : keyword <strong>" . $value ['id'] . "</strong> is not available in the CSV file.";
+        $_GET ['indexAction'] = "import_csv_file";
+        return;
+      }
+    }
+  }
+//   print "TEST";
+//   exit ();
   if (! $correctCSV) {
     $entryMessage = "Incorrect keywords in the CSV file!";
     $_GET ['indexAction'] = 'import_csv_file';
@@ -35,13 +49,15 @@ if ($_FILES ['csv'] ['tmp_name']) {
       // All keywords are correct, we read the first line.
       $line = explode ( "|", $data_array [$i] );
       $filename = $line [0];
-      $delivery = $line [array_search("DELIVERY", $keys_array)];
-      $upload_date = $line [array_search("UPLOAD DATE", $keys_array)];
+      $delivery = $line [array_search ( "DELIVERY", $keys_array )];
+      $upload_date = $line [array_search ( "UPLOAD DATE", $keys_array )];
       
       // Check if the file exists... We only add the files which are available on the ftp server.
       if ($objCdp->existOnFtpServer ( $filename )) {
         // We deliver the files.
         $objCdp->deliver_file ( $filename, $delivery );
+        
+        // TODO : Check if the keywords have a valid value.
         
         // Add the date
         $objCdp->addKey ( $filename, str_replace ( ' ', '_', $keys_array [2] ), $line [2] );
