@@ -57,13 +57,21 @@ if ($_FILES ['csv'] ['tmp_name']) {
         
         for($j = 1; $j < sizeof ( $keys_array ); $j ++) {
           if (strtoupper ( str_replace ( ' ', '_', trim ( $keys_array [$j] ) ) ) != "DELIVERY") {
-            // TODO : Check if the keywords have a valid value.
+            // Check if the keywords have a valid value.
+            $keyToAdd = str_replace ( ' ', '_', trim ( $keys_array [$j] ) );
+            $valueToAdd = trim ( $line [$j] );
+            
             if (trim ( $line [$j] ) != '') {
-              $objCdp->addKey ( $filename, str_replace ( ' ', '_', trim ( $keys_array [$j] ) ), trim ( $line [$j] ) );
+              if ($objMetadata->isValidValue ( trim ( $keys_array [$j] ), $valueToAdd )) {
+                $objCdp->addKey ( $filename, $keyToAdd, $valueToAdd );
+              } else {
+                $entryMessage = "Aborted importing CSV file at file <strong>" . $filename . "</strong>!<br />Invalid value <strong>" . $valueToAdd . "</strong> for keyword <strong>" . trim ( $keys_array [$j] ) . "</strong>";
+                $_GET ['indexAction'] = 'import_csv_file';
+                return;
+              }
             }
           }
         }
-        // exit ();
         // Add the size of the file
         $objCdp->addKey ( $filename, "size", $objCdp->getSizeFromFtp ( $filename ) );
       }
