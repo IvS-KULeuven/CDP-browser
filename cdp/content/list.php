@@ -41,7 +41,9 @@ foreach($cdpVersions as $key) {
     $properties = $objCdp->getProperty($key['filename'], "size");
   	echo "<td>" . $properties[0][2] . "</td>";
   	echo "<td>";
-  	//<span class=\"glyphicon glyphicon-download\"></span>
+    echo "<button type=\"button\" title=\"Download " . $key["filename"] . "\" class=\"btn btn-default pull-right\" >
+  	        <span class=\"glyphicon glyphicon-download\"></span>
+  		  </button></td>";
   	echo "</td>";
     echo "</tr>\n";
   }
