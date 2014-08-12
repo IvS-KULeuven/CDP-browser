@@ -4,7 +4,7 @@ global $objUtil, $objCdp, $ftp_server, $ftp_directory;
 echo "<div class=\"container-fluid\">";
 	
 echo "<h2>List of CDP files</h2>";
-	
+
 // We make some tabs, to see the different CDP releases
 echo " <ul id=\"tabs\" class=\"nav nav-tabs\" data-tabs=\"tabs\">";
 
@@ -26,6 +26,15 @@ $active = " active";
 $counter = 0;
 foreach($cdpVersions as $key) {
   echo "  <div class=\"tab-pane" . $active . "\" id=\"cdp" . str_replace('.', '_', $key['keyvalue']) . "\">";
+
+  // We make a button to download all CDP files from a given CDP release
+  echo "<form action=\"".$baseURL."index.php\" method=\"post\">
+       <input type=\"hidden\" name=\"indexAction\" value=\"download_list\" />
+       <button type=\"submit\" class=\"btn btn-success\">
+  	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;Download all files for CDP " .$key['keyvalue'] . "
+  	   </button>
+      </form>";
+
   $active = "";
   // We make a table with all files from the ftp site
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
