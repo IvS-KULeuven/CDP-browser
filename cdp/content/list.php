@@ -1,5 +1,5 @@
 <?php
-global $objUtil, $objCdp;
+global $objUtil, $objCdp, $ftp_server, $ftp_directory;
 
 echo "<div class=\"container-fluid\">";
 	
@@ -36,14 +36,14 @@ foreach($cdpVersions as $key) {
   
   foreach ($items as $key) {
     echo "<tr>";
-    echo "<td>". $key["filename"] . "</td>";
+    echo "<td style=\"vertical-align: middle\">". $key["filename"] . "</td>";
     
     $properties = $objCdp->getProperty($key['filename'], "size");
-  	echo "<td>" . $properties[0][2] . "</td>";
+  	echo "<td style=\"vertical-align: middle\">" . $properties[0][2] . "</td>";
   	echo "<td>";
-    echo "<button type=\"button\" title=\"Download " . $key["filename"] . "\" class=\"btn btn-default pull-right\" >
-  	        <span class=\"glyphicon glyphicon-download\"></span>
-  		  </button></td>";
+    echo "<a href=\"ftp://" . $ftp_server . $ftp_directory . $key["filename"] . "\" role=\"button\" title=\"Download " . $key["filename"] . "\" class=\"btn btn-default pull-right\" >
+  	        <span class=\"glyphicon glyphicon-save\"></span>
+  		  </a></td>";
   	echo "</td>";
     echo "</tr>\n";
   }

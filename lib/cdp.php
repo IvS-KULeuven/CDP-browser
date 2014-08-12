@@ -4,7 +4,7 @@
 class Cdp {
   // Returns a list with all files from the ftp server.
   public function getFilesFromFtpServer() {
-    global $ftp_server;
+    global $ftp_server, $ftp_directory;
     
     // set up an ftp connection
     $conn_id = ftp_connect ( $ftp_server );
@@ -15,7 +15,7 @@ class Cdp {
     } else {
       // try to login
       if (@ftp_login ( $conn_id, 'anonymous', '' )) {
-        if (is_array ( $children = @ftp_rawlist ( $conn_id, "/miri/CDP/" ) )) {
+        if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
           $items = array ();
           
           foreach ( $children as $child ) {
@@ -40,7 +40,7 @@ class Cdp {
   }
   // Returns true if the files exists on the ftp server
   public function existOnFtpServer($filename) {
-    global $ftp_server;
+    global $ftp_server, $ftp_directory;
     
     // set up an ftp connection
     $conn_id = ftp_connect ( $ftp_server );
@@ -53,7 +53,7 @@ class Cdp {
     } else {
       // try to login
       if (@ftp_login ( $conn_id, 'anonymous', '' )) {
-        if (is_array ( $children = @ftp_rawlist ( $conn_id, "/miri/CDP/" ) )) {
+        if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
           $items = array ();
           
           foreach ( $children as $child ) {
@@ -80,7 +80,7 @@ class Cdp {
   }
   // Get size from ftp server
   public function getSizeFromFtp($filename) {
-    global $ftp_server;
+    global $ftp_server, $ftp_directory;
     
     // set up an ftp connection
     $conn_id = ftp_connect ( $ftp_server );
@@ -93,7 +93,7 @@ class Cdp {
     } else {
       // try to login
       if (@ftp_login ( $conn_id, 'anonymous', '' )) {
-        if (is_array ( $children = @ftp_rawlist ( $conn_id, "/miri/CDP/" ) )) {
+        if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
           $items = array ();
           
           foreach ( $children as $child ) {

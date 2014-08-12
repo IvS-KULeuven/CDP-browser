@@ -5,10 +5,10 @@
 class Fits
 {
   public function getHeader($filename) {
-    global $objMetadata, $ftp_server;
+    global $objMetadata, $ftp_server, $ftp_directory;
 
     // We make a connection to the ftp server
-          $handle = fopen("ftp://anonymous:'wim.demeester@ster.kuleuven.be'@" . $ftp_server . "/miri/CDP/" . $filename, "r");
+          $handle = fopen("ftp://anonymous:'wim.demeester@ster.kuleuven.be'@" . $ftp_server . $ftp_directory . $filename, "r");
 
           $toReturn = array();
           
