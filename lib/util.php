@@ -9,7 +9,8 @@ class Utils
   {
   	if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('admin_users', 'common/content/user_admin.php')))
     if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('import_csv_file', 'cdp/content/import_csv_file.php')))
-  	if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('admin_metadata', 'metadata/content/metadata_admin.php')))
+    if(!($indexActionInclude=$this->utilitiesCheckIndexActionAll('download_list', 'miri_cdp.bash')))
+    if(!($indexActionInclude=$this->utilitiesCheckIndexActionAdmin('admin_metadata', 'metadata/content/metadata_admin.php')))
   	if(!($indexActionInclude=$this->utilitiesCheckIndexActionMember('deliver_cdp', 'cdp/content/deliver_cdp.php')))
   	   
   	if ($indexActionInclude == "") {

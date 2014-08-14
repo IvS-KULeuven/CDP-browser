@@ -1,5 +1,5 @@
 <?php
-global $objUtil, $objCdp, $ftp_server, $ftp_directory;
+global $objUtil, $objCdp, $ftp_server, $ftp_directory, $baseUrl;
 
 echo "<div class=\"container-fluid\">";
 	
@@ -28,12 +28,9 @@ foreach($cdpVersions as $key) {
   echo "  <div class=\"tab-pane" . $active . "\" id=\"cdp" . str_replace('.', '_', $key['keyvalue']) . "\">";
 
   // We make a button to download all CDP files from a given CDP release
-  echo "<form action=\"".$baseURL."index.php\" method=\"post\">
-       <input type=\"hidden\" name=\"indexAction\" value=\"download_list\" />
-       <button type=\"submit\" class=\"btn btn-success\">
+  echo "<a href=\"" . $baseUrl . "miri_cdp.bash.php\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
   	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;Download all files for CDP " .$key['keyvalue'] . "
-  	   </button>
-      </form>";
+  	   </button></a>";
 
   $active = "";
   // We make a table with all files from the ftp site
@@ -50,7 +47,7 @@ foreach($cdpVersions as $key) {
     $properties = $objCdp->getProperty($key['filename'], "size");
   	echo "<td style=\"vertical-align: middle\">" . $properties[0][2] . "</td>";
   	echo "<td>";
-    echo "<a href=\"ftp://" . $ftp_server . $ftp_directory . $key["filename"] . "\" role=\"button\" title=\"Download " . $key["filename"] . "\" class=\"btn btn-default pull-right\" >
+    echo "<a href=\"ftp://" . $ftp_server . $ftp_directory . $key["filename"] . "\" role=\"button\" title=\"Download " . $key["filename"] . "\" class=\"btn btn-default pull-right\" target=\"_blank\" >
   	        <span class=\"glyphicon glyphicon-save\"></span>
   		  </a></td>";
   	echo "</td>";
