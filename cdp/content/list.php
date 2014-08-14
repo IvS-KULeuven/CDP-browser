@@ -28,7 +28,7 @@ foreach($cdpVersions as $key) {
   echo "  <div class=\"tab-pane" . $active . "\" id=\"cdp" . str_replace('.', '_', $key['keyvalue']) . "\">";
 
   // We make a button to download all CDP files from a given CDP release
-  echo "<a href=\"" . $baseUrl . "miri_cdp.bash.php\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
+  echo "<a href=\"" . $baseUrl . "miri_cdp.bash.php?release=" . $key['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
   	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;Download all files for CDP " .$key['keyvalue'] . "
   	   </button></a>";
 
