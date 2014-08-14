@@ -10,7 +10,8 @@ if ($_FILES ['csv'] ['tmp_name']) {
   $keywords = $data_array [0];
   
   $keys_array = explode ( "|", $keywords );
-  
+  $keys_array = array_map('trim', $keys_array);
+
   // We check if the first keyword is 'Filename'
   if (strtoupper ( $keys_array [0] ) != "FILENAME") {
     $entryMessage = "Problem importing CSV file! The first keyword on should be Filename!";
