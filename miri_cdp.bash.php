@@ -50,9 +50,13 @@ echo "\n  file=" . $key['filename']. "
     else
       md5v=\"1\"
     fi
-    if [ `md5_value \$file` != \$md5v ] ; then
-      echo \"\$file FAILED\"
-      failed=1
+    if [ \"\$md5v\" == \"1\" ]; then 
+      echo \"\$file NO MD5 HASH\"
+    else
+      if [ `md5_value \$file` != \$md5v ] ; then
+        echo \"\$file FAILED\"
+        failed=1
+      fi
     fi
   else
     echo \"\$file does not exist\"
