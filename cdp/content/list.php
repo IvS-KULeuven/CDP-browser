@@ -43,7 +43,11 @@ foreach ( $cdpVersions as $key ) {
   $active = "";
   // We make a table with all files from the ftp site
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
-  echo "    <thead><th data-priority=\"critical\">Filename</th><th data-priority=\"2\">Size</th><th class=\"filter-false columnSelector-disable\" data-sorter=\"false\">Action</th></thead>";
+  echo "    <thead><th data-priority=\"critical\">Filename</th>
+             <th data-priority=\"2\">Pipeline Module</th>
+             <th data-priority=\"2\">Pipeline Step</th>
+             <th data-priority=\"3\">Size</th>
+             <th class=\"filter-false columnSelector-disable\" data-sorter=\"false\">Action</th></thead>";
   echo "    <tbody>";
   
   $items = $objCdp->getFilesForCdpDelivery ( $key ['keyvalue'] );
@@ -51,6 +55,12 @@ foreach ( $cdpVersions as $key ) {
   foreach ( $items as $key ) {
     echo "<tr>";
     echo "<td style=\"vertical-align: middle\">" . $key ["filename"] . "</td>";
+
+    $properties = $objCdp->getProperty ( $key ['filename'], "PIPELINE_MODULE" );
+    echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
+    
+    $properties = $objCdp->getProperty ( $key ['filename'], "PIPELINE_STEP" );
+    echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
     
     $properties = $objCdp->getProperty ( $key ['filename'], "size" );
     echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
