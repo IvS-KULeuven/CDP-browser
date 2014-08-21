@@ -32,7 +32,7 @@ function miri_cdp($release)
 #
 function md5_check {
   echo \"\"
-  echo \"Checking the fits files\"
+  echo \"Checking the MD5 hashes of the CDP files...\"
   echo \"\"
   
   failed=0";
