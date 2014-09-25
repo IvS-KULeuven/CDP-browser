@@ -12,4 +12,16 @@ print "Add acceptance_type to FILETYPE.\n";
 $sql = "INSERT INTO metadata ( id, valueType, inFits, value, required ) VALUES ( \"FILETYPE\", \"LIST\", '0', \"acceptance data\", '1')";
 $objDatabase->execSQL($sql);
 
+print "Add new document types to the DOCTYPE keyword.\n";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value, required ) VALUES ( \"DOCTYPE\", \"LIST\", '0', \"delivery\", '0')";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value, required ) VALUES ( \"DOCTYPE\", \"LIST\", '0', \"reference\", '0')";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value, required ) VALUES ( \"DOCTYPE\", \"LIST\", '0', \"pipeline\", '0')";
+$objDatabase->execSQL($sql);
+
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value, required ) VALUES ( \"DOCTYPE\", \"LIST\", '0', \"support\", '0')";
+$objDatabase->execSQL($sql);
 ?>
