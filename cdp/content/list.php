@@ -55,12 +55,19 @@ foreach ( $cdpVersions as $key ) {
   foreach ( $items as $key ) {
     echo "<tr>";
     echo "<td style=\"vertical-align: middle\">" . $key ["filename"] . "</td>";
-
-    $properties = $objCdp->getProperty ( $key ['filename'], "PIPELINE_MODULE" );
-    echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
     
+    $properties = $objCdp->getProperty ( $key ['filename'], "PIPELINE_MODULE" );
+    if ($properties) {
+      echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
+    } else {
+      echo "<td style=\"vertical-align: middle\"></td>";
+    }
     $properties = $objCdp->getProperty ( $key ['filename'], "PIPELINE_STEP" );
-    echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
+    if ($properties) {
+      echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
+    } else {
+      echo "<td style=\"vertical-align: middle\"></td>";
+    }
     
     $properties = $objCdp->getProperty ( $key ['filename'], "size" );
     echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";

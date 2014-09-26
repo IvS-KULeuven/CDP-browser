@@ -83,7 +83,7 @@ class Cdp {
     global $ftp_server, $ftp_directory;
     
     // set up an ftp connection
-    $conn_id = ftp_connect ( $ftp_server );
+    $conn_id = ftp_connect ( $ftp_server ) or die ( "Couldn't connect to $ftp_server" );
     
     $toReturn = 0;
     
@@ -101,41 +101,45 @@ class Cdp {
             list ( $item ['rights'], $item ['number'], $item ['user'], $item ['group'], $item ['size'], $item ['month'], $item ['day'], $item ['time'] ) = $chunks;
             $item ['type'] = $chunks [0] {0} === 'd' ? 'directory' : 'file';
             array_splice ( $chunks, 0, 8 );
-            if ($item ["type"] == "file") {
-              if ($chunks [0] == $filename) {
-                $toReturn = $item ['size'];
-              }
+            $items [implode ( " ", $chunks )] = $item;
+          }
+          // Close the connection to the ftp server
+          ftp_close ( $conn_id );
+          
+          foreach ( $items as $key => $value ) {
+            if ($key == $filename) {
+              return ($value ['size']);
             }
           }
         }
       } else {
+        // Close the connection to the ftp server
+        ftp_close ( $conn_id );
+        
         $entryMessage = "Couldn't connect to $ftp_server";
       }
-      
-      // Close the connection to the ftp server
-      ftp_close ( $conn_id );
       
       return $toReturn;
     }
   }
   public function deliver_file($filename, $delivery) {
     global $objDatabase;
-    
+
     $objDatabase->execSQL ( "INSERT INTO cdp ( filename, name, keyvalue ) VALUES ( \"" . $filename . "\", \"delivery\", \"" . $delivery . "\") " );
   }
   public function undeliver_file($filename) {
     global $objDatabase;
-    
+
     $objDatabase->execSQL ( "DELETE FROM cdp where filename = \"" . $filename . "\";" );
   }
   public function getDelivery($filename) {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "SELECT * from cdp where name=\"delivery\" AND filename=\"" . $filename . "\"" );
   }
   public function getUsedCdpVersions() {
     global $objDatabase;
-    
+
     return array_reverse ( $objDatabase->selectSingleArray ( "SELECT DISTINCT(keyvalue) from cdp where name=\"delivery\"" ) );
   }
   public function getFilesForCdpDelivery($delivery) {
