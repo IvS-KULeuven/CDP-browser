@@ -53,6 +53,7 @@ if ($_FILES ['csv'] ['tmp_name']) {
       
       // Check if the file exists... We only add the files which are available on the ftp server.
       $size = $objCdp->getSizeFromFtp ( $filename );
+
       if ($size) {
         // We deliver the files.
         $objCdp->deliver_file ( $filename, $delivery );

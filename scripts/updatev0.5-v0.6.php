@@ -24,4 +24,12 @@ $objDatabase->execSQL($sql);
 
 $sql = "INSERT INTO metadata ( id, valueType, inFits, value, required ) VALUES ( \"DOCTYPE\", \"LIST\", '0', \"support\", '0')";
 $objDatabase->execSQL($sql);
+
+print "Make PIPELINE MODULE and PIPELINE STEP keywords not mandatory.\n";
+$sql = "UPDATE metadata set required=\"0\" where id = \"PIPELINE MODULE\";";
+$objDatabase->execSQL($sql);
+
+$sql = "UPDATE metadata set required=\"0\" where id = \"PIPELINE STEP\";";
+$objDatabase->execSQL($sql);
+
 ?>

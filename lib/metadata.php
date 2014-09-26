@@ -75,9 +75,11 @@ class Metadata {
   }
   public function changeRequired($keyword, $newValue) {
     global $objDatabase;
+    $keyword = str_replace('_', ' ', $keyword);
     return $objDatabase->execSQL ( "UPDATE metadata SET required = \"$newValue\" WHERE id = \"$keyword\"" );
   }
   public function isValidValue($keyword, $value) {
+    $keyword = str_replace('_', ' ', $keyword);
     $values = $this->getValidValues ( $keyword );
     $type = $this->getType ( $keyword );
     if ($type == "LIST") {
