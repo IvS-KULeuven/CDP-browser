@@ -25,6 +25,17 @@ echo "     <ul class=\"nav navbar-nav\">
             	 </li>
            		</ul>";
 
+echo "     <ul class=\"nav navbar-nav\">
+             <li class=\"dropdown\">
+               <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Download all<b class=\"caret\"></b></a>
+	           <ul class=\"dropdown-menu\">
+    	         <li><a href=\"". $baseURL . "index.php?indexAction=downloadFlat\">Flat structure</a></li>
+    	         <li><a href=\"". $baseURL . "index.php?indexAction=downloadDelivery\">By delivery</a></li>
+    	         <li><a href=\"". $baseURL . "index.php?indexAction=downloadPipelineModule\">By pipeline module</a></li>
+    	       </ul>
+             </li>
+           </ul>";
+
 // The extra menu's for the users.
 if ($loggedUser) {
   echo "     <ul class=\"nav navbar-nav\">
