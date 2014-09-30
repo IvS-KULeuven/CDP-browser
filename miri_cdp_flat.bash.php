@@ -1,22 +1,18 @@
-<?php 
+<?php
 // miri_cdp.bash
 // exports a bash file to download the CDP files
+header ( "Content-Type: text/plain" );
+header ( "Content-Disposition: attachment; filename=\"miri_cdp_flat.bash\"" );
 
-header ("Content-Type: text/plain");
-header ("Content-Disposition: attachment; filename=\"miri_cdp" . $_GET['release'] . ".bash\"");
-
-$release = $_GET['release'];
-miri_cdp($release);
-
-function miri_cdp($release)
-{ 
+miri_cdp_flat ();
+function miri_cdp_flat() {
   $loginErrorCode = "";
   $loginErrorText = "";
   require_once 'common/entryexit/preludes.php';
-
+  
   global $ftp_server, $ftp_directory, $objCdp;
-
-  print"#!/bin/bash
+  
+  print "#!/bin/bash
 #
 # bash script to syncronize the CDPs between the miri ftp repository
 # and your drive. If you have DHAS installed and thus the environment
@@ -28,7 +24,7 @@ function miri_cdp($release)
 # miri_cdp.bash --help 
 # for help
 #
-# If you run into any problems email me F.Lahuis@sron.nl
+# If you run into any problems email me wim.demeester@ster.kuleuven.be
 #
 function md5_check {
   echo \"\"
@@ -36,14 +32,17 @@ function md5_check {
   echo \"\"
   
   failed=0";
-
-// Here, we add all files which belong to the given CDP release.
-$items = $objCdp->getFilesForCdpDelivery($release);
   
-foreach ($items as $key) {
+  // Here, we add all files which belong to the CDP releases.
+  $releases = $objCdp->getUsedCdpVersions ();
+  foreach ( $releases as $release ) {
+    $items = $objCdp->getFilesForCdpDelivery ( $release[0] );
+    
+    foreach ( $items as $key ) {
+      
+      echo "\n  file=\"" . $key ['filename'] . "\"
+  if [[ -e \$file ]] ; then
 
-echo "\n  file=\"" . $key ['filename'] . "\"
-    if [ -e \$file ] ; then
     md5v=`grep \"" . $key['filename'] . "\" md5_miri_cdps | uniq`
     if [ -n \"\$md5v\" ] ; then
       md5v=`echo \$md5v | awk '{if(NF != 2){print \"0\"} else {print \$1}}'`
@@ -62,9 +61,10 @@ echo "\n  file=\"" . $key ['filename'] . "\"
     echo \"\$file does not exist\"
     failed=1
   fi";
-}
-        
-echo "\n  if [ \$failed == 1 ]; then
+    }
+  }
+  
+  echo "\n  if [ \$failed == 1 ]; then
     echo \"\"
     echo \"Something has gone wrong in the transfer of these files.\"
     echo \"Please remove FAILED files by hand and start this script again\"
@@ -121,13 +121,13 @@ do
      ;;
     \"--help\")
      echo \"\"
-     echo \"   miri_cdp$release.bash [--check] [--remove_old] [--clean] [--test]\"
+     echo \"   miri_cdp_flat.bash [--check] [--remove_old] [--clean] [--test]\"
      echo \"\"
-     echo \"when run without arguments it will sync the CDPs valid for the $release delivery.\"
+     echo \"when run without arguments it will sync all the delivered CDPs in a flat directory structure.\"
      echo \"  --check\"
-     echo \"    for files in the $release delivery check if local files match those of the ftp\" 
+     echo \"    for files in the delivery check if local files match those of the ftp\" 
      echo \"  --remove_old\"
-     echo \"    remove any CDP files not in the $release delivery\"
+     echo \"    remove any CDP files not in the CDP deliveries\"
      echo \"  --clean\"
      echo \"    same as --remove_old\"
      exit
@@ -150,7 +150,7 @@ case $? in
 esac
 
 if [[ -z \$CDP_DIR ]]; then
-  cdpdir=\"\$HOME/MIRI/CDP$release\"
+  cdpdir=\"\$HOME/MIRI/CDP\"
 else
   cdpdir=\"\$CDP_DIR\"
 fi
@@ -182,14 +182,17 @@ echo \"open \$HOST \"                      >> lftp_script
 echo \"lcd \$LCD \"                        >> lftp_script
 echo \"cd \$RCD \"                         >> lftp_script
 echo \"mirror --verbose \\\\\"              >> lftp_script";
-
-// Here, we add all files which belong to the given CDP release.
-$items = $objCdp->getFilesForCdpDelivery($release);
   
-foreach ($items as $key) {
-  echo "\necho \"       --include-glob '" . $key["filename"] . "' \\\\\" >> lftp_script";
-}
-echo "\necho \"       --parallel\"                >> lftp_script
+  // Here, we add all files which belong to the CDP releases.
+  $releases = $objCdp->getUsedCdpVersions ();
+  foreach ( $releases as $release ) {
+    $items = $objCdp->getFilesForCdpDelivery ( $release[0] );
+    
+    foreach ( $items as $key ) {
+      echo "\necho \"       --include-glob '" . $key ["filename"] . "' \\\\\" >> lftp_script";
+    }
+  }
+  echo "\necho \"       --parallel\"                >> lftp_script
 
 lftp -f lftp_script
 
@@ -199,6 +202,5 @@ echo \"\"
 echo \"MIRI CDP synchronization finished\"
 echo \"Files are located in \"\$cdpdir
 echo \"\"";
-  
 }
 ?>
