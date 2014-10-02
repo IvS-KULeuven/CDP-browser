@@ -191,6 +191,19 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
     
     print_r($pipeline_steps);
     
+    $reftypes = $objCdp->getRefTypes($items);
+    
+    print_r($reftypes);
+    
+    $deliveries = $objCdp->getDeliveries($items);
+    
+    print_r($deliveries);
+    
+    $fileTypes = $objCdp->getFileTypes($items);
+    
+    print_r($fileTypes);
+    
+    
     foreach ( $items as $key ) {
       // Here, we check the filenames for the different pipeline steps
       echo "\necho \"       --include-glob '" . $key ["filename"] . "' \\\\\" >> lftp_script";
@@ -208,8 +221,6 @@ echo \"Files are located in \"\$cdpdir
 echo \"\"";
   
   // // Directory structure
-  // select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="REFTYPE"; //  // Droop
-  // CDP . select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="delivery"; // CDP2
   // select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="FILETYPE"; // Referencefile
 }
 ?>

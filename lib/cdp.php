@@ -169,6 +169,42 @@ class Cdp {
     }
     return array_unique($steps);
   }
+  public function getRefTypes($filenames) {
+    global $objDatabase;
+    
+    $steps = array();
+    foreach ($filenames as $file) {
+      $newStep = $objDatabase->selectSingleArray ("select keyvalue from cdp where filename=\"" . $file[0] . "\" and name=\"REFTYPE\"");
+      if (!in_array($newStep[0][0], $steps)) {
+        array_push($steps, $newStep[0][0]);
+      }
+    }
+    return array_unique($steps);
+  }
+  public function getDeliveries($filenames) {
+    global $objDatabase;
+    
+    $deliveries = array();
+    foreach ($filenames as $file) {
+      $newDelivery = $objDatabase->selectSingleArray ("select keyvalue from cdp where filename=\"" . $file[0] . "\" and name=\"delivery\"");
+      if (!in_array($newDelivery[0][0], $deliveries)) {
+        array_push($deliveries, $newDelivery[0][0]);
+      }
+    }
+    return array_unique($deliveries);
+  }
+  public function getFileTypes($filenames) {
+    global $objDatabase;
+    
+    $fileTypes = array();
+    foreach ($filenames as $file) {
+      $newFileType = $objDatabase->selectSingleArray ("select keyvalue from cdp where filename=\"" . $file[0] . "\" and name=\"FILETYPE\"");
+      if (!in_array($newFileType[0][0], $fileTypes)) {
+        array_push($fileTypes, $newFileType[0][0]);
+      }
+    }
+    return array_unique($fileTypes);
+  }
   public function addKey($filename, $name, $keyvalue) {
     global $objDatabase, $entryMessage;
     
