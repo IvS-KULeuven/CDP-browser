@@ -147,6 +147,16 @@ class Cdp {
     
     return $objDatabase->selectSingleArray ( "SELECT * from cdp where name = \"delivery\" AND keyvalue = \"" . $delivery . "\"" );
   }
+  public function getPipelineModules() {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray("select distinct(keyvalue) from cdp where name=\"PIPELINE_MODULE\";");
+  }
+  public function getFilesForPipelineModule($module) {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray ("select filename from cdp where name=\"PIPELINE_MODULE\" and keyvalue=\"" . $module . "\"");    
+  }
   public function addKey($filename, $name, $keyvalue) {
     global $objDatabase, $entryMessage;
     
