@@ -36,14 +36,14 @@ function md5_check {
   // Here, we add all files which belong to the CDP releases.
   $releases = $objCdp->getUsedCdpVersions ();
   foreach ( $releases as $release ) {
-    $items = $objCdp->getFilesForCdpDelivery ( $release[0] );
+    $items = $objCdp->getFilesForCdpDelivery ( $release [0] );
     
     foreach ( $items as $key ) {
       
       echo "\n  file=\"" . $key ['filename'] . "\"
   if [[ -e \$file ]] ; then
 
-    md5v=`grep \"" . $key['filename'] . "\" md5_miri_cdps | uniq`
+    md5v=`grep \"" . $key ['filename'] . "\" md5_miri_cdps | uniq`
     if [ -n \"\$md5v\" ] ; then
       md5v=`echo \$md5v | awk '{if(NF != 2){print \"0\"} else {print \$1}}'`
     else
@@ -186,13 +186,15 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
   // Here, we add all files which belong to a certain pipeline module.
   $modules = $objCdp->getPipelineModules ();
   foreach ( $modules as $module ) {
-    $items = $objCdp->getFilesForPipelineModule ( $module[0] );
+    $items = $objCdp->getFilesForPipelineModule ( $module [0] );
+    $pipeline_steps = $objCdp->getPipelineSteps($items);
+    
+    print_r($pipeline_steps);
     
     foreach ( $items as $key ) {
-      
-      
-       echo "\necho \"       --include-glob '" . $key ["filename"] . "' \\\\\" >> lftp_script";
-     }
+      // Here, we check the filenames for the different pipeline steps
+      echo "\necho \"       --include-glob '" . $key ["filename"] . "' \\\\\" >> lftp_script";
+    }
   }
   echo "\necho \"       --parallel\"                >> lftp_script
 
@@ -204,13 +206,10 @@ echo \"\"
 echo \"MIRI CDP synchronization finished\"
 echo \"Files are located in \"\$cdpdir
 echo \"\"";
-
-
-//   // Directory structure
-//   select filename from cdp where name="PIPELINE_MODULE" and keyvalue="CALDETECTOR1"; // List with all filenames
-//   select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="PIPELINE_STEP"; // data_rejection
-//   // Bad?
-//   CDP . select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="delivery"; // CDP2 
-//   select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="FILETYPE"; // Referencefile
+  
+  // // Directory structure
+  // select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="REFTYPE"; //  // Droop
+  // CDP . select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="delivery"; // CDP2
+  // select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="FILETYPE"; // Referencefile
 }
 ?>

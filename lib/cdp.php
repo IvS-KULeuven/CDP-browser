@@ -157,6 +157,18 @@ class Cdp {
     
     return $objDatabase->selectSingleArray ("select filename from cdp where name=\"PIPELINE_MODULE\" and keyvalue=\"" . $module . "\"");    
   }
+  public function getPipelineSteps($filenames) {
+    global $objDatabase;
+    
+    $steps = array();
+    foreach ($filenames as $file) {
+      $newStep = $objDatabase->selectSingleArray ("select keyvalue from cdp where filename=\"" . $file[0] . "\" and name=\"PIPELINE_STEP\"");
+      if (!in_array($newStep[0][0], $steps)) {
+        array_push($steps, $newStep[0][0]);
+      }
+    }
+    return array_unique($steps);
+  }
   public function addKey($filename, $name, $keyvalue) {
     global $objDatabase, $entryMessage;
     
