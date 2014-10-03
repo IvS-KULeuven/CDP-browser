@@ -32,18 +32,42 @@ function md5_check {
   echo \"\"
   
   failed=0";
+
+  echo "
+  if [[ -z \$CDP_DIR ]]; then
+    cdpdir=\"\$HOME/MIRI/CDP\"
+  else
+    cdpdir=\"\$CDP_DIR\"
+  fi";
   
-  // Here, we add all files which belong to the CDP releases.
-  $releases = $objCdp->getUsedCdpVersions ();
-  foreach ( $releases as $release ) {
-    $items = $objCdp->getFilesForCdpDelivery ( $release [0] );
+  // Here, we add all files which belong to a certain pipeline module.
+  $modules = $objCdp->getPipelineModules ();
+  
+  foreach ( $modules as $module ) {
+    // All filenames
+    $items = $objCdp->getFilesForPipelineModule ( $module [0] );
     
-    foreach ( $items as $key ) {
-      
-      echo "\n  file=\"" . $key ['filename'] . "\"
+    $pipelineSteps = $objCdp->getPipelineSteps ( $items );
+    $refTypes = $objCdp->getRefTypes ( $items );
+    $deliveries = $objCdp->getDeliveries ( $items );
+    $fileTypes = $objCdp->getFileTypes ( $items );
+    
+    foreach ( $pipelineSteps as $step ) {
+      foreach ( $refTypes as $refType ) {
+        foreach ( $deliveries as $delivery ) {
+          foreach ( $fileTypes as $fileType ) {
+            // Here, we check the filenames for the different pipeline steps
+            $fileNames = $objCdp->getFileNames ( $module [0], $step, $refType, $delivery, $fileType );
+            // If there are files, we make a directory for this combination and download the files
+            if (count ( $fileNames ) > 0) {
+              echo "
+  cd \$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\"";
+              foreach ( $fileNames as $file ) {
+                
+                echo "\n  file=\"" . $file . "\"
   if [[ -e \$file ]] ; then
 
-    md5v=`grep \"" . $key ['filename'] . "\" md5_miri_cdps | uniq`
+    md5v=`grep \"" . $file . "\" md5_miri_cdps | uniq`
     if [ -n \"\$md5v\" ] ; then
       md5v=`echo \$md5v | awk '{if(NF != 2){print \"0\"} else {print \$1}}'`
     else
@@ -61,10 +85,9 @@ function md5_check {
     echo \"\$file does not exist\"
     failed=1
   fi";
-    }
-  }
-  
-  echo "\n  if [ \$failed == 1 ]; then
+              }
+              
+              echo "\n  if [ \$failed == 1 ]; then
     echo \"\"
     echo \"Something has gone wrong in the transfer of these files.\"
     echo \"Please remove FAILED files by hand and start this script again\"
@@ -73,7 +96,14 @@ function md5_check {
     echo \"\"
     echo \"All files are correct\"
     echo \"\"
-  fi
+  fi";
+            }
+          }
+        }
+      }
+    }
+  }
+  echo "
 }
 
 function remove_old {
@@ -155,26 +185,50 @@ else
   cdpdir=\"\$CDP_DIR\"
 fi
 mkdir -p \$cdpdir
-cd \$cdpdir
-echo \"\"
-
-HOST=\"$ftp_server\"
-LCD=\$cdpdir
-RCD=\"$ftp_directory\"
-
-lftp -c \"set ftp:list-options -a;
-  open \$HOST ; 
-  lcd \$LCD ;
-  cd \$RCD ;
-  mirror --verbose \
-         --include-glob md5_miri_cdps\"
-
-if [ \$check ] ; then 
-  md5_check
-  exit
-fi
-
-echo \"Updating CDP files to \"\$cdpdir
+cd \$cdpdir";
+  
+  echo "\n";
+  // Here, we add all files which belong to a certain pipeline module.
+  $modules = $objCdp->getPipelineModules ();
+  
+  foreach ( $modules as $module ) {
+    // All filenames
+    $items = $objCdp->getFilesForPipelineModule ( $module [0] );
+    
+    $pipelineSteps = $objCdp->getPipelineSteps ( $items );
+    $refTypes = $objCdp->getRefTypes ( $items );
+    $deliveries = $objCdp->getDeliveries ( $items );
+    $fileTypes = $objCdp->getFileTypes ( $items );
+    
+    foreach ( $pipelineSteps as $step ) {
+      foreach ( $refTypes as $refType ) {
+        foreach ( $deliveries as $delivery ) {
+          foreach ( $fileTypes as $fileType ) {
+            // Here, we check the filenames for the different pipeline steps
+            $fileNames = $objCdp->getFileNames ( $module [0], $step, $refType, $delivery, $fileType );
+            // If there are files, we make a directory for this combination and download the files
+            if (count ( $fileNames ) > 0) {
+              echo "mkdir -p " . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\n";
+              
+              echo "
+                  HOST=\"$ftp_server\"
+                  LCD=\"\$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\"
+                  RCD=\"$ftp_directory\"
+              
+                  lftp -c \"set ftp:list-options -a;
+                  open \$HOST ;
+                  lcd \$LCD ;
+                  cd \$RCD ;
+                  mirror --verbose \
+                  --include-glob md5_miri_cdps\"
+              
+                  if [ \$check ] ; then
+                  md5_check
+                  exit
+                  fi
+              ";
+              
+              echo "echo \"Updating CDP files to \"\$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "
 echo \"Beware that this can take quite a long time\"
 echo \"\"
 echo \"set ftp:list-options -a\"          >  lftp_script
@@ -182,45 +236,29 @@ echo \"open \$HOST \"                      >> lftp_script
 echo \"lcd \$LCD \"                        >> lftp_script
 echo \"cd \$RCD \"                         >> lftp_script
 echo \"mirror --verbose \\\\\"              >> lftp_script";
-  
-  // Here, we add all files which belong to a certain pipeline module.
-  $modules = $objCdp->getPipelineModules ();
-  foreach ( $modules as $module ) {
-    $items = $objCdp->getFilesForPipelineModule ( $module [0] );
-    $pipeline_steps = $objCdp->getPipelineSteps($items);
-    
-    print_r($pipeline_steps);
-    
-    $reftypes = $objCdp->getRefTypes($items);
-    
-    print_r($reftypes);
-    
-    $deliveries = $objCdp->getDeliveries($items);
-    
-    print_r($deliveries);
-    
-    $fileTypes = $objCdp->getFileTypes($items);
-    
-    print_r($fileTypes);
-    
-    
-    foreach ( $items as $key ) {
-      // Here, we check the filenames for the different pipeline steps
-      echo "\necho \"       --include-glob '" . $key ["filename"] . "' \\\\\" >> lftp_script";
+              
+              foreach ( $fileNames as $file ) {
+                echo "\necho \"       --include-glob '" . $file . "' \\\\\" >> lftp_script";
+              }
+              
+              echo "\necho \"       --parallel\"                >> lftp_script
+              
+              lftp -f lftp_script
+              ";
+              
+              // print_r ( $fileNames );
+            }
+          }
+        }
+      }
     }
   }
-  echo "\necho \"       --parallel\"                >> lftp_script
-
-lftp -f lftp_script
-
-md5_check
+  
+  echo "\nmd5_check
 
 echo \"\"
 echo \"MIRI CDP synchronization finished\"
 echo \"Files are located in \"\$cdpdir
 echo \"\"";
-  
-  // // Directory structure
-  // select keyvalue from cdp where filename="MIRI_FM_SW_Droop_02.01.00.fits" and name="FILETYPE"; // Referencefile
 }
 ?>
