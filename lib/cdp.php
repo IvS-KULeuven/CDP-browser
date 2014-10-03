@@ -152,10 +152,36 @@ class Cdp {
     
     return $objDatabase->selectSingleArray ( "select distinct(keyvalue) from cdp where name=\"PIPELINE_MODULE\";" );
   }
+  public function getDeliveries() {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray ( "select distinct(keyvalue) from cdp where name=\"delivery\";" );
+  }
   public function getFilesForPipelineModule($module) {
     global $objDatabase;
     
     return $objDatabase->selectSingleArray ( "select filename from cdp where name=\"PIPELINE_MODULE\" and keyvalue=\"" . $module . "\"" );
+  }
+  public function getFilesForDelivery($delivery) {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray ( "select filename from cdp where name=\"delivery\" and keyvalue=\"" . $delivery . "\"" );
+  }
+  public function getPipelineModulesFromFiles($filenames) {
+    global $objDatabase;
+    
+    $steps = array ();
+    foreach ( $filenames as $file ) {
+      $newStep = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"PIPELINE_MODULE\"" );
+      if ($newStep) {
+        if ($newStep [0]) {
+          if (! in_array ( $newStep [0] [0], $steps )) {
+            array_push ( $steps, $newStep [0] [0] );
+          }
+        }
+      }
+    }
+    return array_unique ( $steps );
   }
   public function getPipelineSteps($filenames) {
     global $objDatabase;
@@ -163,8 +189,12 @@ class Cdp {
     $steps = array ();
     foreach ( $filenames as $file ) {
       $newStep = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"PIPELINE_STEP\"" );
-      if (! in_array ( $newStep [0] [0], $steps )) {
-        array_push ( $steps, $newStep [0] [0] );
+      if ($newStep) {
+        if ($newStep [0]) {
+          if (! in_array ( $newStep [0] [0], $steps )) {
+            array_push ( $steps, $newStep [0] [0] );
+          }
+        }
       }
     }
     return array_unique ( $steps );
@@ -187,7 +217,7 @@ class Cdp {
     }
     return array_unique ( $steps );
   }
-  public function getDeliveries($filenames) {
+  public function getDeliveriesFromFiles($filenames) {
     global $objDatabase;
     
     $deliveries = array ();
@@ -216,42 +246,42 @@ class Cdp {
     
     $origFiles = $objDatabase->selectSingleArray ( "select filename from cdp where name=\"PIPELINE_MODULE\" and keyvalue=\"" . $module . "\"" );
     
-    $newFiles = Array();
+    $newFiles = Array ();
     if (count ( $origFiles ) > 0) {
       foreach ( $origFiles as $file ) {
-        $stepFiles = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file[0] . "\" and name=\"PIPELINE_STEP\" and keyvalue=\"" . $step . "\"" );
-        if (count($stepFiles)) {
-          array_push($newFiles, $stepFiles[0][0]);
+        $stepFiles = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file [0] . "\" and name=\"PIPELINE_STEP\" and keyvalue=\"" . $step . "\"" );
+        if (count ( $stepFiles )) {
+          array_push ( $newFiles, $stepFiles [0] [0] );
         }
       }
       $files = $newFiles;
-
-      $newFiles = Array();
+      
+      $newFiles = Array ();
       if (count ( $files ) > 0) {
         foreach ( $files as $file ) {
           $refFiles = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file . "\" and name=\"REFTYPE\" and keyvalue=\"" . $refType . "\"" );
-          if (count($refFiles)) {
-            array_push($newFiles, $refFiles[0][0]);
+          if (count ( $refFiles )) {
+            array_push ( $newFiles, $refFiles [0] [0] );
           }
         }
         $files = $newFiles;
-
-        $newFiles = Array();
+        
+        $newFiles = Array ();
         if (count ( $files ) > 0) {
           foreach ( $files as $file ) {
             $deliveryFiles = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file . "\" and name=\"delivery\" and keyvalue=\"" . $delivery . "\"" );
-            if (count($deliveryFiles)) {
-              array_push($newFiles, $deliveryFiles[0][0]);
+            if (count ( $deliveryFiles )) {
+              array_push ( $newFiles, $deliveryFiles [0] [0] );
             }
           }
           $files = $newFiles;
           
-          $newFiles = Array();
+          $newFiles = Array ();
           if (count ( $files ) > 0) {
             foreach ( $files as $file ) {
               $fileFiles = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file . "\" and name=\"FILETYPE\" and keyvalue=\"" . $fileType . "\"" );
-              if (count($fileFiles)) {
-                array_push($newFiles, $fileFiles[0][0]);
+              if (count ( $fileFiles )) {
+                array_push ( $newFiles, $fileFiles [0] [0] );
               }
             }
             $files = $newFiles;
@@ -259,7 +289,57 @@ class Cdp {
         }
       }
     }
-    return ( $files );
+    return ($files);
+  }
+  public function getFileNamesCdp($delivery, $module, $step, $refType, $fileType) {
+    global $objDatabase;
+    
+    $origFiles = $objDatabase->selectSingleArray ( "select filename from cdp where name=\"delivery\" and keyvalue=\"" . $delivery . "\"" );
+    
+    $newFiles = Array ();
+    if (count ( $origFiles ) > 0) {
+      foreach ( $origFiles as $file ) {
+        $stepFiles = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file [0] . "\" and name=\"PIPELINE_MODULE\" and keyvalue=\"" . $module . "\"" );
+        if (count ( $stepFiles )) {
+          array_push ( $newFiles, $stepFiles [0] [0] );
+        }
+      }
+      $files = $newFiles;
+      
+      $newFiles = Array ();
+      if (count ( $files ) > 0) {
+        foreach ( $files as $file ) {
+          $refFiles = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file . "\" and name=\"PIPELINE_STEP\" and keyvalue=\"" . $step . "\"" );
+          if (count ( $refFiles )) {
+            array_push ( $newFiles, $refFiles [0] [0] );
+          }
+        }
+        $files = $newFiles;
+        
+        $newFiles = Array ();
+        if (count ( $files ) > 0) {
+          foreach ( $files as $file ) {
+            $deliveryFiles = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file . "\" and name=\"REFTYPE\" and keyvalue=\"" . $refType . "\"" );
+            if (count ( $deliveryFiles )) {
+              array_push ( $newFiles, $deliveryFiles [0] [0] );
+            }
+          }
+          $files = $newFiles;
+          
+          $newFiles = Array ();
+          if (count ( $files ) > 0) {
+            foreach ( $files as $file ) {
+              $fileFiles = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file . "\" and name=\"FILETYPE\" and keyvalue=\"" . $fileType . "\"" );
+              if (count ( $fileFiles )) {
+                array_push ( $newFiles, $fileFiles [0] [0] );
+              }
+            }
+            $files = $newFiles;
+          }
+        }
+      }
+    }
+    return ($files);
   }
   public function addKey($filename, $name, $keyvalue) {
     global $objDatabase, $entryMessage;

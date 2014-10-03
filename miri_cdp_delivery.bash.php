@@ -2,7 +2,7 @@
 // miri_cdp.bash
 // exports a bash file to download the CDP files
 header ( "Content-Type: text/plain" );
-header ( "Content-Disposition: attachment; filename=\"miri_cdp_pipeline.bash\"" );
+header ( "Content-Disposition: attachment; filename=\"miri_cdp_delivery.bash\"" );
 
 miri_cdp_pipeline ();
 function miri_cdp_pipeline() {
@@ -32,7 +32,7 @@ function md5_check {
   echo \"\"
   
   failed=0";
-
+  
   echo "
   if [[ -z \$CDP_DIR ]]; then
     cdpdir=\"\$HOME/MIRI/CDP\"
@@ -40,30 +40,31 @@ function md5_check {
     cdpdir=\"\$CDP_DIR\"
   fi";
   
-  // Here, we add all files which belong to a certain pipeline module.
-  $modules = $objCdp->getPipelineModules ();
+  // Here, we add all files which belong to a certain CDP release.
+  $deliveries = $objCdp->getDeliveries ();
   
-  foreach ( $modules as $module ) {
+  foreach ( $deliveries as $delivery ) {
     // All filenames
-    $items = $objCdp->getFilesForPipelineModule ( $module [0] );
+    $items = $objCdp->getFilesForDelivery ( $delivery [0] );
     
+    $modules = $objCdp->getPipelineModulesFromFiles( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
-    $deliveries = $objCdp->getDeliveriesFromFiles ( $items );
     $fileTypes = $objCdp->getFileTypes ( $items );
     
-    foreach ( $pipelineSteps as $step ) {
-      foreach ( $refTypes as $refType ) {
-        foreach ( $deliveries as $delivery ) {
+    foreach ( $modules as $module ) {
+      foreach ( $pipelineSteps as $step ) {
+        foreach ( $refTypes as $refType ) {
           foreach ( $fileTypes as $fileType ) {
             // Here, we check the filenames for the different pipeline steps
-            $fileNames = $objCdp->getFileNames ( $module [0], $step, $refType, $delivery, $fileType );
+            $fileNames = $objCdp->getFileNamesCdp ( $delivery [0], $module, $step, $refType, $fileType );
             // If there are files, we make a directory for this combination and download the files
             if (count ( $fileNames ) > 0) {
               echo "
-  cd \$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType;
+  cd \$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType;
               echo "
-  echo \"Checking files in \$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\"";
+  echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"";
+              
               foreach ( $fileNames as $file ) {
                 
                 echo "\n  file=\"" . $file . "\"
@@ -187,31 +188,31 @@ mkdir -p \$cdpdir
 cd \$cdpdir";
   
   echo "\n";
-  // Here, we add all files which belong to a certain pipeline module.
-  $modules = $objCdp->getPipelineModules ();
+  // Here, we add all files which belong to a certain CDP release.
+  $deliveries = $objCdp->getDeliveries ();
   
-  foreach ( $modules as $module ) {
+  foreach ( $deliveries as $delivery ) {
     // All filenames
-    $items = $objCdp->getFilesForPipelineModule ( $module [0] );
+    $items = $objCdp->getFilesForDelivery ( $delivery [0] );
     
+    $modules = $objCdp->getPipelineModulesFromFiles ( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
-    $deliveries = $objCdp->getDeliveriesFromFiles ( $items );
     $fileTypes = $objCdp->getFileTypes ( $items );
     
-    foreach ( $pipelineSteps as $step ) {
-      foreach ( $refTypes as $refType ) {
-        foreach ( $deliveries as $delivery ) {
+    foreach ( $modules as $module ) {
+      foreach ( $pipelineSteps as $step ) {
+        foreach ( $refTypes as $refType ) {
           foreach ( $fileTypes as $fileType ) {
             // Here, we check the filenames for the different pipeline steps
-            $fileNames = $objCdp->getFileNames ( $module [0], $step, $refType, $delivery, $fileType );
+            $fileNames = $objCdp->getFileNamesCdp ( $delivery [0], $module, $step, $refType, $fileType );
             // If there are files, we make a directory for this combination and download the files
             if (count ( $fileNames ) > 0) {
-              echo "mkdir -p " . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\n";
+              echo "mkdir -p " . "CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\n";
               
               echo "
                   HOST=\"$ftp_server\"
-                  LCD=\"\$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\"
+                  LCD=\"\$cdpdir" . "/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"
                   RCD=\"$ftp_directory\"
               
                   lftp -c \"set ftp:list-options -a;
@@ -227,7 +228,7 @@ cd \$cdpdir";
                   fi
               ";
               
-              echo "echo \"Updating CDP files to \"\$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "
+              echo "echo \"Updating CDP files to \"\$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "
 echo \"Beware that this can take quite a long time\"
 echo \"\"
 echo \"set ftp:list-options -a\"          >  lftp_script
