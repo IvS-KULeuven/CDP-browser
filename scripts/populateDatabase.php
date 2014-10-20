@@ -41,7 +41,7 @@ $sql = "CREATE TABLE metadata (
           id        VARCHAR(32)    NOT NULL DEFAULT '',
           valueType VARCHAR(10)    NOT NULL DEFAULT '',
           inFits    INT(3)         NOT NULL DEFAULT '1',
-          value     VARCHAR(32)    NOT NULL DEFAULT '',
+          value     VARCHAR(64)    NOT NULL DEFAULT '',
           PRIMARY KEY(id, value)
     )";
 $objDatabase->execSQL($sql);
