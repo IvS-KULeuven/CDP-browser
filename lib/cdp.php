@@ -217,14 +217,20 @@ class Cdp {
     }
     return array_unique ( $steps );
   }
-  public function getDeliveriesFromFiles($filenames) {
+  public function getDeliveriesFromFiles($filenames, $release) {
     global $objDatabase;
     
     $deliveries = array ();
     foreach ( $filenames as $file ) {
-      $newDelivery = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"delivery\"" );
-      if (! in_array ( $newDelivery [0] [0], $deliveries )) {
-        array_push ( $deliveries, $newDelivery [0] [0] );
+      if ($release == "") {
+        $newDelivery = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"delivery\"" );
+      } else {
+        $newDelivery = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"delivery\" and keyvalue=\"" . $release . "\"" );
+      }
+      if (sizeof ( $newDelivery ) > 0) {
+        if (! in_array ( $newDelivery [0] [0], $deliveries )) {
+          array_push ( $deliveries, $newDelivery [0] [0] );
+        }
       }
     }
     return array_unique ( $deliveries );

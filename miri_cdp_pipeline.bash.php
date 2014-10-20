@@ -4,8 +4,14 @@
 header ( "Content-Type: text/plain" );
 header ( "Content-Disposition: attachment; filename=\"miri_cdp_pipeline.bash\"" );
 
-miri_cdp_pipeline ();
-function miri_cdp_pipeline() {
+if (isset($_GET['release'])) {
+  $release = $_GET['release'];
+} else {
+  $release = "";
+}
+miri_cdp_pipeline($release);
+
+function miri_cdp_pipeline($release) {
   $loginErrorCode = "";
   $loginErrorText = "";
   require_once 'common/entryexit/preludes.php';
@@ -49,7 +55,7 @@ function md5_check {
     
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
-    $deliveries = $objCdp->getDeliveriesFromFiles ( $items );
+    $deliveries = $objCdp->getDeliveriesFromFiles ( $items, $release );
     $fileTypes = $objCdp->getFileTypes ( $items );
     
     foreach ( $pipelineSteps as $step ) {
@@ -196,7 +202,7 @@ cd \$cdpdir";
     
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
-    $deliveries = $objCdp->getDeliveriesFromFiles ( $items );
+    $deliveries = $objCdp->getDeliveriesFromFiles ( $items, $release );
     $fileTypes = $objCdp->getFileTypes ( $items );
     
     foreach ( $pipelineSteps as $step ) {

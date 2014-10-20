@@ -30,15 +30,25 @@ foreach ( $cdpVersions as $key ) {
   
   // We make a button to download all CDP files from a given CDP release
   echo "<a href=\"" . $baseUrl . "miri_cdp.bash.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
-  	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;Download all files for CDP " . $key ['keyvalue'] . "
+  	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;All files for CDP " . $key ['keyvalue'] . "
   	   </button></a>";
   
   // We make a button to download all a csv file with all CDP files from a given CDP release
   if ($objUser->isAdministrator ( $loggedUser )) {
     echo "&nbsp;&nbsp;<a href=\"" . $baseUrl . "cdp.csv.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
-  	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;Download a CSV file for CDP " . $key ['keyvalue'] . "
+  	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;CSV file for CDP " . $key ['keyvalue'] . "
   	   </button></a>";
   }
+  
+  // We make a button to download all CDP files from a given CDP release ordered by delivery
+  echo "&nbsp;&nbsp;<a href=\"" . $baseUrl . "miri_cdp_delivery.bash.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
+  	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;Sorted by delivery for CDP " . $key ['keyvalue'] . "
+  	   </button></a>";
+  
+  // We make a button to download all CDP files from a given CDP release
+  echo "&nbsp;&nbsp;<a href=\"" . $baseUrl . "miri_cdp_pipeline.bash.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
+  	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;Sorted by pipeline module for CDP " . $key ['keyvalue'] . "
+  	   </button></a>";
   
   $active = "";
   // We make a table with all files from the ftp site
