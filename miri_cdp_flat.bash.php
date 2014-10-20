@@ -198,6 +198,10 @@ lftp -f lftp_script
 
 md5_check
 
+# Remove all the md5_miri_cdps files.
+cd \$cdpdir
+find . -type f -name md5_miri_cdps -exec rm -f {} \\;
+      
 echo \"\"
 echo \"MIRI CDP synchronization finished\"
 echo \"Files are located in \"\$cdpdir
