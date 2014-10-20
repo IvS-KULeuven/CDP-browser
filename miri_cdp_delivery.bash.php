@@ -4,8 +4,14 @@
 header ( "Content-Type: text/plain" );
 header ( "Content-Disposition: attachment; filename=\"miri_cdp_delivery.bash\"" );
 
-miri_cdp_pipeline ();
-function miri_cdp_pipeline() {
+if (isset($_GET['release'])) {
+  $release = $_GET['release'];
+} else {
+  $release = "";
+}
+miri_cdp_pipeline($release);
+
+function miri_cdp_pipeline($release) {
   $loginErrorCode = "";
   $loginErrorText = "";
   require_once 'common/entryexit/preludes.php';
@@ -41,7 +47,11 @@ function md5_check {
   fi";
   
   // Here, we add all files which belong to a certain CDP release.
-  $deliveries = $objCdp->getDeliveries ();
+  if ($release == "") {
+    $deliveries = $objCdp->getDeliveries ();
+  } else {
+    $deliveries = [ [ $release ] ];
+  }
   
   foreach ( $deliveries as $delivery ) {
     // All filenames
@@ -189,7 +199,11 @@ cd \$cdpdir";
   
   echo "\n";
   // Here, we add all files which belong to a certain CDP release.
-  $deliveries = $objCdp->getDeliveries ();
+  if ($release == "") {
+    $deliveries = $objCdp->getDeliveries ();
+  } else {
+    $deliveries = [ [ $release ] ];
+  }
   
   foreach ( $deliveries as $delivery ) {
     // All filenames
