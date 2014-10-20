@@ -262,7 +262,8 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
 # Remove all the md5_miri_cdps files.
 cd \$cdpdir
 find . -type f -name md5_miri_cdps -exec rm -f {} \\;
-      
+find . -type f -name lftp_script -exec rm -f {} \\;
+
 echo \"\"
 echo \"MIRI CDP synchronization finished\"
 echo \"Files are located in \"\$cdpdir
