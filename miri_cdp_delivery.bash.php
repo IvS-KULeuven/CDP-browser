@@ -40,7 +40,11 @@ function md5_check {
   failed=0";
   
   echo "
+if [[ -z \$CDP_DIR ]]; then
   cdpdir=`pwd`
+else
+  cdpdir=\"\$CDP_DIR\"
+fi
   ";
   
   // Here, we add all files which belong to a certain CDP release.
@@ -186,7 +190,11 @@ case $? in
     exit
 esac
 
-cdpdir=`pwd`/MIRI_CDPS
+if [[ -z \$CDP_DIR ]]; then
+  cdpdir=`pwd`/MIRI_CDPS
+else
+  cdpdir=\"\$CDP_DIR\"
+fi
 mkdir -p \$cdpdir
 cd \$cdpdir";
   
