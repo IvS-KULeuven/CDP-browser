@@ -149,11 +149,7 @@ case $? in
     exit
 esac
 
-if [[ -z \$CDP_DIR ]]; then
-  cdpdir=\"\$HOME/MIRI/CDP$release\"
-else
-  cdpdir=\"\$CDP_DIR\"
-fi
+cdpdir=`pwd`/MIRI_CDPS
 mkdir -p \$cdpdir
 cd \$cdpdir
 echo \"\"

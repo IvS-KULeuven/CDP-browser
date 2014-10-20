@@ -40,11 +40,8 @@ function md5_check {
   failed=0";
 
   echo "
-  if [[ -z \$CDP_DIR ]]; then
-    cdpdir=\"\$HOME/MIRI/CDP\"
-  else
-    cdpdir=\"\$CDP_DIR\"
-  fi";
+  cdpdir=`pwd`
+      ";
   
   // Here, we add all files which belong to a certain pipeline module.
   $modules = $objCdp->getPipelineModules ();
@@ -184,11 +181,7 @@ case $? in
     exit
 esac
 
-if [[ -z \$CDP_DIR ]]; then
-  cdpdir=\"\$HOME/MIRI/CDP\"
-else
-  cdpdir=\"\$CDP_DIR\"
-fi
+cdpdir=`pwd`/MIRI_CDPS
 mkdir -p \$cdpdir
 cd \$cdpdir";
   
