@@ -78,9 +78,7 @@ foreach ( $cdpVersions as $key ) {
             $cnt++;
           }
         }
-        //. $properties [0] [2] . 
-        echo "</td>";
-        
+        echo "</td>";        
       } else {
         echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
       }

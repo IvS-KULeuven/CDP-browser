@@ -6,55 +6,67 @@ echo "<div class=\"container-fluid\">";
 echo "<h2>Deliver CDP files</h2>";
 
 // We make the arrays with the delivered and not yet delivered files.
-$items = $objCdp->getFilesFromFtpServer();
+$items = $objCdp->getFilesFromFtpServer ();
 
-$notYetDelivered = Array();
-$delivered = Array();
-$deliveredFiles = Array();
+$notYetDelivered = Array ();
+$delivered = Array ();
+$deliveredFiles = Array ();
 
 // Here, we make two arrays, one with the delivered files, and one with the not delivered files.
-foreach ($items as $key => $value) {
+foreach ( $items as $key => $value ) {
   // Getting the date from the information
-  $year = $value["time"];
-  if (strpos($year, ":")) {
-    $year = date("Y");
+  $year = $value ["time"];
+  if (strpos ( $year, ":" )) {
+    $year = date ( "Y" );
   }
   $date = $year . "-";
-  $date .= date('m',strtotime($value["month"])) . "-";
-  $date .= sprintf("%02d", $value["day"]);
-
+  $date .= date ( 'm', strtotime ( $value ["month"] ) ) . "-";
+  $date .= sprintf ( "%02d", $value ["day"] );
+  
   // Here we check if the file is already delivered.
-  $cdpDelivery = $objCdp->getDelivery($key);
-
-  if (sizeof($cdpDelivery) > 0) {
-    $delivered[] = array($key, $date, $value['size']);
-    $deliveredFiles[] = $key;
+  $cdpDelivery = $objCdp->getDelivery ( $key );
+  
+  if (sizeof ( $cdpDelivery ) > 0) {
+    $delivered [] = array (
+        $key,
+        $date,
+        $value ['size'] 
+    );
+    $deliveredFiles [] = $key;
   } else {
-    $notYetDelivered[] = array($key, $date, $value['size']);
+    $notYetDelivered [] = array (
+        $key,
+        $date,
+        $value ['size'] 
+    );
   }
 }
 
 // We also check if there are files which are not longer on the ftp server, but are already delivered.
-$deliveredDatabase = $objCdp->getDeliveredFiles();
-foreach($deliveredDatabase as $filename) {
-  if (!in_array($filename[0], $deliveredFiles)) {
-    $date = $objCdp->getProperty($filename[0], 'UPLOAD_DATE');
-    $dateObj = $date[0];
-    $fileSize = $objCdp->getProperty($filename[0], 'size');
-    $fileSizeObj = $fileSize[0];
-    $delivered[] = array($filename[0], $dateObj['keyvalue'], $fileSizeObj['keyvalue']);
+$deliveredDatabase = $objCdp->getDeliveredFiles ();
+foreach ( $deliveredDatabase as $filename ) {
+  if (! in_array ( $filename [0], $deliveredFiles )) {
+    $date = $objCdp->getProperty ( $filename [0], 'UPLOAD_DATE' );
+    $dateObj = $date [0];
+    $fileSize = $objCdp->getProperty ( $filename [0], 'size' );
+    $fileSizeObj = $fileSize [0];
+    $delivered [] = array (
+        $filename [0],
+        $dateObj ['keyvalue'],
+        $fileSizeObj ['keyvalue'] 
+    );
   }
 }
 
 // We make a button to add CDP files using a CSV file
-echo "<form action=\"".$baseURL."index.php\" method=\"post\">
+echo "<form action=\"" . $baseURL . "index.php\" method=\"post\">
        <input type=\"hidden\" name=\"indexAction\" value=\"import_csv_file\" />
        <button type=\"submit\" class=\"btn btn-success pull-right\">
   	    <span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Deliver using CSV file
   	   </button>
       </form>";
 
-// We make a tab for the delivered files and for the files that are not delivered yet. 
+// We make a tab for the delivered files and for the files that are not delivered yet.
 echo " <ul id=\"tabs\" class=\"nav nav-tabs\" data-tabs=\"tabs\">";
 
 echo "<li class=\"active\"><a href=\"#toDeliver\" data-toggle=\"tab\">To deliver</a></li>";
@@ -74,25 +86,25 @@ echo "    <thead>
           </thead>";
 echo "    <tbody>";
 
-  foreach ($notYetDelivered as $key => $value) {
-    echo "<tr>";
-    echo "<td style=\"vertical-align: middle\">". $value[0] . "</td>&nbsp;";
+foreach ( $notYetDelivered as $key => $value ) {
+  echo "<tr>";
+  echo "<td style=\"vertical-align: middle\">" . $value [0] . "</td>&nbsp;";
   
-    echo "<td style=\"vertical-align: middle\">" . $value[1] . "</td>";
-    echo "<td style=\"vertical-align: middle\">" . $value[2] . "</td>";
-    echo "<td style=\"vertical-align: middle\">";
-    echo "<button type=\"button\" title=\"Deliver CDP file " . $value[0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace('.', '_', $value[0]) . "\" >
+  echo "<td style=\"vertical-align: middle\">" . $value [1] . "</td>";
+  echo "<td style=\"vertical-align: middle\">" . $value [2] . "</td>";
+  echo "<td style=\"vertical-align: middle\">";
+  echo "<button type=\"button\" title=\"Deliver CDP file " . $value [0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace ( '.', '_', $value [0] ) . "\" >
   	        <span class=\"glyphicon glyphicon-pencil\"></span>
   		  </button></td>";
-    echo "</tr>\n";
- }
+  echo "</tr>\n";
+}
 
 echo "    </tbody>
 		 </table>";
-echo $objUtil->addTablePager("0");
+echo $objUtil->addTablePager ( "0" );
 echo "  </div>";
 echo "<br /><br />";
-$objUtil->addTableJavascript("0");
+$objUtil->addTableJavascript ( "0" );
 
 // Tab with the already delivered CDP files
 echo "  <div class=\"tab-pane\" id=\"alreadyDelivered\">";
@@ -106,58 +118,58 @@ echo "    <thead>
           </thead>";
 echo "    <tbody>";
 
-foreach ($delivered as $key => $value) {
+foreach ( $delivered as $key => $value ) {
   echo "<tr>";
-
-  echo "<td style=\"vertical-align: middle\">". $value[0] . "&nbsp;";
-
+  
+  echo "<td style=\"vertical-align: middle\">" . $value [0] . "&nbsp;";
+  
   // Here we check if the file is already delivered.
-  $cdpDelivery = $objCdp->getDelivery($value[0]);
-  foreach($cdpDelivery as $number) {
-    echo "<span class=\"pull-right badge alert-success\">CDP " . ($number['keyvalue']) . "</span>&nbsp;";
+  $cdpDelivery = $objCdp->getDelivery ( $value [0] );
+  foreach ( $cdpDelivery as $number ) {
+    echo "<span class=\"pull-right badge alert-success\">CDP " . ($number ['keyvalue']) . "</span>&nbsp;";
   }
   
   echo "</td>";
-
-  $date = $objCdp->getProperty($value[0], "UPLOAD_DATE");
   
-  echo "<td style=\"vertical-align: middle\">" . $date[0]['keyvalue'] . "</td>";
-  echo "<td style=\"vertical-align: middle\">" . $value[2] . "</td>";
+  $date = $objCdp->getProperty ( $value [0], "UPLOAD_DATE" );
+  
+  echo "<td style=\"vertical-align: middle\">" . $date [0] ['keyvalue'] . "</td>";
+  echo "<td style=\"vertical-align: middle\">" . $value [2] . "</td>";
   echo "<td style=\"vertical-align: middle\">";
-  echo "<button type=\"button\" title=\"Edit CDP file " . $value[0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace('.', '_', $value[0]) . "\" >
+  echo "<button type=\"button\" title=\"Edit CDP file " . $value [0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace ( '.', '_', $value [0] ) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
         </button>
-        <button type=\"button\" title=\"Remove " . $value[0] . " from list of delivered CDP files\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#undeliver" . str_replace('.', '_', $value[0]) . "\" >
+        <button type=\"button\" title=\"Remove " . $value [0] . " from list of delivered CDP files\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#undeliver" . str_replace ( '.', '_', $value [0] ) . "\" >
          <span class=\"glyphicon glyphicon-remove\"></span>
  		</button>";
-
+  
   echo "</tr>\n";
 }
 
 echo "    </tbody>
 		 </table>";
-echo $objUtil->addTablePager("1");
+echo $objUtil->addTablePager ( "1" );
 
 echo " </div>";
 echo "<br /><br />";
 
-$objUtil->addTableJavascript("1");
+$objUtil->addTableJavascript ( "1" );
 
 echo "</div>";
 
-$externalKeywords = $objMetadata->getExternalKeywords();
+$externalKeywords = $objMetadata->getExternalKeywords ();
 
 // Setting the deliver CDP file modal form
-$keywords = array_merge($delivered, $notYetDelivered);
-$delivery = $objMetadata->getValidValues("DELIVERY");
+$keywords = array_merge ( $delivered, $notYetDelivered );
+$delivery = $objMetadata->getValidValues ( "DELIVERY" );
 
-foreach ($keywords as $key => $value) {
-  if ($objCdp->isDelivered($value[0])) {
-     $update = true;
-   } else {
-     $update = false;
-   }
-  echo "<div class=\"modal fade\" id=\"deliver". str_replace('.', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+foreach ( $keywords as $key => $value ) {
+  if ($objCdp->isDelivered ( $value [0] )) {
+    $update = true;
+  } else {
+    $update = false;
+  }
+  echo "<div class=\"modal fade\" id=\"deliver" . str_replace ( '.', '_', $value [0] ) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">
@@ -167,96 +179,106 @@ foreach ($keywords as $key => $value) {
   } else {
     echo "Deliver ";
   }
-  echo $value[0] . "</h1>
+  echo $value [0] . "</h1>
                 <div class=\"account-wall\">
-                  <form role=\"form\" class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+                  <form role=\"form\" class=\"form-signin\" action=\"" . $baseURL . "index.php\" method=\"post\">
        <div class=\"input-group\">
         <span class=\"input-group-addon required\">DELIVERY</span>
         <select id=\"DELIVERY\" name=\"DELIVERY\" class=\"form-control\" required autofocus>";
-
+  
   echo "<option value=\"\"></option>";
-
+  
   $del = "";
   if ($update) {
-    $del = $objCdp->getDelivery($value[0]);
+    $del = $objCdp->getDelivery ( $value [0] );
   }
-  foreach ($delivery as $key2) {
-    $del0 = $del[0];
-    if ($key2['value'] == $del0[2]) {
+  foreach ( $delivery as $key2 ) {
+    $del0 = $del [0];
+    if ($key2 ['value'] == $del0 [2]) {
       $selected = " selected";
     } else {
       $selected = "";
     }
-    echo "<option " . $selected . " value=\"" . $key2['value'] . "\">" . $key2['value'] . "</option>";
+    echo "<option " . $selected . " value=\"" . $key2 ['value'] . "\">" . $key2 ['value'] . "</option>";
   }
-
+  
   echo "  </select>
          </div>";
-
+  
   // Loop over al the external Keywords
-  foreach($externalKeywords as $key2 => $value2) {
-    if ($value2[0] != "DELIVERY") {
-      $type = $objMetadata->getType($value2[0]);
-      $required = $objMetadata->isRequired($value2[0]);
+  foreach ( $externalKeywords as $key2 => $value2 ) {
+    if ($value2 [0] != "DELIVERY") {
+      $type = $objMetadata->getType ( $value2 [0] );
+      $required = $objMetadata->isRequired ( $value2 [0] );
       if ($required) {
         $req = " required";
       } else {
         $req = "";
       }
-
+      
       $del = "";
       if ($update) {
-        $del = $objCdp->getProperty($value[0], str_replace(' ', '_', $value2[0]));
+        $del = $objCdp->getProperty ( $value [0], str_replace ( ' ', '_', $value2 [0] ) );
       }
       
       echo "<div class=\"input-group\">
-           <span class=\"input-group-addon $req\">" . $value2[0] . "</span>";
+           <span class=\"input-group-addon $req\">" . $value2 [0] . "</span>";
       
       if ($type == "LIST") {
-        $validValues = $objMetadata->getValidValues($value2[0]);
-        echo "<select id=\"" . $value2[0] . "\" name=\"" . $value2[0] . "\" class=\"form-control\" $req autofocus>
+        $validValues = $objMetadata->getValidValues ( $value2 [0] );
+        echo "<select id=\"" . $value2 [0] . "\" name=\"" . $value2 [0] . "\" class=\"form-control\" $req autofocus>
                <option value=\"\"></option>";
-
-        foreach ($validValues as $key3) {
+        
+        foreach ( $validValues as $key3 ) {
           $selected = "";
           if ($update) {
-            if ($key3['value'] == $del[0][2]) {
+            if ($key3 ['value'] == $del [0] [2]) {
               $selected = " selected";
             }
           }
-          echo "<option" . $selected . " value=\"" . $key3['value'] . "\">" . $key3['value'] . "</option>";
+          echo "<option" . $selected . " value=\"" . $key3 ['value'] . "\">" . $key3 ['value'] . "</option>";
         }
         echo "</select>";
       } else if ($type == "MULTILIST") {
-        $validValues = $objMetadata->getValidValues($value2[0]);
-        echo "<select id=\"" . $value2[0] . "\" name=\"" . $value2[0] . "[]\" class=\"form-control\" $req autofocus multiple=\"multiple\">
+        $validValues = $objMetadata->getValidValues ( $value2 [0] );
+        echo "<select id=\"" . $value2 [0] . "\" name=\"" . $value2 [0] . "[]\" class=\"form-control\" $req autofocus multiple=\"multiple\">
                <option value=\"\"></option>";
-
-        foreach ($validValues as $key3) {
+        
+        foreach ( $validValues as $key3 ) {
           $selected = "";
           if ($update) {
-            if ($key3['value'] == $del[0][2]) {
-              $selected = " selected";
+            if (sizeof ( $del > 1 )) {
+              foreach($del as $d) {
+                if ($d[2] == $key3['value']) {
+                  $selected = " selected";
+                }
+              }
+            } else {
+              if ($key3 ['value'] == $del [0] [2]) {
+                $selected = " selected";
+              }
             }
           }
-          echo "<option" . $selected . " value=\"" . $key3['value'] . "\">" . $key3['value'] . "</option>";
+          echo "<option" . $selected . " value=\"" . $key3 ['value'] . "\">" . $key3 ['value'] . "</option>";
         }
-        echo "</select>";        
+        echo "</select>";
       } else {
-        $validValues = $objMetadata->getValidValues($value2[0]);
-        echo " <input type=\"text\" name=\"" . $value2[0] . "\" class=\"form-control\" placeholder=\"" . $validValues[0]["value"] .  "\" value=\"";
+        $validValues = $objMetadata->getValidValues ( $value2 [0] );
+        echo " <input type=\"text\" name=\"" . $value2 [0] . "\" class=\"form-control\" placeholder=\"" . $validValues [0] ["value"] . "\" value=\"";
         if ($update) {
-          echo $del[0][2];
+          if (sizeof($del) > 0) {
+            echo $del [0] [2];
+          }
         }
         echo "\" $req>";
-      }    
-      echo "</div>";    
+      }
+      echo "</div>";
     }
   }
-
-echo "  <input type=\"hidden\" name=\"indexAction\" value=\"deliver_cdp_file\" />
-        <input type=\"hidden\" name=\"filename\" value=\"". $value[0] ."\" />
-        <input type=\"hidden\" name=\"size\" value=\"". $value[2] ."\" />
+  
+  echo "  <input type=\"hidden\" name=\"indexAction\" value=\"deliver_cdp_file\" />
+        <input type=\"hidden\" name=\"filename\" value=\"" . $value [0] . "\" />
+        <input type=\"hidden\" name=\"size\" value=\"" . $value [2] . "\" />
                   	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
                       Deliver CDP file
   		            </button>
@@ -266,19 +288,19 @@ echo "  <input type=\"hidden\" name=\"indexAction\" value=\"deliver_cdp_file\" /
             </div>
           </div>
         </div>";
-
-// Make the undeliver CDP modal
-if ($update) {
-  echo "<div class=\"modal fade\" id=\"undeliver". str_replace('.', '_', $value[0]) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+  
+  // Make the undeliver CDP modal
+  if ($update) {
+    echo "<div class=\"modal fade\" id=\"undeliver" . str_replace ( '.', '_', $value [0] ) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">
   		        <h1 class=\"text-center login-title\">Remove $value[0] from list of delivered CDP files?</h1>
                 <div class=\"account-wall\">
-                  <form role=\"form\" class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
+                  <form role=\"form\" class=\"form-signin\" action=\"" . $baseURL . "index.php\" method=\"post\">
                    <input type=\"hidden\" name=\"indexAction\" value=\"undeliver_cdp_file\" />
-                   <input type=\"hidden\" name=\"cdpfile\" value=\"". $value[0] . "\" />
-                   <button type=\"submit\" title=\"Remove" . $value[0] . "!\" class=\"btn btn-lg btn-block btn-danger\">Remove!
+                   <input type=\"hidden\" name=\"cdpfile\" value=\"" . $value [0] . "\" />
+                   <button type=\"submit\" title=\"Remove" . $value [0] . "!\" class=\"btn btn-lg btn-block btn-danger\">Remove!
                    </button>
                   </form>
                 </div>
@@ -286,6 +308,6 @@ if ($update) {
             </div>
           </div>
         </div>";
-}
+  }
 }
 ?>
