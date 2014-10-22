@@ -60,7 +60,7 @@ fi
   foreach ( $deliveries as $delivery ) {
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
-    
+
     $modules = $objCdp->getPipelineModulesFromFiles ( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
@@ -80,7 +80,6 @@ fi
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"";
               
               foreach ( $fileNames as $file ) {
-                
                 echo "\n  file=\"" . $file . "\"
   if [[ -e \$file ]] ; then
     md5v=`grep \"" . $file . "\" md5_miri_cdps | uniq`
@@ -101,7 +100,7 @@ fi
     echo \"\$file does not exist\"
     failed=1
   fi";
-              }
+               }
               
               echo "\n  if [ \$failed == 1 ]; then
     echo \"Something has gone wrong in the transfer of these files.\"

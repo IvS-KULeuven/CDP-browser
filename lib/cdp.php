@@ -179,9 +179,9 @@ class Cdp {
     foreach ( $filenames as $file ) {
       $newStep = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"PIPELINE_MODULE\"" );
       if ($newStep) {
-        if ($newStep [0]) {
-          if (! in_array ( $newStep [0] [0], $steps )) {
-            array_push ( $steps, $newStep [0] [0] );
+        foreach ($newStep as $step) {
+          if (! in_array ( $step [0], $steps )) {
+            array_push ( $steps, $step [0] );
           }
         }
       }
@@ -214,7 +214,7 @@ class Cdp {
         if ($newStep [0]) {
           if ($newStep [0] [0]) {
             if (! in_array ( $newStep [0] [0], $steps )) {
-              array_push ( $steps, $newStep [0] [0] );
+              array_push ( $steps, trim($newStep [0] [0] ));
             }
           }
         }

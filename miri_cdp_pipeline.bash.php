@@ -48,7 +48,7 @@ fi
   
   // Here, we add all files which belong to a certain pipeline module.
   $modules = $objCdp->getPipelineModules ();
-  
+
   foreach ( $modules as $module ) {
     // All filenames
     $items = $objCdp->getFilesForPipelineModule ( $module [0] );
