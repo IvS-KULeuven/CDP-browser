@@ -227,6 +227,21 @@ foreach ($keywords as $key => $value) {
           echo "<option" . $selected . " value=\"" . $key3['value'] . "\">" . $key3['value'] . "</option>";
         }
         echo "</select>";
+      } else if ($type == "MULTILIST") {
+        $validValues = $objMetadata->getValidValues($value2[0]);
+        echo "<select id=\"" . $value2[0] . "\" name=\"" . $value2[0] . "[]\" class=\"form-control\" $req autofocus multiple=\"multiple\">
+               <option value=\"\"></option>";
+
+        foreach ($validValues as $key3) {
+          $selected = "";
+          if ($update) {
+            if ($key3['value'] == $del[0][2]) {
+              $selected = " selected";
+            }
+          }
+          echo "<option" . $selected . " value=\"" . $key3['value'] . "\">" . $key3['value'] . "</option>";
+        }
+        echo "</select>";        
       } else {
         $validValues = $objMetadata->getValidValues($value2[0]);
         echo " <input type=\"text\" name=\"" . $value2[0] . "\" class=\"form-control\" placeholder=\"" . $validValues[0]["value"] .  "\" value=\"";
@@ -235,9 +250,7 @@ foreach ($keywords as $key => $value) {
         }
         echo "\" $req>";
       }    
-      echo "</div>";
-
-    
+      echo "</div>";    
     }
   }
 

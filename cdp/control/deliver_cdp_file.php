@@ -9,7 +9,11 @@ $objCdp->deliver_file($filename, $delivery);
 // Add all the other keys
 foreach ($_POST as $key => $value) {
   if ($key != "indexAction" && $key != "filename") {
-    $objCdp->addKey($filename, $key, $value);
+    if (is_array($value)) {
+      $objCdp->addArrayKey($filename, $key, $value);
+    } else {
+      $objCdp->addKey($filename, $key, $value);
+    }
   }
 }
 

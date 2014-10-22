@@ -391,6 +391,14 @@ class Cdp {
       $objDatabase->execSQL ( "INSERT INTO cdp ( filename, name, keyvalue ) VALUES ( \"" . $filename . "\", \"" . $name . "\", \"" . $keyvalue . "\") " );
     }
   }
+  public function addArrayKey($filename, $name, $keyvalue) {
+    global $objDatabase, $entryMessage;
+
+    // In this case, the keyvalue is an array.
+    foreach ($keyvalue as $key) {
+      $objDatabase->execSQL ( "INSERT INTO cdp ( filename, name, keyvalue ) VALUES ( \"" . $filename . "\", \"" . $name . "\", \"" . $key . "\") " );
+    }
+  }
   public function getProperty($filename, $keyword) {
     global $objDatabase;
     

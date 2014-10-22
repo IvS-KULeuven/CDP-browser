@@ -23,8 +23,8 @@
           <script src=\"js/jquery.tablesorter.widgets.min.js\"></script>
           <script src=\"js/jquery.tablesorter.pager.min.js\"></script>
           <script src=\"js/widget-columnSelector.js\"></script>
-  		<link href=\"css/tablesorter.theme.bootstrap.css\" rel=\"stylesheet\">
-  		<title>CDP browser</title>";
+          <link href=\"css/tablesorter.theme.bootstrap.css\" rel=\"stylesheet\">
+      <title>CDP browser</title>";
   echo "</head>";
 
   // The body of the html page
