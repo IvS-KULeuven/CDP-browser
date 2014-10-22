@@ -81,7 +81,14 @@ if ($_FILES ['csv']) {
               
               if (trim ( $line [$j] ) != '') {
                 if ($objMetadata->isValidValue ( trim ( $keys_array [$j] ), $valueToAdd )) {
-                  $objCdp->addKey ( $filename, $keyToAdd, $valueToAdd );
+                  // If valueToAdd contains a ',', we have a MULTILIST keyword.
+                  if (strpos(',', $valueToAdd) === false) {
+                    $objCdp->addKey ( $filename, $keyToAdd, $valueToAdd );
+                  } else {
+                    // We make an array from our string
+                    $arr = explode(',', $valueToAdd);
+                    $objCdp->addArrayKey ( $filename, $keyToAdd, $arr );
+                  }
                 } else {
                   $entryMessage = "Aborted importing CSV file at file <strong>" . $filename . "</strong>!<br />Invalid value <strong>" . $valueToAdd . "</strong> for keyword <strong>" . trim ( $keys_array [$j] ) . "</strong>";
                   $_GET ['indexAction'] = 'import_csv_file';
