@@ -4,13 +4,12 @@
 header ( "Content-Type: text/plain" );
 header ( "Content-Disposition: attachment; filename=\"miri_cdp_delivery.bash\"" );
 
-if (isset($_GET['release'])) {
-  $release = $_GET['release'];
+if (isset ( $_GET ['release'] )) {
+  $release = $_GET ['release'];
 } else {
   $release = "";
 }
-miri_cdp_pipeline($release);
-
+miri_cdp_pipeline ( $release );
 function miri_cdp_pipeline($release) {
   $loginErrorCode = "";
   $loginErrorText = "";
@@ -51,14 +50,18 @@ fi
   if ($release == "") {
     $deliveries = $objCdp->getDeliveries ();
   } else {
-    $deliveries = [ [ $release ] ];
+    $deliveries = [ 
+        [ 
+            $release 
+        ] 
+    ];
   }
   
   foreach ( $deliveries as $delivery ) {
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
     
-    $modules = $objCdp->getPipelineModulesFromFiles( $items );
+    $modules = $objCdp->getPipelineModulesFromFiles ( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
     $fileTypes = $objCdp->getFileTypes ( $items );
@@ -203,10 +206,76 @@ cd \$cdpdir";
   if ($release == "") {
     $deliveries = $objCdp->getDeliveries ();
   } else {
-    $deliveries = [ [ $release ] ];
+    $deliveries = [ 
+        [ 
+            $release 
+        ] 
+    ];
   }
   
   foreach ( $deliveries as $delivery ) {
+    // First we download the files which have no pipeline information
+    $files = $objCdp->getFilesWithoutPipelineInformation ( $delivery [0] );
+    $directories = [ ];
+    if (sizeof ( $files ) > 0) {
+      foreach ( $files as $filename ) {
+        $filetype = $objCdp->getProperty ( $filename, "FILETYPE" );
+        $oneFiletype = $filetype [0];
+        if ($oneFiletype ['keyvalue'] == "documentation") {
+          $doctype = $objCdp->getProperty ( $filename, "DOCTYPE" );
+          $oneDocType = $doctype [0];
+          $directories [$filename] = str_replace ( 'DOCUMENT', 'DOCS', str_replace ( ' ', '_', strtoupper ( $oneDocType ['keyvalue'] ) ) );
+        } else {
+          $directories [$filename] = str_replace ( 'DOCUMENT', 'DOCS', str_replace ( ' ', '_', strtoupper ( $oneFiletype ['keyvalue'] ) ) );
+        }
+      }
+    }
+    
+    $keys = array_values ( array_unique ( $directories ) );
+    if (sizeof ( $keys ) > 0) {
+      foreach ( $keys as $key ) {
+        echo "mkdir -p " . "CDP" . $delivery [0] . "/" . $key . "\n";
+        
+        echo "
+        HOST=\"$ftp_server\"
+        LCD=\"\$cdpdir" . "/CDP" . $delivery [0] . "/" . $key . "\"
+        RCD=\"$ftp_directory\"
+        
+        lftp -c \"set ftp:list-options -a;
+        open \$HOST ;
+        lcd \$LCD ;
+        cd \$RCD ;
+        mirror --verbose \
+        --include-glob md5_miri_cdps\"
+        
+        if [ \$check ] ; then
+        md5_check
+        exit
+        fi
+        ";
+        
+        echo "echo \"Updating CDP files to \"\$cdpdir/CDP" . $delivery [0] . "/" . $key . "
+        echo \"Beware that this can take quite a long time\"
+        echo \"\"
+        echo \"set ftp:list-options -a\"          >  lftp_script
+        echo \"open \$HOST \"                      >> lftp_script
+echo \"lcd \$LCD \"                        >> lftp_script
+echo \"cd \$RCD \"                         >> lftp_script
+echo \"mirror --verbose \\\\\"              >> lftp_script";
+        
+        foreach ( $files as $filename ) {
+          if ($directories [$filename] == $key) {
+            echo "\necho \"       --include-glob '" . $filename . "' \\\\\" >> lftp_script";
+          }
+        }
+        
+        echo "\necho \"       --parallel\"                >> lftp_script
+        
+              lftp -f lftp_script
+            ";
+      }
+    }
+    
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
     

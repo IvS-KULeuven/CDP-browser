@@ -4,13 +4,12 @@
 header ( "Content-Type: text/plain" );
 header ( "Content-Disposition: attachment; filename=\"miri_cdp_pipeline.bash\"" );
 
-if (isset($_GET['release'])) {
-  $release = $_GET['release'];
+if (isset ( $_GET ['release'] )) {
+  $release = $_GET ['release'];
 } else {
   $release = "";
 }
-miri_cdp_pipeline($release);
-
+miri_cdp_pipeline ( $release );
 function miri_cdp_pipeline($release) {
   $loginErrorCode = "";
   $loginErrorText = "";
@@ -38,7 +37,7 @@ function md5_check {
   echo \"\"
   
   failed=0";
-
+  
   echo "
 if [[ -z \$CDP_DIR ]]; then
   cdpdir=`pwd`
@@ -194,6 +193,69 @@ mkdir -p \$cdpdir
 cd \$cdpdir";
   
   echo "\n";
+  
+  // First we download the files which have no pipeline information
+  $files = $objCdp->getFilesWithoutPipelineInformation ( $release );
+  $directories = [ ];
+  if (sizeof ( $files ) > 0) {
+    foreach ( $files as $filename ) {
+      $filetype = $objCdp->getProperty ( $filename, "FILETYPE" );
+      $oneFiletype = $filetype [0];
+      if ($oneFiletype ['keyvalue'] == "documentation") {
+        $doctype = $objCdp->getProperty ( $filename, "DOCTYPE" );
+        $oneDocType = $doctype [0];
+        $directories [$filename] = str_replace ( 'DOCUMENT', 'DOCS', str_replace ( ' ', '_', strtoupper ( $oneDocType ['keyvalue'] ) ) );
+      } else {
+        $directories [$filename] = str_replace ( 'DOCUMENT', 'DOCS', str_replace ( ' ', '_', strtoupper ( $oneFiletype ['keyvalue'] ) ) );
+      }
+    }
+  }
+  
+  $keys = array_values ( array_unique ( $directories ) );
+  if (sizeof ( $keys ) > 0) {
+    foreach ( $keys as $key ) {
+      echo "mkdir -p " . $key . "/CDP" . $delivery [0] . "\n";
+      
+      echo "
+      HOST=\"$ftp_server\"
+      LCD=\"\$cdpdir" . "/" . $key . "/CDP" . $delivery [0] . "\"
+      RCD=\"$ftp_directory\"
+  
+      lftp -c \"set ftp:list-options -a;
+      open \$HOST ;
+      lcd \$LCD ;
+      cd \$RCD ;
+      mirror --verbose \
+      --include-glob md5_miri_cdps\"
+  
+      if [ \$check ] ; then
+      md5_check
+      exit
+      fi
+      ";
+      
+      echo "echo \"Updating CDP files to \"\$cdpdir/" . $key . "/CDP" . $delivery [0] . "
+      echo \"Beware that this can take quite a long time\"
+      echo \"\"
+      echo \"set ftp:list-options -a\"          >  lftp_script
+        echo \"open \$HOST \"                      >> lftp_script
+echo \"lcd \$LCD \"                        >> lftp_script
+echo \"cd \$RCD \"                         >> lftp_script
+echo \"mirror --verbose \\\\\"              >> lftp_script";
+      
+      foreach ( $files as $filename ) {
+        if ($directories [$filename] == $key) {
+          echo "\necho \"       --include-glob '" . $filename . "' \\\\\" >> lftp_script";
+        }
+      }
+      
+      echo "\necho \"       --parallel\"                >> lftp_script
+  
+                lftp -f lftp_script
+                ";
+    }
+  }
+  
   // Here, we add all files which belong to a certain pipeline module.
   $modules = $objCdp->getPipelineModules ();
   
