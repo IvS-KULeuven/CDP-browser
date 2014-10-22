@@ -82,7 +82,7 @@ class Metadata {
     $keyword = str_replace('_', ' ', $keyword);
     $values = $this->getValidValues ( $keyword );
     $type = $this->getType ( $keyword );
-    if ($type == "LIST") {
+    if ($type == "LIST" || $type == "MULITLIST") {
       foreach ( $values as $key ) {
         if ($key ['value'] == $value) {
           return true;
@@ -107,10 +107,8 @@ class Metadata {
     
     return $objDatabase->selectSingleValue ( "select * from metadata where id = \"" . $key . "\"", "required" );
   }
-  public function addValue($keyword, $value) {
-    // type is always LIST
-    $type = "LIST";
-    
+  public function addValue($keyword, $value, $type) {
+    // type is always LIST or MULTILIST
     $inFits = $this->getLocation ( $keyword );
     $required = $this->isRequired ( $keyword );
     

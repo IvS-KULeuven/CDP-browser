@@ -369,31 +369,31 @@ $objDatabase->execSQL($sql);
 // Add the metadata which is not in the FITS files
 
 // Add the PIPELINE MODULE metadata
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"LIST\", '0', \"CALDETECTOR1\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"MULTILIST\", '0', \"CALDETECTOR1\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"LIST\", '0', \"CALIMAGE2\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"MULTILIST\", '0', \"CALIMAGE2\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"LIST\", '0', \"CALSPEC2_LRS\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"MULTILIST\", '0', \"CALSPEC2_LRS\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"LIST\", '0', \"CALSPEC2_MRS\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"MULTILIST\", '0', \"CALSPEC2_MRS\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"LIST\", '0', \"CALIMAGE3\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"MULTILIST\", '0', \"CALIMAGE3\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"LIST\", '0', \"CALCORON3\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"MULTILIST\", '0', \"CALCORON3\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"LIST\", '0', \"CALSLIT3\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"MULTILIST\", '0', \"CALSLIT3\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"LIST\", '0', \"CALSLITLESS3\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"MULTILIST\", '0', \"CALSLITLESS3\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"LIST\", '0', \"CALIFU3\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"PIPELINE MODULE\", \"MULTILIST\", '0', \"CALIFU3\")";
 $objDatabase->execSQL($sql);
 
 // Add the PIPELINE STEP metadata

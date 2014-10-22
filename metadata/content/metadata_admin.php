@@ -58,7 +58,7 @@
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
   		</button>";
     
-     if ($objMetadata->getType($value[0]) == "LIST") {
+     if ($objMetadata->getType($value[0]) == "LIST" || $objMetadata->getType($value[0]) == "MULTILIST") {
        if (sizeof($validValues) > 1) {
          echo "<button type=\"button\" title=\"Delete possible value\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deleteValue" . str_replace(' ', '_', $value[0]) . "\" >
                 <span class=\"glyphicon glyphicon-minus\"></span>
@@ -132,6 +132,7 @@
                        <option value=\"Integer\">Integer</option>
                        <option value=\"String\">String</option>
                        <option value=\"List\">List</option>
+                       <option value=\"MultiList\">List with multiple selections</option>
                       </select>
                     </div>
                     <div class=\"input-group\">
@@ -169,7 +170,7 @@
                   <form class=\"form-signin\" action=\"".$baseURL."index.php\" method=\"post\">
                     <div class=\"input-group\">
                       <span class=\"input-group-addon\">Current value</span>";
-    if ($objMetadata->getType($value[0]) == "LIST") {
+    if ($objMetadata->getType($value[0]) == "LIST" || $objMetadata->getType($value[0]) == "MULTILIST") {
       echo "           <select name=\"currentValue\" class=\"form-control\">";
 
       foreach ($validValues as $valid) {
@@ -211,7 +212,8 @@
                        <option value=\"Integer\"" . ($objMetadata->getType($value[0]) == "INTEGER"?" selected":"") . ">Integer</option>
                        <option value=\"String\"" . ($objMetadata->getType($value[0]) == "STRING"?" selected":"") . ">String</option>
                        <option value=\"List\"" . ($objMetadata->getType($value[0]) == "LIST"?" selected":"") . ">List</option>
-                      </select>
+                       <option value=\"MultiList\"" . ($objMetadata->getType($value[0]) == "MULTILIST"?" selected":"") . ">List with multiple selections</option>
+                           </select>
                     </div>
                     <div class=\"input-group\">
                       <span class=\"input-group-addon\">Default value</span>
@@ -269,7 +271,8 @@
                       <input type=\"text\" name=\"value\" class=\"form-control\" placeholder=\"Value\">
                     </div>
                     <input type=\"hidden\" name=\"keyword\" value=\"" . $value[0] . "\" />
-                    <input type=\"hidden\" name=\"indexAction\" value=\"add_possible_metadata_value\" />
+                    <input type=\"hidden\" name=\"type\" value=\"" . $objMetadata->getType($value[0]) . "\" />
+                        <input type=\"hidden\" name=\"indexAction\" value=\"add_possible_metadata_value\" />
                   	<button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">
                       Add value
   		            </button>
