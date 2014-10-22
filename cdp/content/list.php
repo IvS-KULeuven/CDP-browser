@@ -68,7 +68,22 @@ foreach ( $cdpVersions as $key ) {
     
     $properties = $objCdp->getProperty ( $key ['filename'], "PIPELINE_MODULE" );
     if ($properties) {
-      echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
+      if (sizeof($properties) > 1) {
+        echo "<td style=\"vertical-align: middle\">";
+        $cnt = 1;
+        foreach($properties as $mod) {
+          print $mod[2];
+          if ($cnt < sizeof($properties)) {
+            echo ", ";
+            $cnt++;
+          }
+        }
+        //. $properties [0] [2] . 
+        echo "</td>";
+        
+      } else {
+        echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
+      }
     } else {
       echo "<td style=\"vertical-align: middle\"></td>";
     }
