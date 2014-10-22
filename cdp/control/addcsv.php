@@ -63,6 +63,16 @@ if ($_FILES ['csv']) {
           // Add the size of the file
           $objCdp->addKey ( $filename, "size", $size );
           
+          // Add all the keys from the fits file
+          if (substr($filename, -5) == ".fits") {
+            $fitsKeywords = $objFits->getHeader($filename);
+            foreach($fitsKeywords as $key => $value) {
+              if ($key != "FILENAME") {
+                $objCdp->addKey($filename, $key, $value);
+              }
+            }
+          }
+
           for($j = 1; $j < sizeof ( $keys_array ); $j ++) {
             if (strtoupper ( str_replace ( ' ', '_', trim ( $keys_array [$j] ) ) ) != "DELIVERY") {
               // Check if the keywords have a valid value.
