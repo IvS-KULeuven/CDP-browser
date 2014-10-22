@@ -235,6 +235,20 @@ class Cdp {
     }
     return array_unique ( $deliveries );
   }
+  public function getFilesWithoutPipelineInformation($release) {
+    $allFiles = $this->getFilesForCdpDelivery($release);
+    
+    // We now ask for the pipeline module of all files.
+    // If the pipeline module is not set, we add the file to the list to return.
+    $toReturn = [];
+    foreach($allFiles as $file) {
+      $pipelineModule = $this->getProperty($file[0], 'PIPELINE_MODULE');
+      if (sizeof($pipelineModule) == 0) {
+        $toReturn[] = $file[0];
+      }
+    }
+    return $toReturn;
+  }
   public function getFileTypes($filenames) {
     global $objDatabase;
     
