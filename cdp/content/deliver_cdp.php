@@ -10,6 +10,7 @@ $items = $objCdp->getFilesFromFtpServer();
 
 $notYetDelivered = Array();
 $delivered = Array();
+$deliveredFiles = Array();
 
 // Here, we make two arrays, one with the delivered files, and one with the not delivered files.
 foreach ($items as $key => $value) {
@@ -27,8 +28,21 @@ foreach ($items as $key => $value) {
 
   if (sizeof($cdpDelivery) > 0) {
     $delivered[] = array($key, $date, $value['size']);
+    $deliveredFiles[] = $key;
   } else {
     $notYetDelivered[] = array($key, $date, $value['size']);
+  }
+}
+
+// We also check if there are files which are not longer on the ftp server, but are already delivered.
+$deliveredDatabase = $objCdp->getDeliveredFiles();
+foreach($deliveredDatabase as $filename) {
+  if (!in_array($filename[0], $deliveredFiles)) {
+    $date = $objCdp->getProperty($filename[0], 'UPLOAD_DATE');
+    $dateObj = $date[0];
+    $fileSize = $objCdp->getProperty($filename[0], 'size');
+    $fileSizeObj = $fileSize[0];
+    $delivered[] = array($filename[0], $dateObj['keyvalue'], $fileSizeObj['keyvalue']);
   }
 }
 

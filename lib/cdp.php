@@ -142,6 +142,11 @@ class Cdp {
     
     return array_reverse ( $objDatabase->selectSingleArray ( "SELECT DISTINCT(keyvalue) from cdp where name=\"delivery\"" ) );
   }
+  public function getDeliveredFiles() {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray ( "select DISTINCT(filename) from cdp;" );
+  }
   public function getFilesForCdpDelivery($delivery) {
     global $objDatabase;
     
