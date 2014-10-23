@@ -12,7 +12,7 @@ if ($_FILES ['csv']) {
     
     $keys_array = explode ( "|", $keywords );
     $keys_array = array_map ( 'trim', $keys_array );
-
+    
     // We check if the first keyword is 'Filename'
     if (strtoupper ( $keys_array [0] ) != "FILENAME") {
       $entryMessage = "Problem importing CSV file! The first keyword on should be Filename!";
@@ -50,49 +50,51 @@ if ($_FILES ['csv']) {
         // All keywords are correct, we read the first line.
         $line = explode ( "|", $data_array [$i] );
         $filename = $line [0];
-
-        $delivery = $line [array_search ( "DELIVERY", $keys_array )];
         
-        // Check if the file exists... We only add the files which are available on the ftp server.
-        $size = $objCdp->getSizeFromFtp ( $filename );
-
-        if ($size) {
-          // We deliver the files.
-          $objCdp->deliver_file ( $filename, $delivery );
+        if (sizeof ( $line ) > 1) {
+          $delivery = $line [array_search ( "DELIVERY", $keys_array )];
           
-          // Add the size of the file
-          $objCdp->addKey ( $filename, "size", $size );
+          // Check if the file exists... We only add the files which are available on the ftp server.
+          $size = $objCdp->getSizeFromFtp ( $filename );
           
-          // Add all the keys from the fits file
-          if (substr($filename, -5) == ".fits") {
-            $fitsKeywords = $objFits->getHeader($filename);
-            foreach($fitsKeywords as $key => $value) {
-              if ($key != "FILENAME") {
-                $objCdp->addKey($filename, $key, $value);
-              }
-            }
-          }
-
-          for($j = 1; $j < sizeof ( $keys_array ); $j ++) {
-            if (strtoupper ( str_replace ( ' ', '_', trim ( $keys_array [$j] ) ) ) != "DELIVERY") {
-              // Check if the keywords have a valid value.
-              $keyToAdd = str_replace ( ' ', '_', trim ( $keys_array [$j] ) );
-              $valueToAdd = trim ( $line [$j] );
-              
-              if (trim ( $line [$j] ) != '') {
-                if ($objMetadata->isValidValue ( trim ( $keys_array [$j] ), $valueToAdd )) {
-                  // If valueToAdd contains a ',', we have a MULTILIST keyword.
-                  if (strpos(',', $valueToAdd) === false) {
-                    $objCdp->addKey ( $filename, $keyToAdd, $valueToAdd );
+          if ($size) {
+            // We deliver the files.
+            $objCdp->deliver_file ( $filename, $delivery );
+            
+            // Add the size of the file
+            $objCdp->addKey ( $filename, "size", $size );
+            
+//             // Add all the keys from the fits file
+//             if (substr ( $filename, - 5 ) == ".fits") {
+//               $fitsKeywords = $objFits->getHeader ( $filename );
+//               foreach ( $fitsKeywords as $key => $value ) {
+//                 if ($key != "FILENAME") {
+//                   $objCdp->addKey ( $filename, $key, $value );
+//                 }
+//               }
+//             }
+            
+            for($j = 1; $j < sizeof ( $keys_array ); $j ++) {
+              if (strtoupper ( str_replace ( ' ', '_', trim ( $keys_array [$j] ) ) ) != "DELIVERY") {
+                // Check if the keywords have a valid value.
+                $keyToAdd = str_replace ( ' ', '_', trim ( $keys_array [$j] ) );
+                $valueToAdd = trim ( $line [$j] );
+                
+                if (trim ( $line [$j] ) != '') {
+                  if ($objMetadata->isValidValue ( trim ( $keys_array [$j] ), $valueToAdd )) {
+                    // If valueToAdd contains a ',', we have a MULTILIST keyword.
+                    if (strpos ( ',', $valueToAdd ) === false) {
+                      $objCdp->addKey ( $filename, $keyToAdd, $valueToAdd );
+                    } else {
+                      // We make an array from our string
+                      $arr = explode ( ',', $valueToAdd );
+                      $objCdp->addArrayKey ( $filename, $keyToAdd, $arr );
+                    }
                   } else {
-                    // We make an array from our string
-                    $arr = explode(',', $valueToAdd);
-                    $objCdp->addArrayKey ( $filename, $keyToAdd, $arr );
+                    $entryMessage = "Aborted importing CSV file at file <strong>" . $filename . "</strong>!<br />Invalid value <strong>" . $valueToAdd . "</strong> for keyword <strong>" . trim ( $keys_array [$j] ) . "</strong>";
+                    $_GET ['indexAction'] = 'import_csv_file';
+                    return;
                   }
-                } else {
-                  $entryMessage = "Aborted importing CSV file at file <strong>" . $filename . "</strong>!<br />Invalid value <strong>" . $valueToAdd . "</strong> for keyword <strong>" . trim ( $keys_array [$j] ) . "</strong>";
-                  $_GET ['indexAction'] = 'import_csv_file';
-                  return;
                 }
               }
             }
