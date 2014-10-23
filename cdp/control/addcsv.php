@@ -83,7 +83,7 @@ if ($_FILES ['csv']) {
                 if (trim ( $line [$j] ) != '') {
                   if ($objMetadata->isValidValue ( trim ( $keys_array [$j] ), $valueToAdd )) {
                     // If valueToAdd contains a ',', we have a MULTILIST keyword.
-                    if (strpos ( ',', $valueToAdd ) === false) {
+                    if (strpos ( $valueToAdd, ',' ) === false) {
                       $objCdp->addKey ( $filename, $keyToAdd, $valueToAdd );
                     } else {
                       // We make an array from our string
