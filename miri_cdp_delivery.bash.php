@@ -50,17 +50,17 @@ fi
   if ($release == "") {
     $deliveries = $objCdp->getDeliveries ();
   } else {
-    $deliveries = [ 
-        [ 
+    $deliveries = array (
+        array (
             $release 
-        ] 
-    ];
+        ) 
+    );
   }
   
   foreach ( $deliveries as $delivery ) {
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
-
+    
     $modules = $objCdp->getPipelineModulesFromFiles ( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
@@ -100,7 +100,7 @@ fi
     echo \"\$file does not exist\"
     failed=1
   fi";
-               }
+              }
               
               echo "\n  if [ \$failed == 1 ]; then
     echo \"Something has gone wrong in the transfer of these files.\"
@@ -205,17 +205,15 @@ cd \$cdpdir";
   if ($release == "") {
     $deliveries = $objCdp->getDeliveries ();
   } else {
-    $deliveries = [ 
-        [ 
-            $release 
-        ] 
-    ];
+    $deliveries = array (
+        ($release) 
+    );
   }
   
   foreach ( $deliveries as $delivery ) {
     // First we download the files which have no pipeline information
     $files = $objCdp->getFilesWithoutPipelineInformation ( $delivery [0] );
-    $directories = [ ];
+    $directories = array ();
     if (sizeof ( $files ) > 0) {
       foreach ( $files as $filename ) {
         $filetype = $objCdp->getProperty ( $filename, "FILETYPE" );

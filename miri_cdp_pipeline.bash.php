@@ -48,7 +48,7 @@ fi
   
   // Here, we add all files which belong to a certain pipeline module.
   $modules = $objCdp->getPipelineModules ();
-
+  
   foreach ( $modules as $module ) {
     // All filenames
     $items = $objCdp->getFilesForPipelineModule ( $module [0] );
@@ -196,7 +196,7 @@ cd \$cdpdir";
   
   // First we download the files which have no pipeline information
   $files = $objCdp->getFilesWithoutPipelineInformation ( $release );
-  $directories = [ ];
+  $directories = array ();
   if (sizeof ( $files ) > 0) {
     foreach ( $files as $filename ) {
       $filetype = $objCdp->getProperty ( $filename, "FILETYPE" );
