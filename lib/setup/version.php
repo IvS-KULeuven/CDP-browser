@@ -1,5 +1,5 @@
 <?php
 global $version;
 // Add the version number here
-$version = "0.8";
+$version = "0.8.1";
 ?>
