@@ -32,6 +32,9 @@ $objDatabase->execSQL($sql);
 $sql = "INSERT INTO users ( id, name, firstname, email, password, role ) VALUES ( \"vincent\", \"Geers\", \"Vincent\", \"vgeers@cp.dias.ie\", \"" . md5("qo6YCHKUy91NriO9") . "\", 0)";
 $objDatabase->execSQL($sql);
 
+$sql = "INSERT INTO users ( id, name, firstname, email, password, role ) VALUES ( \"miri\", \"User\", \"Miri\", \"miri@miricle.org\", \"" . md5("p=314+MIRI") . "\", 1)";
+$objDatabase->execSQL($sql);
+
 print "Database table for the metadata will be added.\n";
 
 $sql = "DROP TABLE IF EXISTS metadata";
