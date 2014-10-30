@@ -1,5 +1,5 @@
 <?php
-global $objCdp, $objFits, $ftp_server, $objDatabase;
+global $objCdp, $objFits, $objDatabase;
 
 $filename = $_POST['filename'];
 

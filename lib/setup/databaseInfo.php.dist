@@ -4,7 +4,7 @@ databaseInfo();
 
 function databaseInfo()
 {
-  global $host,$user,$pass,$dbname,$instDir,$baseURL, $ftp_server, $ftp_directory;
+  global $host,$user,$pass,$dbname,$instDir,$baseURL,$ftp_server,$ftp_directory,$ftp_user,$ftp_password;
 
   // Change the following to make CDP work with your database
   $host           = "localhost";
@@ -17,6 +17,8 @@ function databaseInfo()
   $baseURL      = "http://localhost/CDP/";
   
   $ftp_server = "ftp.ster.kuleuven.be";
-  $ftp_directory = "/miri/CDP/";
+  $ftp_directory = "/CDP/";
+  $ftp_user = "miri";
+  $ftp_password = "p=314+MIRI";
 }
 ?>

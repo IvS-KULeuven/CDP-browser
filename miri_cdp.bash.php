@@ -14,7 +14,7 @@ function miri_cdp($release)
   $loginErrorText = "";
   require_once 'common/entryexit/preludes.php';
 
-  global $ftp_server, $ftp_directory, $objCdp;
+  global $ftp_server, $ftp_directory, $ftp_user, $ftp_password, $objCdp;
 
   print"#!/bin/bash
 #
@@ -158,7 +158,7 @@ mkdir -p \$cdpdir
 cd \$cdpdir
 echo \"\"
 
-HOST=\"$ftp_server\"
+HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
 LCD=\$cdpdir
 RCD=\"$ftp_directory\"
 

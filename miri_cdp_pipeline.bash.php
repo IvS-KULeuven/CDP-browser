@@ -15,7 +15,7 @@ function miri_cdp_pipeline($release) {
   $loginErrorText = "";
   require_once 'common/entryexit/preludes.php';
   
-  global $ftp_server, $ftp_directory, $objCdp;
+  global $ftp_server, $ftp_directory, $ftp_password, $ftp_user, $objCdp;
   
   print "#!/bin/bash
 #
@@ -217,7 +217,7 @@ cd \$cdpdir";
       echo "mkdir -p " . $key . "/CDP" . $delivery [0] . "\n";
       
       echo "
-      HOST=\"$ftp_server\"
+      HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
       LCD=\"\$cdpdir" . "/" . $key . "/CDP" . $delivery [0] . "\"
       RCD=\"$ftp_directory\"
   
@@ -279,7 +279,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               echo "mkdir -p " . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\n";
               
               echo "
-                  HOST=\"$ftp_server\"
+                  HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
                   LCD=\"\$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\"
                   RCD=\"$ftp_directory\"
               

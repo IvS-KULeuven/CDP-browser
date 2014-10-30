@@ -11,7 +11,7 @@ function miri_cdp($release) {
   $loginErrorText = "";
   require_once 'common/entryexit/preludes.php';
   
-  global $ftp_server, $ftp_directory, $objCdp, $objMetadata;
+  global $objCdp, $objMetadata;
   
   // We first print the header
   print "Filename|DELIVERY";

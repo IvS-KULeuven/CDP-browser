@@ -3,10 +3,10 @@
 // The fits class collects all functions needed to read the metadata from fits files.
 class Fits {
   public function getHeader($filename) {
-    global $objMetadata, $ftp_server, $ftp_directory;
+    global $objMetadata, $ftp_server, $ftp_directory, $ftp_user, $ftp_password;
     
     // We make a connection to the ftp server
-    $handle = fopen ( "ftp://anonymous:'wim.demeester@ster.kuleuven.be'@" . $ftp_server . $ftp_directory . $filename, "r" );
+    $handle = fopen ( "ftp://" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . $ftp_directory . $filename, "r" );
     
     $toReturn = array ();
     
