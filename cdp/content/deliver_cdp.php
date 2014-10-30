@@ -183,23 +183,49 @@ foreach ( $keywords as $key => $value ) {
                 <div class=\"account-wall\">
                   <form role=\"form\" class=\"form-signin\" action=\"" . $baseURL . "index.php\" method=\"post\">
        <div class=\"input-group\">
-        <span class=\"input-group-addon required\">DELIVERY</span>
-        <select id=\"DELIVERY\" name=\"DELIVERY\" class=\"form-control\" required autofocus>";
+        <span class=\"input-group-addon required\">DELIVERY</span>";
   
-  echo "<option value=\"\"></option>";
-  
+  $type = $objMetadata->getType ( "DELIVERY" );
   $del = "";
   if ($update) {
     $del = $objCdp->getDelivery ( $value [0] );
   }
-  foreach ( $delivery as $key2 ) {
-    $del0 = $del [0];
-    if ($key2 ['value'] == $del0 [2]) {
-      $selected = " selected";
-    } else {
-      $selected = "";
+  if ($type == "LIST") {
+    $validValues = $objMetadata->getValidValues ( $value [0] );
+    echo "<select id=\"DELIVERY\" name=\"DELIVERY\" class=\"form-control\" required autofocus>
+          <option value=\"\"></option>";
+    
+    foreach ( $delivery as $key2 ) {
+      $del0 = $del [0];
+      if ($key2 ['value'] == $del0 [2]) {
+        $selected = " selected";
+      } else {
+        $selected = "";
+      }
+      echo "<option " . $selected . " value=\"" . $key2 ['value'] . "\">" . $key2 ['value'] . "</option>";
     }
-    echo "<option " . $selected . " value=\"" . $key2 ['value'] . "\">" . $key2 ['value'] . "</option>";
+  } else if ($type == "MULTILIST") {
+    $validValues = $objMetadata->getValidValues ( $value [0] );
+    echo "<select id=\"DELIVERY\" name=\"DELIVERY[]\" class=\"form-control\" required autofocus multiple=\"multiple\">
+        <option value=\"\"></option>";
+    
+    foreach ( $delivery as $key2 ) {
+      $selected = "";
+      if ($update) {
+        if (sizeof ( $del > 1 )) {
+          foreach ( $del as $d ) {
+            if ($d [2] == $key2 ['value']) {
+              $selected = " selected";
+            }
+          }
+        } else {
+          if ($key2 ['value'] == $del [0] [2]) {
+            $selected = " selected";
+          }
+        }
+      }
+      echo "<option" . $selected . " value=\"" . $key2 ['value'] . "\">" . $key2 ['value'] . "</option>";
+    }
   }
   
   echo "  </select>
@@ -248,8 +274,8 @@ foreach ( $keywords as $key => $value ) {
           $selected = "";
           if ($update) {
             if (sizeof ( $del > 1 )) {
-              foreach($del as $d) {
-                if ($d[2] == $key3['value']) {
+              foreach ( $del as $d ) {
+                if ($d [2] == $key3 ['value']) {
                   $selected = " selected";
                 }
               }
@@ -266,7 +292,7 @@ foreach ( $keywords as $key => $value ) {
         $validValues = $objMetadata->getValidValues ( $value2 [0] );
         echo " <input type=\"text\" name=\"" . $value2 [0] . "\" class=\"form-control\" placeholder=\"" . $validValues [0] ["value"] . "\" value=\"";
         if ($update) {
-          if (sizeof($del) > 0) {
+          if (sizeof ( $del ) > 0) {
             echo $del [0] [2];
           }
         }

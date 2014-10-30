@@ -59,20 +59,35 @@ if ($_FILES ['csv']) {
           
           if ($size) {
             // We deliver the files.
-            $objCdp->deliver_file ( $filename, $delivery );
+            if (strpos ( $delivery, ',' ) === false) {
+              $objCdp->deliver_file ( $filename, $delivery );
+            } else {
+              // We make an array from our string
+              $arr = explode ( ',', $delivery );
+              
+              $cnt = 0;
+              foreach ( $arr as $del ) {
+                if ($cnt == 0) {
+                  $objCdp->deliver_file ( $filename, $del );
+                  $cnt = 1;
+                } else {
+                  $objDatabase->execSQL ( "INSERT INTO cdp ( filename, name, keyvalue ) VALUES ( \"" . $filename . "\", \"delivery\", \"" . $del . "\") " );
+                }
+              }
+            }
             
             // Add the size of the file
             $objCdp->addKey ( $filename, "size", $size );
             
-//             // Add all the keys from the fits file
-//             if (substr ( $filename, - 5 ) == ".fits") {
-//               $fitsKeywords = $objFits->getHeader ( $filename );
-//               foreach ( $fitsKeywords as $key => $value ) {
-//                 if ($key != "FILENAME") {
-//                   $objCdp->addKey ( $filename, $key, $value );
-//                 }
-//               }
-//             }
+            // // Add all the keys from the fits file
+            // if (substr ( $filename, - 5 ) == ".fits") {
+            // $fitsKeywords = $objFits->getHeader ( $filename );
+            // foreach ( $fitsKeywords as $key => $value ) {
+            // if ($key != "FILENAME") {
+            // $objCdp->addKey ( $filename, $key, $value );
+            // }
+            // }
+            // }
             
             for($j = 1; $j < sizeof ( $keys_array ); $j ++) {
               if (strtoupper ( str_replace ( ' ', '_', trim ( $keys_array [$j] ) ) ) != "DELIVERY") {

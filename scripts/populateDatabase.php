@@ -105,40 +105,40 @@ $sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"TYPE\",
 $objDatabase->execSQL($sql);
 
 // Add the REFTYPE metadata
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"IPC\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"IPC\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"MASK\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"MASK\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"SATURATION\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"SATURATION\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"DARK\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"DARK\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"LINEARITY\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"LINEARITY\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"GAIN\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"GAIN\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"READNOISE\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"READNOISE\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"WCS\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"WCS\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"FLAT\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"FLAT\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"PHOTOM\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"PHOTOM\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"AREA\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"AREA\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"LIST\", '1', \"FRINGE\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"REFTYPE\", \"MULTILIST\", '1', \"FRINGE\")";
 $objDatabase->execSQL($sql);
 
 // Add the VERSION metadata 
@@ -450,16 +450,16 @@ $sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"FILETYP
 $objDatabase->execSQL($sql);
 
 // Add the DELIVERY metadata
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"DELIVERY\", \"LIST\", '0', \"1\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"DELIVERY\", \"MULTILIST\", '0', \"1\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"DELIVERY\", \"LIST\", '0', \"2\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"DELIVERY\", \"MULTILIST\", '0', \"2\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"DELIVERY\", \"LIST\", '0', \"2.1\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"DELIVERY\", \"MULTILIST\", '0', \"2.1\")";
 $objDatabase->execSQL($sql);
 
-$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"DELIVERY\", \"LIST\", '0', \"3\")";
+$sql = "INSERT INTO metadata ( id, valueType, inFits, value ) VALUES ( \"DELIVERY\", \"MULTILIST\", '0', \"3\")";
 $objDatabase->execSQL($sql);
 
 // Add the DOCTYPE metadata
