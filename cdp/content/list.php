@@ -1,5 +1,5 @@
 <?php
-global $objUtil, $objCdp, $ftp_server, $ftp_directory, $baseUrl, $ftp_user, $ftp_password;
+global $objUtil, $objCdp, $ftp_server, $ftp_directory, $baseUrl, $ftp_user;
 global $objUser, $loggedUser;
 
 echo "<div class=\"container-fluid\">";
@@ -29,27 +29,28 @@ foreach ( $cdpVersions as $key ) {
   echo "  <div class=\"tab-pane" . $active . "\" id=\"cdp" . str_replace ( '.', '_', $key ['keyvalue'] ) . "\">";
   
   // We make a button to download all CDP files from a given CDP release
-  echo "<a href=\"" . $baseUrl . "miri_cdp.bash.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
+  if ($loggedUser != "") {
+    echo "<a href=\"" . $baseUrl . "miri_cdp.bash.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
   	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;All files for CDP " . $key ['keyvalue'] . "
   	   </button></a>";
-  
-  // We make a button to download all a csv file with all CDP files from a given CDP release
-  if ($objUser->isAdministrator ( $loggedUser )) {
-    echo "&nbsp;&nbsp;<a href=\"" . $baseUrl . "cdp.csv.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
+    
+    // We make a button to download all a csv file with all CDP files from a given CDP release
+    if ($objUser->isAdministrator ( $loggedUser )) {
+      echo "&nbsp;&nbsp;<a href=\"" . $baseUrl . "cdp.csv.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
   	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;CSV file for CDP " . $key ['keyvalue'] . "
   	   </button></a>";
-  }
-  
-  // We make a button to download all CDP files from a given CDP release ordered by delivery
-  echo "&nbsp;&nbsp;<a href=\"" . $baseUrl . "miri_cdp_delivery.bash.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
+    }
+    
+    // We make a button to download all CDP files from a given CDP release ordered by delivery
+    echo "&nbsp;&nbsp;<a href=\"" . $baseUrl . "miri_cdp_delivery.bash.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
   	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;Sorted by delivery for CDP " . $key ['keyvalue'] . "
   	   </button></a>";
-  
-  // We make a button to download all CDP files from a given CDP release
-  echo "&nbsp;&nbsp;<a href=\"" . $baseUrl . "miri_cdp_pipeline.bash.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
+    
+    // We make a button to download all CDP files from a given CDP release
+    echo "&nbsp;&nbsp;<a href=\"" . $baseUrl . "miri_cdp_pipeline.bash.php?release=" . $key ['keyvalue'] . "\" target=\"_blank\" rel=\"external\"><button type=\"submit\" class=\"btn btn-success\">
   	    <span class=\"glyphicon glyphicon-save\"></span>&nbsp;Sorted by pipeline module for CDP " . $key ['keyvalue'] . "
   	   </button></a>";
-  
+  }
   $active = "";
   // We make a table with all files from the ftp site
   echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
@@ -61,24 +62,24 @@ foreach ( $cdpVersions as $key ) {
   echo "    <tbody>";
   
   $items = $objCdp->getFilesForCdpDelivery ( $key ['keyvalue'] );
-  
+
   foreach ( $items as $key ) {
     echo "<tr>";
     echo "<td style=\"vertical-align: middle\">" . $key ["filename"] . "</td>";
     
     $properties = $objCdp->getProperty ( $key ['filename'], "PIPELINE_MODULE" );
     if ($properties) {
-      if (sizeof($properties) > 1) {
+      if (sizeof ( $properties ) > 1) {
         echo "<td style=\"vertical-align: middle\">";
         $cnt = 1;
-        foreach($properties as $mod) {
-          print $mod[2];
-          if ($cnt < sizeof($properties)) {
+        foreach ( $properties as $mod ) {
+          print $mod [2];
+          if ($cnt < sizeof ( $properties )) {
             echo ", ";
-            $cnt++;
+            $cnt ++;
           }
         }
-        echo "</td>";        
+        echo "</td>";
       } else {
         echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
       }
@@ -95,9 +96,12 @@ foreach ( $cdpVersions as $key ) {
     $properties = $objCdp->getProperty ( $key ['filename'], "size" );
     echo "<td style=\"vertical-align: middle\">" . $properties [0] [2] . "</td>";
     echo "<td>";
+    if ($loggedUser != "") {
     echo "<a href=\"ftp://" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . $ftp_directory . $key ["filename"] . "\" role=\"button\" title=\"Download " . $key ["filename"] . "\" class=\"btn btn-default pull-right\" target=\"_blank\" >
   	        <span class=\"glyphicon glyphicon-save\"></span>
-  		  </a></td>";
+  		  </a>";
+    }
+    echo "</td>";
     echo "</td>";
     echo "</tr>\n";
   }

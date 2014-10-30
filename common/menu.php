@@ -24,7 +24,9 @@ echo "     <ul class=\"nav navbar-nav\">
             	 </li>
            		</ul>";
 
-echo "     <ul class=\"nav navbar-nav\">
+// The extra menu's for the users.
+if ($loggedUser) {
+  echo "     <ul class=\"nav navbar-nav\">
              <li class=\"dropdown\">
                <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Download all<b class=\"caret\"></b></a>
 	           <ul class=\"dropdown-menu\">
@@ -34,9 +36,7 @@ echo "     <ul class=\"nav navbar-nav\">
     	       </ul>
              </li>
            </ul>";
-
-// The extra menu's for the users.
-if ($loggedUser) {
+  
   echo "     <ul class=\"nav navbar-nav\">
         	     <li class=\"dropdown\">
             	   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">CDP files <b class=\"caret\"></b></a>
