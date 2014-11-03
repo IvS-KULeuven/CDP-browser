@@ -61,6 +61,10 @@ fi
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
     
+    foreach ( $items as $item ) {
+      $newItems [] = $item [0];
+    }
+    
     $modules = $objCdp->getPipelineModulesFromFiles ( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
@@ -100,6 +104,10 @@ fi
     echo \"\$file does not exist\"
     failed=1
   fi";
+                // Here, we remove the file from the $items array
+                if (($key = array_search ( $file, $newItems )) !== false) {
+                  unset ( $newItems [$key] );
+                }
               }
               
               echo "\n  if [ \$failed == 1 ]; then
@@ -110,6 +118,55 @@ fi
     echo \"All files are correct\"
     echo \"\"
   fi";
+            }
+          }
+        }
+      }
+    }
+    // Now we may have still some files over. We put them at the correct location.
+    if (sizeof ( $newItems ) > 0) {
+      foreach ( $newItems as $item ) {
+        $restModules = $objCdp->getProperty ( $item, "PIPELINE_MODULE" );
+        if (sizeof ( $restModules ) > 0) {
+          foreach ( $restModules as $modu ) {
+            $restStep = $objCdp->getProperty ( $item, "PIPELINE_STEP" );
+            if (sizeof ( $restStep ) > 0) {
+              $ft = $objCdp->getProperty ( $item, "FILETYPE" );
+              $ftype = $ft [0];
+              foreach ( $restStep as $ste ) {
+                if ($ste [2] == "") {
+                  echo "
+  cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . $item . "\n";
+                  echo "
+  echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "\"";
+                } else {
+                  echo "
+  cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/" . $item . "\n";
+                  echo "
+  echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "\"";
+                }
+                
+                echo "\n  file=\"" . $item . "\"
+  if [[ -e \$file ]] ; then
+    md5v=`grep \"" . $item . "\" md5_miri_cdps | uniq`
+    if [ -n \"\$md5v\" ] ; then
+      md5v=`echo \$md5v | awk '{if(NF != 2){print \"0\"} else {print \$1}}'`
+    else
+      md5v=\"1\"
+    fi
+    if [ \"\$md5v\" == \"1\" ]; then 
+      echo \"\$file NO MD5 HASH\"
+    else
+      if [ `md5_value \$file` != \$md5v ] ; then
+        echo \"\$file FAILED\"
+        failed=1
+      fi
+    fi
+  else
+    echo \"\$file does not exist\"
+    failed=1
+  fi";
+              }
             }
           }
         }
@@ -276,6 +333,10 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
     
+    foreach ( $items as $item ) {
+      $newItems [] = $item [0];
+    }
+    
     $modules = $objCdp->getPipelineModulesFromFiles ( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
@@ -320,12 +381,71 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               
               foreach ( $fileNames as $file ) {
                 echo "\necho \"       --include-glob '" . $file . "' \\\\\" >> lftp_script";
+                // Here, we remove the file from the $items array
+                if (($key = array_search ( $file, $newItems )) !== false) {
+                  unset ( $newItems [$key] );
+                }
               }
               
               echo "\necho \"       --parallel\"                >> lftp_script
               
               lftp -f lftp_script
               ";
+            }
+          }
+        }
+      }
+    }
+    // Now we may have still some files over. We put them at the correct location.
+    if (sizeof ( $newItems ) > 0) {
+      foreach ( $newItems as $item ) {
+        $restModules = $objCdp->getProperty ( $item, "PIPELINE_MODULE" );
+        if (sizeof ( $restModules ) > 0) {
+          foreach ( $restModules as $modu ) {
+            $restStep = $objCdp->getProperty ( $item, "PIPELINE_STEP" );
+            if (sizeof ( $restStep ) > 0) {
+              $ft = $objCdp->getProperty ( $item, "FILETYPE" );
+              $ftype = $ft [0];
+              foreach ( $restStep as $ste ) {
+                if ($ste [2] == "") {
+                  $dir = "\$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
+                } else {
+                  $dir = "\$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/";
+                }
+                echo "mkdir -p " . $dir . "\n";
+                
+                echo "
+                  HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
+                  LCD=\"" . $dir . "\"
+                                  RCD=\"$ftp_directory\"
+                
+                                  lftp -c \"set ftp:list-options -a;
+                                  open \$HOST ;
+                                  lcd \$LCD ;
+                                  cd \$RCD ;
+                                  mirror --verbose \
+                                  --include-glob md5_miri_cdps\"
+                
+                                  if [ \$check ] ; then
+                                  md5_check
+                                  exit
+                                  fi
+                                  ";
+                
+                echo "echo \"Updating CDP files to \"" .$dir . "
+echo \"Beware that this can take quite a long time\"
+echo \"\"
+echo \"set ftp:list-options -a\"          >  lftp_script
+echo \"open \$HOST \"                      >> lftp_script
+echo \"lcd \$LCD \"                        >> lftp_script
+echo \"cd \$RCD \"                         >> lftp_script
+echo \"mirror --verbose \\\\\"              >> lftp_script";
+                echo "\necho \"       --include-glob '" . $item . "' \\\\\" >> lftp_script";
+                echo "\necho \"       --parallel\"                >> lftp_script
+              
+              lftp -f lftp_script
+              ";
+              }
             }
           }
         }
