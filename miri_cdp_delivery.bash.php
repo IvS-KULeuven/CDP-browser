@@ -357,14 +357,15 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
             ";
       }
     }
-    
+
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
-    
+
+    $newItems = array();
     foreach ( $items as $item ) {
       $newItems [] = $item [0];
     }
-    
+
     $modules = $objCdp->getPipelineModulesFromFiles ( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
