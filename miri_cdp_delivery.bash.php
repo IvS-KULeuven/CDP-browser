@@ -136,12 +136,12 @@ fi
               foreach ( $restStep as $ste ) {
                 if ($ste [2] == "") {
                   echo "
-  cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . $item . "\n";
+  cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
                   echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "\"";
                 } else {
                   echo "
-  cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/" . $item . "\n";
+  cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/" . "\n";
                   echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "\"";
                 }
