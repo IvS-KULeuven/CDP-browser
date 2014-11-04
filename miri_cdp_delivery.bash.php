@@ -78,7 +78,7 @@ fi
             $fileNames = $objCdp->getFileNamesCdp ( $delivery [0], $module, $step, $refType, $fileType );
             // If there are files, we make a directory for this combination and download the files
             if (count ( $fileNames ) > 0) {
-              echo "
+              echo "failed=0
   cd \$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType;
               echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"";
@@ -135,12 +135,12 @@ fi
               $ftype = $ft [0];
               foreach ( $restStep as $ste ) {
                 if ($ste [2] == "") {
-                  echo "
+                  echo "failed=0
   cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
                   echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "\"";
                 } else {
-                  echo "
+                  echo "failed=0
   cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/" . "\n";
                   echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "\"";
@@ -170,7 +170,7 @@ fi
             } else {
               $ft = $objCdp->getProperty ( $item, "FILETYPE" );
               $ftype = $ft [0];
-              echo "
+              echo "failed=0
   cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
               echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "\"";
