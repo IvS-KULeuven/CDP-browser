@@ -474,6 +474,44 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               lftp -f lftp_script
               ";
               }
+            } else {
+              $ft = $objCdp->getProperty ( $item, "FILETYPE" );
+              $ftype = $ft [0];
+              $dir = "\$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
+              
+              echo "mkdir -p " . $dir . "\n";
+              
+              echo "
+                  HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
+                  LCD=\"" . $dir . "\"
+                                  RCD=\"$ftp_directory\"
+                
+                                  lftp -c \"set ftp:list-options -a;
+                                  open \$HOST ;
+                                  lcd \$LCD ;
+                                  cd \$RCD ;
+                                  mirror --verbose \
+                                  --include-glob md5_miri_cdps\"
+                
+                                  if [ \$check ] ; then
+                                  md5_check
+                                  exit
+                                  fi
+                                  ";
+              
+              echo "echo \"Updating CDP files to \"" . $dir . "
+echo \"Beware that this can take quite a long time\"
+echo \"\"
+echo \"set ftp:list-options -a\"          >  lftp_script
+echo \"open \$HOST \"                      >> lftp_script
+echo \"lcd \$LCD \"                        >> lftp_script
+echo \"cd \$RCD \"                         >> lftp_script
+echo \"mirror --verbose \\\\\"              >> lftp_script";
+              echo "\necho \"       --include-glob '" . $item . "' \\\\\" >> lftp_script";
+              echo "\necho \"       --parallel\"                >> lftp_script
+              
+              lftp -f lftp_script
+              ";
             }
           }
         }
