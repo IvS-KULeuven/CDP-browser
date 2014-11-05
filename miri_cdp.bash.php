@@ -18,7 +18,7 @@ function miri_cdp($release)
 
   print"#!/bin/bash
 #
-# bash script to syncronize the CDPs between the miri ftp repository
+# bash script to synchronize the CDPs between the miri ftp repository
 # and your drive. If you have DHAS installed and thus the environment
 # variable MIRI_DIR defined, the CDPs will be put into the appropriate
 # location for DHAS.
