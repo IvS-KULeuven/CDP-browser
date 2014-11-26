@@ -2,7 +2,7 @@
 // miri_cdp.bash
 // exports a bash file to download the CDP files
 header ( "Content-Type: text/plain" );
-header ( "Content-Disposition: attachment; filename=\"miri_cdp_flat.bash\"" );
+header ( "Content-Disposition: attachment; filename=\"miri_cdp_dhas.bash\"" );
 
 miri_cdp_flat ();
 function miri_cdp_flat() {
@@ -34,16 +34,14 @@ function md5_check {
   failed=0";
   
   // Here, we add all files which belong to the CDP releases.
-  $releases = $objCdp->getUsedCdpVersions ();
-  foreach ( $releases as $release ) {
-    $items = $objCdp->getFilesForCdpDelivery ( $release[0] );
+  $items = $objCdp->getFilesForDHASDelivery ();
+  
+  foreach ( $items as $key ) {
     
-    foreach ( $items as $key ) {
-      
-      echo "\n  file=\"" . $key ['filename'] . "\"
+    echo "\n  file=\"" . $key ['filename'] . "\"
   if [[ -e \$file ]] ; then
 
-    md5v=`grep \"" . $key['filename'] . "\" md5_miri_cdps | uniq`
+    md5v=`grep \"" . $key ['filename'] . "\" md5_miri_cdps | uniq`
     if [ -n \"\$md5v\" ] ; then
       md5v=`echo \$md5v | awk '{if(NF != 2){print \"0\"} else {print \$1}}'`
     else
@@ -61,7 +59,6 @@ function md5_check {
     echo \"\$file does not exist\"
     failed=1
   fi";
-    }
   }
   
   echo "\n  if [ \$failed == 1 ]; then
@@ -184,13 +181,10 @@ echo \"cd \$RCD \"                         >> lftp_script
 echo \"mirror --verbose \\\\\"              >> lftp_script";
   
   // Here, we add all files which belong to the CDP releases.
-  $releases = $objCdp->getUsedCdpVersions ();
-  foreach ( $releases as $release ) {
-    $items = $objCdp->getFilesForCdpDelivery ( $release[0] );
-    
-    foreach ( $items as $key ) {
-      echo "\necho \"       --include-glob '" . $key ["filename"] . "' \\\\\" >> lftp_script";
-    }
+  $items = $objCdp->getFilesForDHASDelivery ();
+  
+  foreach ( $items as $key ) {
+    echo "\necho \"       --include-glob '" . $key ["filename"] . "' \\\\\" >> lftp_script";
   }
   echo "\necho \"       --parallel\"                >> lftp_script
 

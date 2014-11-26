@@ -30,7 +30,7 @@ if ($loggedUser) {
              <li class=\"dropdown\">
                <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Download all<b class=\"caret\"></b></a>
 	           <ul class=\"dropdown-menu\">
-    	         <li><a href=\"" . $baseURL . "miri_cdp_flat.bash.php\" target=\"_blank\" rel=\"external\">Flat structure</a></li>
+    	         <li><a href=\"" . $baseURL . "miri_cdp_dhas.bash.php\" target=\"_blank\" rel=\"external\">DHAS</a></li>
     	         <li><a href=\"" . $baseURL . "miri_cdp_delivery.bash.php\" target=\"_blank\" rel=\"external\">By delivery</a></li>
     	         <li><a href=\"" . $baseURL . "miri_cdp_pipeline.bash.php\" target=\"_blank\" rel=\"external\">By pipeline module</a></li>
     	       </ul>

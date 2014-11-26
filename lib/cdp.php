@@ -152,6 +152,11 @@ class Cdp {
     
     return $objDatabase->selectSingleArray ( "SELECT * from cdp where name = \"delivery\" AND keyvalue = \"" . $delivery . "\"" );
   }
+  public function getFilesForDHASDelivery() {
+    global $objDatabase;
+    
+    return $objDatabase->selectSingleArray ( "SELECT * from cdp where name = \"INCLUDE_IN_DHAS\" AND keyvalue = \"y\"" );
+  }
   public function getPipelineModules() {
     global $objDatabase;
     
