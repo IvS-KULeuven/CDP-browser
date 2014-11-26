@@ -177,6 +177,20 @@ class Cdp {
     
     return $objDatabase->selectSingleArray ( "select filename from cdp where name=\"delivery\" and keyvalue=\"" . $delivery . "\"" );
   }
+  public function getInDeliveryFromFiles($filenames) {
+    global $objDatabase;
+    
+    $filesToInclude = array ();
+    foreach ( $filenames as $file ) {
+      $fileToInclude = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file [0] . "\" and name=\"INCLUDE_IN_DELIVERY\" and keyvalue=\"y\"" );
+
+      if ($fileToInclude) {
+        $f = $fileToInclude[0];
+        array_push ( $filesToInclude, $f);
+      }
+    }
+    return $filesToInclude;
+  }
   public function getPipelineModulesFromFiles($filenames) {
     global $objDatabase;
     

@@ -52,7 +52,9 @@ fi
   foreach ( $modules as $module ) {
     // All filenames
     $items = $objCdp->getFilesForPipelineModule ( $module [0] );
-    
+
+    $items = $objCdp->getInDeliveryFromFiles ( $items );
+
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
     $deliveries = $objCdp->getDeliveriesFromFiles ( $items, $release );
