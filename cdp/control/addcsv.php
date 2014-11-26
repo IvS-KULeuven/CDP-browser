@@ -5,6 +5,7 @@ global $objMetadata, $objCdp, $entryMessage;
 if ($_FILES ['csv']) {
   if ($_FILES ['csv'] ['tmp_name']) {
     $csvfile = $_FILES ['csv'] ['tmp_name'];
+    ini_set('auto_detect_line_endings',true);
     $data_array = file ( $csvfile );
     
     // The first line defines the keywords
