@@ -16,10 +16,10 @@ function miri_cdp_flat() {
 #
 # bash script to synchronize the CDPs between the miri ftp repository
 # and your drive. If you have DHAS installed and thus the environment
-# variable MIRI_DIR defined, the CDPs will be put into the appropriate
+# variable CDP_DIR defined, the CDPs will be put into the appropriate
 # location for DHAS.
 #
-# After syncronization a md5sum check is run on all the files.
+# After synchronization a md5sum check is run on all the files.
 #
 # miri_cdp.bash --help 
 # for help
