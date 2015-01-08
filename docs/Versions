@@ -1,0 +1,8 @@
+Version of external libraries
+-----------------------------
+
+| Library              | Version        | Last update |
+|----------------------|----------------|-------------|
+| bootstrap            | 3.3.1          | 2015-01-08  |
+| jquery               | 1.11.2         | 2015-01-08  |
+| jquery.tablesorter   | 2.17.4         |             |
