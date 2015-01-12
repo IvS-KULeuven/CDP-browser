@@ -169,7 +169,7 @@ foreach ( $keywords as $key => $value ) {
   } else {
     $update = false;
   }
-  echo "<div class=\"modal fade\" id=\"deliver" . str_replace ( '.', '_', $value [0] ) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+  echo "<div class=\"modal fade\" id=\"deliver" . str_replace( ' ', '_', str_replace ( '.', '_', $value [0] )) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">
