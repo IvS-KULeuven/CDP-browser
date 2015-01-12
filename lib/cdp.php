@@ -144,7 +144,7 @@ class Cdp {
   }
   public function getDeliveredFiles() {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "select DISTINCT(filename) from cdp;" );
   }
   public function getFilesForCdpDelivery($delivery) {
