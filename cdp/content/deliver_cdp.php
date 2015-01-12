@@ -93,7 +93,7 @@ foreach ( $notYetDelivered as $key => $value ) {
   echo "<td style=\"vertical-align: middle\">" . $value [1] . "</td>";
   echo "<td style=\"vertical-align: middle\">" . $value [2] . "</td>";
   echo "<td style=\"vertical-align: middle\">";
-  echo "<button type=\"button\" title=\"Deliver CDP file " . $value [0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace ( '.', '_', $value [0] ) . "\" >
+  echo "<button type=\"button\" title=\"Deliver CDP file " . $value [0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace ( ' ', '_', str_replace ( '.', '_', $value [0] )) . "\" >
   	        <span class=\"glyphicon glyphicon-pencil\"></span>
   		  </button></td>";
   echo "</tr>\n";
@@ -136,10 +136,10 @@ foreach ( $delivered as $key => $value ) {
   echo "<td style=\"vertical-align: middle\">" . $date [0] ['keyvalue'] . "</td>";
   echo "<td style=\"vertical-align: middle\">" . $value [2] . "</td>";
   echo "<td style=\"vertical-align: middle\">";
-  echo "<button type=\"button\" title=\"Edit CDP file " . $value [0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace ( '.', '_', $value [0] ) . "\" >
+  echo "<button type=\"button\" title=\"Edit CDP file " . $value [0] . "\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#deliver" . str_replace( ' ', '_', str_replace ( '.', '_', $value [0] )) . "\" >
   		 <span class=\"glyphicon glyphicon-pencil\"></span>
         </button>
-        <button type=\"button\" title=\"Remove " . $value [0] . " from list of delivered CDP files\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#undeliver" . str_replace ( '.', '_', $value [0] ) . "\" >
+        <button type=\"button\" title=\"Remove " . $value [0] . " from list of delivered CDP files\" class=\"btn btn-default pull-right\" data-toggle=\"modal\" data-target=\"#undeliver" . str_replace( ' ', '_', str_replace ( '.', '_', $value [0] )) . "\" >
          <span class=\"glyphicon glyphicon-remove\"></span>
  		</button>";
   
@@ -317,7 +317,7 @@ foreach ( $keywords as $key => $value ) {
   
   // Make the undeliver CDP modal
   if ($update) {
-    echo "<div class=\"modal fade\" id=\"undeliver" . str_replace ( '.', '_', $value [0] ) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
+    echo "<div class=\"modal fade\" id=\"undeliver" . str_replace( ' ', '_', str_replace ( '.', '_', $value [0] )) . "\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">
           <div class=\"modal-dialog\">
             <div class=\"modal-content\">
               <div class=\"modal-body\">
