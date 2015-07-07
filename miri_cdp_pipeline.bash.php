@@ -69,7 +69,7 @@ fi
             // If there are files, we make a directory for this combination and download the files
             if (count ( $fileNames ) > 0) {
               echo "
-  cd \$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType;
+  cd \"\$cdpdir\"/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType;
               echo "
   echo \"Checking files in \$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\"";
               foreach ( $fileNames as $file ) {
@@ -191,8 +191,8 @@ if [[ -z \$CDP_DIR ]]; then
 else
   cdpdir=\"\$CDP_DIR\"
 fi
-mkdir -p \$cdpdir
-cd \$cdpdir";
+mkdir -p \"\$cdpdir\"
+cd \"\$cdpdir\"";
   
   echo "\n";
   
@@ -220,7 +220,7 @@ cd \$cdpdir";
       
       echo "
       HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
-      LCD=\"\$cdpdir" . "/" . $key . "/CDP" . $delivery [0] . "\"
+      LCD=\"\\\"\$cdpdir\\\"" . "/" . $key . "/CDP" . $delivery [0] . "\"
       RCD=\"$ftp_directory\"
   
       lftp -c \"set ftp:list-options -a;
@@ -282,7 +282,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               
               echo "
                   HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
-                  LCD=\"\$cdpdir/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\"
+                  LCD=\"\\\"\$cdpdir\\\"/" . $module [0] . "/" . $step . "/" . $refType . "/CDP" . $delivery . "/" . $fileType . "\"
                   RCD=\"$ftp_directory\"
               
                   lftp -c \"set ftp:list-options -a;
@@ -325,7 +325,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
   echo "\nmd5_check
 
 # Remove all the md5_miri_cdps files.
-cd \$cdpdir
+cd \"\$cdpdir\"
 find . -type f -name md5_miri_cdps -exec rm -f {} \\;
 find . -type f -name lftp_script -exec rm -f {} \\;
 

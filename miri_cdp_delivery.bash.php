@@ -82,7 +82,7 @@ fi
             if (count ( $fileNames ) > 0) {
               echo "
   failed=0
-  cd \$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType;
+  cd \"\$cdpdir\"/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType;
               echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"";
               
@@ -126,6 +126,7 @@ fi
         }
       }
     }
+    echo "TEST";
     // Now we may have still some files over. We put them at the correct location.
     if (sizeof ( $newItems ) > 0) {
       foreach ( $newItems as $item ) {
@@ -140,13 +141,13 @@ fi
                 if ($ste [2] == "") {
                   echo "
   failed=0
-  cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
+  cd \"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
                   echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "\"";
                 } else {
                   echo "
   failed=0
-  cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/" . "\n";
+  cd \"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/" . "\n";
                   echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "\"";
                 }
@@ -177,7 +178,7 @@ fi
               $ftype = $ft [0];
               echo "
   failed=0
-  cd \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
+  cd \"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
               echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "\"";
               
@@ -288,8 +289,8 @@ if [[ -z \$CDP_DIR ]]; then
 else
   cdpdir=\"\$CDP_DIR\"
 fi
-mkdir -p \$cdpdir
-cd \$cdpdir";
+mkdir -p \"\$cdpdir\"
+cd \"\$cdpdir\"";
   
   echo "\n";
   // Here, we add all files which belong to a certain CDP release.
@@ -326,7 +327,7 @@ cd \$cdpdir";
         
         echo "
         HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
-        LCD=\"\$cdpdir" . "/CDP" . $delivery [0] . "/" . $key . "\"
+        LCD=\"\\\"\$cdpdir\"" . "/CDP" . $delivery [0] . "/" . $key . "\"
         RCD=\"$ftp_directory\"
         
         lftp -c \"set ftp:list-options -a;
@@ -389,7 +390,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               
               echo "
                   HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
-                  LCD=\"\$cdpdir" . "/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"
+                  LCD=\"\\\"\$cdpdir\"" . "/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"
                   RCD=\"$ftp_directory\"
               
                   lftp -c \"set ftp:list-options -a;
@@ -443,9 +444,9 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               $ftype = $ft [0];
               foreach ( $restStep as $ste ) {
                 if ($ste [2] == "") {
-                  $dir = "\$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
+                  $dir = "\\\"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
                 } else {
-                  $dir = "\$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/";
+                  $dir = "\\\"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/";
                 }
                 echo "mkdir -p " . $dir . "\n";
                 
@@ -484,7 +485,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
             } else {
               $ft = $objCdp->getProperty ( $item, "FILETYPE" );
               $ftype = $ft [0];
-              $dir = "\$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
+              $dir = "\\\"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
               
               echo "mkdir -p " . $dir . "\n";
               
@@ -529,7 +530,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
   echo "\nmd5_check
 
 # Remove all the md5_miri_cdps and lftp_script files.
-cd \$cdpdir
+cd \"\$cdpdir\"
 find . -type f -name md5_miri_cdps -exec rm -f {} \\;
 find . -type f -name lftp_script -exec rm -f {} \\;
 
