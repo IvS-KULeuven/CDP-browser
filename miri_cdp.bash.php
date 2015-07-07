@@ -154,12 +154,12 @@ if [[ -z \$CDP_DIR ]]; then
 else
   cdpdir=\"\$CDP_DIR\"
 fi
-mkdir -p \$cdpdir
-cd \$cdpdir
+mkdir -p \"\$cdpdir\"
+cd \"\$cdpdir\"
 echo \"\"
 
 HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
-LCD=\$cdpdir
+LCD=\"\$cdpdir\"
 RCD=\"$ftp_directory\"
 
 lftp -c \"set ftp:list-options -a;
@@ -196,7 +196,7 @@ lftp -f lftp_script
 md5_check
     
 # Remove all the md5_miri_cdps files.
-cd \$cdpdir
+cd \"\$cdpdir\"
 find . -type f -name md5_miri_cdps -exec rm -f {} \\;
 find . -type f -name lftp_script -exec rm -f {} \\;
 
