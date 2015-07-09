@@ -4,7 +4,7 @@
 header ( "Content-Type: text/plain" );
 header ( "Content-Disposition: attachment; filename=\"miri_cdp_delivery.bash\"" );
 
-ini_set('max_execution_time', 600);
+ini_set ( 'max_execution_time', 600 );
 
 if (isset ( $_GET ['release'] )) {
   $release = $_GET ['release'];
@@ -126,7 +126,6 @@ fi
         }
       }
     }
-    echo "TEST";
     // Now we may have still some files over. We put them at the correct location.
     if (sizeof ( $newItems ) > 0) {
       foreach ( $newItems as $item ) {
@@ -160,7 +159,7 @@ fi
     else
       md5v=\"1\"
     fi
-    if [ \"\$md5v\" == \"1\" ]; then 
+    if [ \"\$md5v\" == \"1\" ]; then
       echo \"\$file NO MD5 HASH\"
     else
       if [ `md5_value \$file` != \$md5v ] ; then
@@ -190,7 +189,7 @@ fi
     else
       md5v=\"1\"
     fi
-    if [ \"\$md5v\" == \"1\" ]; then 
+    if [ \"\$md5v\" == \"1\" ]; then
       echo \"\$file NO MD5 HASH\"
     else
       if [ `md5_value \$file` != \$md5v ] ; then
@@ -204,9 +203,9 @@ fi
   fi";
             }
           }
-       }
-     }
-   }
+        }
+      }
+    }
   }
   echo "
 }
@@ -327,7 +326,7 @@ cd \"\$cdpdir\"";
         
         echo "
         HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
-        LCD=\"\\\"\$cdpdir\"" . "/CDP" . $delivery [0] . "/" . $key . "\"
+        LCD=\"\\\"\$cdpdir\\\"" . "/CDP" . $delivery [0] . "/" . $key . "\"
         RCD=\"$ftp_directory\"
         
         lftp -c \"set ftp:list-options -a;
@@ -390,7 +389,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               
               echo "
                   HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
-                  LCD=\"\\\"\$cdpdir\"" . "/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"
+                  LCD=\"\\\"\$cdpdir\\\"" . "/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"
                   RCD=\"$ftp_directory\"
               
                   lftp -c \"set ftp:list-options -a;
@@ -444,9 +443,9 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               $ftype = $ft [0];
               foreach ( $restStep as $ste ) {
                 if ($ste [2] == "") {
-                  $dir = "\\\"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
+                  $dir = "\\\"\$cdpdir\\\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
                 } else {
-                  $dir = "\\\"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/";
+                  $dir = "\\\"\$cdpdir\\\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/";
                 }
                 echo "mkdir -p " . $dir . "\n";
                 
@@ -485,7 +484,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
             } else {
               $ft = $objCdp->getProperty ( $item, "FILETYPE" );
               $ftype = $ft [0];
-              $dir = "\\\"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
+              $dir = "\\\"\$cdpdir\\\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
               
               echo "mkdir -p " . $dir . "\n";
               
