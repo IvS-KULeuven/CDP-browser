@@ -4,6 +4,8 @@
 header ( "Content-Type: text/plain" );
 header ( "Content-Disposition: attachment; filename=\"miri_cdp_pipeline.bash\"" );
 
+ini_set('max_execution_time', 600);
+
 if (isset ( $_GET ['release'] )) {
   $release = $_GET ['release'];
 } else {
