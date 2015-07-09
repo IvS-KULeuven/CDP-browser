@@ -5,6 +5,8 @@
 header ("Content-Type: text/plain");
 header ("Content-Disposition: attachment; filename=\"miri_cdp" . $_GET['release'] . ".bash\"");
 
+ini_set('max_execution_time', 600);
+
 $release = $_GET['release'];
 miri_cdp($release);
 

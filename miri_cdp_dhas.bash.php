@@ -4,6 +4,8 @@
 header ( "Content-Type: text/plain" );
 header ( "Content-Disposition: attachment; filename=\"miri_cdp_dhas.bash\"" );
 
+ini_set('max_execution_time', 600);
+
 miri_cdp_flat ();
 function miri_cdp_flat() {
   $loginErrorCode = "";
