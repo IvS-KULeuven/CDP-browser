@@ -4,6 +4,8 @@
 header ( "Content-Type: text/plain" );
 header ( "Content-Disposition: attachment; filename=\"miri_cdp_delivery.bash\"" );
 
+ini_set('max_execution_time', 600);
+
 if (isset ( $_GET ['release'] )) {
   $release = $_GET ['release'];
 } else {
@@ -56,13 +58,11 @@ fi
         ) 
     );
   }
-  
   foreach ( $deliveries as $delivery ) {
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
     
     $items = $objCdp->getInDeliveryFromFiles ( $items );
-    
     foreach ( $items as $item ) {
       $newItems [] = $item [0];
     }
@@ -204,9 +204,9 @@ fi
   fi";
             }
           }
-        }
-      }
-    }
+       }
+     }
+   }
   }
   echo "
 }
