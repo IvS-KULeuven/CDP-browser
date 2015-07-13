@@ -443,15 +443,15 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               $ftype = $ft [0];
               foreach ( $restStep as $ste ) {
                 if ($ste [2] == "") {
-                  $dir = "\\\"\$cdpdir\\\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
+                  $dir = "CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
                 } else {
-                  $dir = "\\\"\$cdpdir\\\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/";
+                  $dir = "CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/";
                 }
                 echo "mkdir -p " . $dir . "\n";
                 
                 echo "
                   HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
-                  LCD=\"" . $dir . "\"
+                  LCD=\"\\\"\$cdpdir\\\"/" . $dir . "\"
                                   RCD=\"$ftp_directory\"
                 
                                   lftp -c \"set ftp:list-options -a;
@@ -484,13 +484,13 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
             } else {
               $ft = $objCdp->getProperty ( $item, "FILETYPE" );
               $ftype = $ft [0];
-              $dir = "\\\"\$cdpdir\\\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
+              $dir = "CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
               
               echo "mkdir -p " . $dir . "\n";
               
               echo "
                   HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
-                  LCD=\"" . $dir . "\"
+                  LCD=\"\\\"\$cdpdir\\\"/" . $dir . "\"
                                   RCD=\"$ftp_directory\"
                 
                                   lftp -c \"set ftp:list-options -a;
