@@ -4,24 +4,24 @@
 class Metadata {
   public function getValidValues($key) {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "select * from metadata where id = \"" . $key . "\"", "value" );
   }
   public function getKeys() {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "select DISTINCT(id) from metadata;" );
   }
   public function getType($key) {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleValue ( "select * from metadata where id = \"" . $key . "\"", "valueType" );
   }
   public function getLocation($key) {
     global $objDatabase;
-    
+
     $inFits = $objDatabase->selectSingleValue ( "select * from metadata where id = \"" . $key . "\"", "inFits" );
-    
+
     if ($inFits) {
       return "FITS";
     } else {
@@ -31,7 +31,7 @@ class Metadata {
   public function keywordAlreadyTaken($key) {
     global $objDatabase;
     $keys = $this->getKeys ();
-    
+
     $taken = false;
     foreach ( $keys as $value ) {
       if ($value ["id"] == $key) {
@@ -82,7 +82,7 @@ class Metadata {
     $keyword = str_replace('_', ' ', $keyword);
     $values = $this->getValidValues ( $keyword );
     $type = $this->getType ( $keyword );
-    if ($type == "LIST" || $type == "MULITLIST") {
+    if ($type == "LIST" || $type == "MULTILIST") {
       foreach ( $values as $key ) {
         if ($key ['value'] == $value) {
           return true;
@@ -104,14 +104,13 @@ class Metadata {
   }
   public function isRequired($key) {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleValue ( "select * from metadata where id = \"" . $key . "\"", "required" );
   }
   public function addValue($keyword, $value, $type) {
     // type is always LIST or MULTILIST
     $inFits = $this->getLocation ( $keyword );
     $required = $this->isRequired ( $keyword );
-    
     return $this->addMetadata ( $keyword, $inFits, $type, $value, $required );
   }
   public function deleteValue($keyword, $value) {
