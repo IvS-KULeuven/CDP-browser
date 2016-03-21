@@ -7,11 +7,11 @@
 
   // Includes of all classes and assistance files
   require_once 'common/entryexit/preludes.php';
-  
+
   // HTML 5
   echo "<!DOCTYPE html>";
   echo "<html lang=\"en\">";
-  
+
   // The head of the html page
   echo "<head>
   		  <link href=\"css/cdp.css\" rel=\"stylesheet\" type=\"text/css\">
@@ -32,21 +32,21 @@
 
   // Import the database settings.
   require_once "lib/setup/databaseInfo.php";
-  
+
   // Making the menu
   require_once 'common/menu.php';
 
   // Determine the page to show
   $includeFile=$objUtil->utilitiesDispatchIndexAction();
-  
+
   // Page with the list of cdp files
   require_once $includeFile;
-  
+
   // Making the footer
   echo "<div class=\"navbar navbar-default navbar-fixed-bottom\">
-  		  <p class=\"navbar-text\">Copyright 2014 Wim De Meester. All Rights Reserved.</p>
+  		  <p class=\"navbar-text\">Copyright 2014-2016, <a href='mailto:wim.demeester@ster.kuleuven.be'>Wim De Meester</a>, <a href='http://www.ster.kuleuven.be/'>IvS</a>, KU Leuven.</p>
   		</div>";
-  
+
   // dispays $entryMessage if any
   if(isset($entryMessage)&&$entryMessage) {
   	echo "<div class=\"modal fade\" id=\"errorModal\" tabindex=\"-1\">
@@ -62,14 +62,14 @@
             </div>
           </div>
         </div>";
-  
+
   	echo "<script type=\"text/javascript\">";
   	echo "$(document).ready(function() {
           $('#errorModal').modal('show')
         });";
   	echo "</script>";
   }
-  
+
   echo "</body>";
   // Closing the html page
   echo "</html>"

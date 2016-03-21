@@ -5,10 +5,10 @@ class Cdp {
   // Returns a list with all files from the ftp server.
   public function getFilesFromFtpServer() {
     global $ftp_server, $ftp_directory, $ftp_password, $ftp_user;
-    
+
     // set up an ftp connection
     $conn_id = ftp_connect ( $ftp_server );
-    
+
     if (! $conn_id) {
       $entryMessage = "Couldn't connect to $ftp_server";
       return;
@@ -17,7 +17,7 @@ class Cdp {
       if (@ftp_login ( $conn_id, $ftp_user, $ftp_password)) {
         if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
           $items = array ();
-          
+
           foreach ( $children as $child ) {
             $chunks = preg_split ( "/\s+/", $child );
             list ( $item ['rights'], $item ['number'], $item ['user'], $item ['group'], $item ['size'], $item ['month'], $item ['day'], $item ['time'] ) = $chunks;
@@ -31,22 +31,22 @@ class Cdp {
       } else {
         $entryMessage = "Couldn't connect to $ftp_server";
       }
-      
+
       // Close the connection to the ftp server
       ftp_close ( $conn_id );
-      
+
       return $items;
     }
   }
   // Returns true if the files exists on the ftp server
   public function existOnFtpServer($filename) {
     global $ftp_server, $ftp_directory, $ftp_password, $ftp_user;
-    
+
     // set up an ftp connection
     $conn_id = ftp_connect ( $ftp_server );
-    
+
     $toReturn = false;
-    
+
     if (! $conn_id) {
       $entryMessage = "Couldn't connect to $ftp_server";
       return $toReturn;
@@ -55,7 +55,7 @@ class Cdp {
       if (@ftp_login ( $conn_id, $ftp_user, $ftp_password)) {
         if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
           $items = array ();
-          
+
           foreach ( $children as $child ) {
             $chunks = preg_split ( "/\s+/", $child );
             list ( $item ['rights'], $item ['number'], $item ['user'], $item ['group'], $item ['size'], $item ['month'], $item ['day'], $item ['time'] ) = $chunks;
@@ -71,22 +71,22 @@ class Cdp {
       } else {
         $entryMessage = "Couldn't connect to $ftp_server";
       }
-      
+
       // Close the connection to the ftp server
       ftp_close ( $conn_id );
-      
+
       return $toReturn;
     }
   }
   // Get size from ftp server
   public function getSizeFromFtp($filename) {
     global $ftp_server, $ftp_directory, $ftp_user, $ftp_password;
-    
+
     // set up an ftp connection
     $conn_id = ftp_connect ( $ftp_server ) or die ( "Couldn't connect to $ftp_server" );
-    
+
     $toReturn = 0;
-    
+
     if (! $conn_id) {
       $entryMessage = "Couldn't connect to $ftp_server";
       return $toReturn;
@@ -95,7 +95,7 @@ class Cdp {
       if (@ftp_login ( $conn_id, $ftp_user, $ftp_password)) {
         if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
           $items = array ();
-          
+
           foreach ( $children as $child ) {
             $chunks = preg_split ( "/\s+/", $child );
             list ( $item ['rights'], $item ['number'], $item ['user'], $item ['group'], $item ['size'], $item ['month'], $item ['day'], $item ['time'] ) = $chunks;
@@ -105,7 +105,7 @@ class Cdp {
           }
           // Close the connection to the ftp server
           ftp_close ( $conn_id );
-          
+
           foreach ( $items as $key => $value ) {
             if ($key == $filename) {
               return ($value ['size']);
@@ -115,31 +115,31 @@ class Cdp {
       } else {
         // Close the connection to the ftp server
         ftp_close ( $conn_id );
-        
+
         $entryMessage = "Couldn't connect to $ftp_server";
       }
-      
+
       return $toReturn;
     }
   }
   public function deliver_file($filename, $delivery) {
     global $objDatabase;
-    
+
     $objDatabase->execSQL ( "INSERT INTO cdp ( filename, name, keyvalue ) VALUES ( \"" . $filename . "\", \"delivery\", \"" . $delivery . "\") " );
   }
   public function undeliver_file($filename) {
     global $objDatabase;
-    
+
     $objDatabase->execSQL ( "DELETE FROM cdp where filename = \"" . $filename . "\";" );
   }
   public function getDelivery($filename) {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "SELECT * from cdp where name=\"delivery\" AND filename=\"" . $filename . "\"" );
   }
   public function getUsedCdpVersions() {
     global $objDatabase;
-    
+
     return array_reverse ( $objDatabase->selectSingleArray ( "SELECT DISTINCT(keyvalue) from cdp where name=\"delivery\"" ) );
   }
   public function getDeliveredFiles() {
@@ -149,37 +149,42 @@ class Cdp {
   }
   public function getFilesForCdpDelivery($delivery) {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "SELECT * from cdp where name = \"delivery\" AND keyvalue = \"" . $delivery . "\"" );
   }
   public function getFilesForDHASDelivery() {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "SELECT * from cdp where name = \"INCLUDE_IN_DHAS\" AND keyvalue = \"y\"" );
+  }
+  public function getFilesForFullDelivery() {
+    global $objDatabase;
+
+    return $objDatabase->selectSingleArray ( "SELECT * from cdp where name = \"INCLUDE_IN_FULL_DELIVERY\" AND keyvalue = \"y\"" );
   }
   public function getPipelineModules() {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "select distinct(keyvalue) from cdp where name=\"PIPELINE_MODULE\";" );
   }
   public function getDeliveries() {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "select distinct(keyvalue) from cdp where name=\"delivery\";" );
   }
   public function getFilesForPipelineModule($module) {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "select filename from cdp where name=\"PIPELINE_MODULE\" and keyvalue=\"" . $module . "\"" );
   }
   public function getFilesForDelivery($delivery) {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "select filename from cdp where name=\"delivery\" and keyvalue=\"" . $delivery . "\"" );
   }
   public function getInDeliveryFromFiles($filenames) {
     global $objDatabase;
-    
+
     $filesToInclude = array ();
     foreach ( $filenames as $file ) {
       $fileToInclude = $objDatabase->selectSingleArray ( "select filename from cdp where filename=\"" . $file [0] . "\" and name=\"INCLUDE_IN_DELIVERY\" and keyvalue=\"y\"" );
@@ -193,7 +198,7 @@ class Cdp {
   }
   public function getPipelineModulesFromFiles($filenames) {
     global $objDatabase;
-    
+
     $steps = array ();
     foreach ( $filenames as $file ) {
       $newStep = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"PIPELINE_MODULE\"" );
@@ -209,7 +214,7 @@ class Cdp {
   }
   public function getPipelineSteps($filenames) {
     global $objDatabase;
-    
+
     $steps = array ();
     foreach ( $filenames as $file ) {
       $newStep = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"PIPELINE_STEP\"" );
@@ -225,7 +230,7 @@ class Cdp {
   }
   public function getRefTypes($filenames) {
     global $objDatabase;
-    
+
     $steps = array ();
     foreach ( $filenames as $file ) {
       $newStep = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"REFTYPE\"" );
@@ -243,7 +248,7 @@ class Cdp {
   }
   public function getDeliveriesFromFiles($filenames, $release) {
     global $objDatabase;
-    
+
     $deliveries = array ();
     foreach ( $filenames as $file ) {
       if ($release == "") {
@@ -261,7 +266,7 @@ class Cdp {
   }
   public function getFilesWithoutPipelineInformation($release) {
     $allFiles = $this->getFilesForCdpDelivery($release);
-    
+
     // We now ask for the pipeline module of all files.
     // If the pipeline module is not set, we add the file to the list to return.
     $toReturn = array ();
@@ -275,7 +280,7 @@ class Cdp {
   }
   public function getFileTypes($filenames) {
     global $objDatabase;
-    
+
     $fileTypes = array ();
     foreach ( $filenames as $file ) {
       $newFileType = $objDatabase->selectSingleArray ( "select keyvalue from cdp where filename=\"" . $file [0] . "\" and name=\"FILETYPE\"" );
@@ -287,9 +292,9 @@ class Cdp {
   }
   public function getFileNames($module, $step, $refType, $delivery, $fileType) {
     global $objDatabase;
-    
+
     $origFiles = $objDatabase->selectSingleArray ( "select filename from cdp where name=\"PIPELINE_MODULE\" and keyvalue=\"" . $module . "\"" );
-    
+
     $newFiles = Array ();
     if (count ( $origFiles ) > 0) {
       foreach ( $origFiles as $file ) {
@@ -299,7 +304,7 @@ class Cdp {
         }
       }
       $files = $newFiles;
-      
+
       $newFiles = Array ();
       if (count ( $files ) > 0) {
         foreach ( $files as $file ) {
@@ -309,7 +314,7 @@ class Cdp {
           }
         }
         $files = $newFiles;
-        
+
         $newFiles = Array ();
         if (count ( $files ) > 0) {
           foreach ( $files as $file ) {
@@ -319,7 +324,7 @@ class Cdp {
             }
           }
           $files = $newFiles;
-          
+
           $newFiles = Array ();
           if (count ( $files ) > 0) {
             foreach ( $files as $file ) {
@@ -337,9 +342,9 @@ class Cdp {
   }
   public function getFileNamesCdp($delivery, $module, $step, $refType, $fileType) {
     global $objDatabase;
-    
+
     $origFiles = $objDatabase->selectSingleArray ( "select filename from cdp where name=\"delivery\" and keyvalue=\"" . $delivery . "\"" );
-    
+
     $newFiles = Array ();
     if (count ( $origFiles ) > 0) {
       foreach ( $origFiles as $file ) {
@@ -349,7 +354,7 @@ class Cdp {
         }
       }
       $files = $newFiles;
-      
+
       $newFiles = Array ();
       if (count ( $files ) > 0) {
         foreach ( $files as $file ) {
@@ -359,7 +364,7 @@ class Cdp {
           }
         }
         $files = $newFiles;
-        
+
         $newFiles = Array ();
         if (count ( $files ) > 0) {
           foreach ( $files as $file ) {
@@ -369,7 +374,7 @@ class Cdp {
             }
           }
           $files = $newFiles;
-          
+
           $newFiles = Array ();
           if (count ( $files ) > 0) {
             foreach ( $files as $file ) {
@@ -387,10 +392,10 @@ class Cdp {
   }
   public function addKey($filename, $name, $keyvalue) {
     global $objDatabase, $entryMessage;
-    
+
     if ($name == "UPLOAD_DATE") {
       $dateArray = date_parse ( $keyvalue );
-      
+
       if (! ($dateArray ['year'] && $dateArray ['month'] && $dateArray ['day'])) {
         $entryMessage = "Invalid date format! <strong>UPLOAD DATE</strong> is not changed!";
         return;
@@ -420,14 +425,14 @@ class Cdp {
   }
   public function getProperty($filename, $keyword) {
     global $objDatabase;
-    
+
     return $objDatabase->selectSingleArray ( "SELECT * from cdp where filename=\"" . $filename . "\" AND name=\"" . $keyword . "\"" );
   }
   public function isDelivered($filename) {
     global $objDatabase;
-    
+
     $count = $objDatabase->selectSingleValue ( "select COUNT(*) from cdp where filename = \"" . $filename . "\";", "COUNT(*)" );
-    
+
     if ($count > 0) {
       return true;
     } else {

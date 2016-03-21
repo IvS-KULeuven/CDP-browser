@@ -1,13 +1,13 @@
 <?php
-// miri_cdp_dhas.bash
+// miri_cdp_full.bash
 // exports a bash file to download the CDP files
 header ( "Content-Type: text/plain" );
-header ( "Content-Disposition: attachment; filename=\"miri_cdp_dhas.bash\"" );
+header ( "Content-Disposition: attachment; filename=\"miri_cdp_full.bash\"" );
 
 ini_set('max_execution_time', 600);
 
-miri_cdp_dhas ();
-function miri_cdp_dhas() {
+miri_cdp_full ();
+function miri_cdp_full() {
   $loginErrorCode = "";
   $loginErrorText = "";
   require_once 'common/entryexit/preludes.php';
@@ -120,9 +120,9 @@ do
      ;;
     \"--help\")
      echo \"\"
-     echo \"   miri_cdp_dhas.bash [--check] [--remove_old] [--clean] [--test]\"
+     echo \"   miri_cdp_full.bash [--check] [--remove_old] [--clean] [--test]\"
      echo \"\"
-     echo \"when run without arguments it will sync all the delivered CDPs in a directory structure to be used with DHAS.\"
+     echo \"when run without arguments it will sync all the delivered CDPs in a directory structure.\"
      echo \"  --check\"
      echo \"    for files in the delivery check if local files match those of the ftp\"
      echo \"  --remove_old\"
@@ -183,7 +183,7 @@ echo \"cd \$RCD \"                         >> lftp_script
 echo \"mirror --verbose \\\\\"              >> lftp_script";
 
   // Here, we add all files which belong to the CDP releases.
-  $items = $objCdp->getFilesForDHASDelivery ();
+  $items = $objCdp->getFilesForFullDelivery ();
 
   foreach ( $items as $key ) {
     echo "\necho \"       --include-glob '" . $key ["filename"] . "' \\\\\" >> lftp_script";
