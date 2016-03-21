@@ -30,13 +30,14 @@ if ($loggedUser) {
              <li class=\"dropdown\">
                <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Download all<b class=\"caret\"></b></a>
 	           <ul class=\"dropdown-menu\">
-    	         <li><a href=\"" . $baseURL . "miri_cdp_dhas.bash.php\" target=\"_blank\" rel=\"external\">DHAS</a></li>
+    	         <li><a href=\"" . $baseURL . "miri_cdp_full.bash.php\" target=\"_blank\" rel=\"external\">Full CDP</a></li>
+               <li><a href=\"" . $baseURL . "miri_cdp_dhas.bash.php\" target=\"_blank\" rel=\"external\">DHAS</a></li>
     	         <li><a href=\"" . $baseURL . "miri_cdp_delivery.bash.php\" target=\"_blank\" rel=\"external\">By delivery</a></li>
     	         <li><a href=\"" . $baseURL . "miri_cdp_pipeline.bash.php\" target=\"_blank\" rel=\"external\">By pipeline module</a></li>
     	       </ul>
              </li>
            </ul>";
-    
+
   // If we are logged in as administrator, we show the admin menu.
   if ($objUser->isAdministrator ( $loggedUser )) {
   echo "     <ul class=\"nav navbar-nav\">
@@ -48,7 +49,7 @@ if ($loggedUser) {
     	           </ul>
             	 </li>
              </ul>";
-    
+
     echo "     <ul class=\"nav navbar-nav\">
         	     <li class=\"dropdown\">
             	   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Admin <b class=\"caret\"></b></a>
@@ -64,7 +65,7 @@ if ($loggedUser) {
 if ($loggedUser) {
   // Set the name of the user and the possibility to log out.
   echo "<p class=\"navbar-text navbar-right\">Signed in as " . $loggedUserName . "</p>";
-  
+
   // We add a logout button
   echo "<a class=\"btn btn-default navbar-right navbar-btn\" href=\"" . $baseURL . "index.php?indexAction=logout\">Log out</a>";
 } else {
