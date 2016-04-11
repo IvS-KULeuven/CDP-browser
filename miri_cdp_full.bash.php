@@ -188,7 +188,6 @@ function md5_check {
       }
     }
     echo "
-  }
 
 function remove_old {
   files=`ls MIRI_*.fits MRS_*`
@@ -292,7 +291,8 @@ cd \"\$cdpdir\"";
     $keys = array_values ( array_unique ( $directories ) );
     if (sizeof ( $keys ) > 0) {
       foreach ( $keys as $key ) {
-        echo "mkdir -p " . "CDP/" . $key . "\n";
+        echo "
+mkdir -p " . "CDP/" . $key . "\n";
 
         echo "
 HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
@@ -312,7 +312,8 @@ if [ \$check ] ; then
 fi
         ";
 
-        echo "echo \"Updating CDP files to \"\$cdpdir/CDP/" . $key . "
+        echo "
+echo \"Updating CDP files to \"\$cdpdir/CDP/" . $key . "
 echo \"Beware that this can take quite a long time\"
 echo \"\"
 echo \"set ftp:list-options -a\"          >  lftp_script
@@ -376,7 +377,8 @@ if [ \$check ] ; then
 fi
               ";
 
-              echo "echo \"Updating CDP files to \"\$cdpdir/CDP/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "
+              echo "
+echo \"Updating CDP files to \"\$cdpdir/CDP/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "
 echo \"Beware that this can take quite a long time\"
 echo \"\"
 echo \"set ftp:list-options -a\"          >  lftp_script
@@ -394,8 +396,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               }
 
               echo "\necho \"       --parallel\"                >> lftp_script
-
-              lftp -f lftp_script
+lftp -f lftp_script
               ";
             }
           }
@@ -418,7 +419,8 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
                 } else {
                   $dir = "CDP/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/";
                 }
-                echo "mkdir -p " . $dir . "\n";
+                echo "
+mkdir -p " . $dir . "\n";
 
                 echo "
 HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
@@ -438,7 +440,8 @@ if [ \$check ] ; then
 fi
                                   ";
 
-                echo "echo \"Updating CDP files to \"" . $dir . "
+                echo "
+echo \"Updating CDP files to \"" . $dir . "
 echo \"Beware that this can take quite a long time\"
 echo \"\"
 echo \"set ftp:list-options -a\"          >  lftp_script
@@ -457,7 +460,8 @@ lftp -f lftp_script
               $ftype = $ft [0];
               $dir = "CDP/" . $modu [2] . "/" . $ftype [2] . "/";
 
-              echo "mkdir -p " . $dir . "\n";
+              echo "
+mkdir -p " . $dir . "\n";
 
               echo "
 HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
@@ -477,7 +481,8 @@ if [ \$check ] ; then
 fi
                                   ";
 
-              echo "echo \"Updating CDP files to \"" . $dir . "
+              echo "
+echo \"Updating CDP files to \"" . $dir . "
 echo \"Beware that this can take quite a long time\"
 echo \"\"
 echo \"set ftp:list-options -a\"          >  lftp_script
