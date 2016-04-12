@@ -187,7 +187,8 @@ function md5_check {
         }
       }
     }
-    echo "
+  }
+  echo "
 
 function remove_old {
   files=`ls MIRI_*.fits MRS_*`
@@ -500,7 +501,6 @@ lftp -f lftp_script
         }
       }
     }
-  }
 
   echo "\nmd5_check
 
