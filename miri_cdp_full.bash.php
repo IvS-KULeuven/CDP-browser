@@ -189,6 +189,7 @@ function md5_check {
     }
   }
   echo "
+}
 
 function remove_old {
   files=`ls MIRI_*.fits MRS_*`
