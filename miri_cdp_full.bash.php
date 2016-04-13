@@ -45,7 +45,6 @@ function md5_check {
 
   // All filenames
   $items = $objCdp->getFilesForFullDelivery ();
-
   foreach ( $items as $item ) {
     $newItems [] = $item [0];
   }
@@ -507,12 +506,13 @@ lftp -f lftp_script
 
 # Remove all the md5_miri_cdps and lftp_script files.
 cd \"\$cdpdir\"
-find . -type f -name md5_miri_cdps -exec rm -f {} \\;
+#find . -type f -name md5_miri_cdps -exec rm -f {} \\;
 find . -type f -name lftp_script -exec rm -f {} \\;
 
 echo \"\"
 echo \"MIRI CDP synchronization finished\"
 echo \"Files are located in \"\$cdpdir
 echo \"\"";
+
 }
 ?>
