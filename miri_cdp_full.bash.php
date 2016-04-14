@@ -13,7 +13,6 @@ function miri_cdp_full() {
   require_once 'common/entryexit/preludes.php';
 
   global $ftp_server, $ftp_directory, $ftp_user, $ftp_password, $objCdp;
-
   print "#!/bin/bash
 #
 # bash script to synchronize the CDPs between the miri ftp repository
@@ -48,6 +47,11 @@ function md5_check {
   foreach ( $items as $item ) {
     $newItems [] = $item [0];
   }
+
+  // TODO: /STER/wim/MIRI_CDPS/CDP/CALDETECTOR1/reset_correction/referencefile in checksum, but /STER/wim/MIRI_CDPS/CDP/CALDETECTOR1/reset_correction/RESET/referencefile in download.
+  // TODO: REFTYPE is missing
+  // TODO: Why do we have the same file 5 times in the checksum part?
+  // TODO: TEST SPEED AFTER IMPROVEMENTS IN lib/cdp.php.
   $modules = $objCdp->getPipelineModulesFromFiles ( $items );
   $pipelineSteps = $objCdp->getPipelineSteps ( $items );
   $refTypes = $objCdp->getRefTypes ( $items );
@@ -106,60 +110,31 @@ function md5_check {
         }
       }
     }
-    // Now we may have still some files over. We put them at the correct location.
-    if (sizeof ( $newItems ) > 0) {
-      foreach ( $newItems as $item ) {
-        $restModules = $objCdp->getProperty ( $item, "PIPELINE_MODULE" );
-        if (sizeof ( $restModules ) > 0) {
-          foreach ( $restModules as $modu ) {
-            $restStep = $objCdp->getProperty ( $item, "PIPELINE_STEP" );
-            if (sizeof ( $restStep ) > 0) {
-              $ft = $objCdp->getProperty ( $item, "FILETYPE" );
-              $ftype = $ft [0];
-              foreach ( $restStep as $ste ) {
-                if ($ste [2] == "") {
-                  echo "
+  }
+  // Now we may have still some files over. We put them at the correct location.
+  if (sizeof ( $newItems ) > 0) {
+    foreach ( $newItems as $item ) {
+      $restModules = $objCdp->getProperty ( $item, "PIPELINE_MODULE" );
+      if (sizeof ( $restModules ) > 0) {
+        foreach ( $restModules as $modu ) {
+          $restStep = $objCdp->getProperty ( $item, "PIPELINE_STEP" );
+          if (sizeof ( $restStep ) > 0) {
+            $ft = $objCdp->getProperty ( $item, "FILETYPE" );
+            $ftype = $ft [0];
+            foreach ( $restStep as $ste ) {
+              if ($ste [2] == "") {
+                echo "
   failed=0
   cd \"\$cdpdir\"/CDP/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
-                  echo "
+                echo "
   echo \"Checking files in \$cdpdir/CDP/" . $modu [2] . "/" . $ftype [2] . "\"";
-                } else {
-                  echo "
+              } else {
+                echo "
   failed=0
   cd \"\$cdpdir\"/CDP/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/" . "\n";
-                  echo "
+                echo "
   echo \"Checking files in \$cdpdir/CDP/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "\"";
-                }
-
-                echo "\n  file=\"" . $item . "\"
-  if [[ -e \$file ]] ; then
-    md5v=`grep \"" . $item . "\" md5_miri_cdps | uniq`
-    if [ -n \"\$md5v\" ] ; then
-      md5v=`echo \$md5v | awk '{if(NF != 2){print \"0\"} else {print \$1}}'`
-    else
-      md5v=\"1\"
-    fi
-    if [ \"\$md5v\" == \"1\" ]; then
-      echo \"\$file NO MD5 HASH\"
-    else
-      if [ `md5_value \$file` != \$md5v ] ; then
-        echo \"\$file FAILED\"
-        failed=1
-      fi
-    fi
-  else
-    echo \"\$file does not exist\"
-    failed=1
-  fi";
               }
-            } else {
-              $ft = $objCdp->getProperty ( $item, "FILETYPE" );
-              $ftype = $ft [0];
-              echo "
-  failed=0
-  cd \"\$cdpdir\"/CDP/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
-              echo "
-  echo \"Checking files in \$cdpdir/CDP/" . $modu [2] . "/" . $ftype [2] . "\"";
 
               echo "\n  file=\"" . $item . "\"
   if [[ -e \$file ]] ; then
@@ -182,6 +157,35 @@ function md5_check {
     failed=1
   fi";
             }
+          } else {
+            $ft = $objCdp->getProperty ( $item, "FILETYPE" );
+            $ftype = $ft [0];
+            echo "
+  failed=0
+  cd \"\$cdpdir\"/CDP/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
+            echo "
+  echo \"Checking files in \$cdpdir/CDP/" . $modu [2] . "/" . $ftype [2] . "\"";
+
+            echo "\n  file=\"" . $item . "\"
+  if [[ -e \$file ]] ; then
+    md5v=`grep \"" . $item . "\" md5_miri_cdps | uniq`
+    if [ -n \"\$md5v\" ] ; then
+      md5v=`echo \$md5v | awk '{if(NF != 2){print \"0\"} else {print \$1}}'`
+    else
+      md5v=\"1\"
+    fi
+    if [ \"\$md5v\" == \"1\" ]; then
+      echo \"\$file NO MD5 HASH\"
+    else
+      if [ `md5_value \$file` != \$md5v ] ; then
+        echo \"\$file FAILED\"
+        failed=1
+      fi
+    fi
+  else
+    echo \"\$file does not exist\"
+    failed=1
+  fi";
           }
         }
       }

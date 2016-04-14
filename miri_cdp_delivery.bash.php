@@ -16,9 +16,7 @@ function miri_cdp_pipeline($release) {
   $loginErrorCode = "";
   $loginErrorText = "";
   require_once 'common/entryexit/preludes.php';
-  
   global $ftp_server, $ftp_directory, $ftp_user, $ftp_password, $objCdp;
-  
   print "#!/bin/bash
 #
 # bash script to synchronize the CDPs between the miri ftp repository
@@ -28,7 +26,7 @@ function miri_cdp_pipeline($release) {
 #
 # After syncronization a md5sum check is run on all the files.
 #
-# miri_cdp_pipeline.bash --help 
+# miri_cdp_delivery.bash --help
 # for help
 #
 # If you run into any problems email me wim.demeester@ster.kuleuven.be
@@ -37,9 +35,7 @@ function md5_check {
   echo \"\"
   echo \"Checking the MD5 hashes of the CDP files...\"
   echo \"\"
-  
   failed=0";
-  
   echo "
 if [[ -z \$CDP_DIR ]]; then
   cdpdir=`pwd`
@@ -47,31 +43,27 @@ else
   cdpdir=\"\$CDP_DIR\"
 fi
   ";
-  
   // Here, we add all files which belong to a certain CDP release.
   if ($release == "") {
     $deliveries = $objCdp->getDeliveries ();
   } else {
     $deliveries = array (
         array (
-            $release 
-        ) 
+            $release
+        )
     );
   }
   foreach ( $deliveries as $delivery ) {
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
-    
     $items = $objCdp->getInDeliveryFromFiles ( $items );
     foreach ( $items as $item ) {
       $newItems [] = $item [0];
     }
-    
     $modules = $objCdp->getPipelineModulesFromFiles ( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
     $fileTypes = $objCdp->getFileTypes ( $items );
-    
     foreach ( $modules as $module ) {
       foreach ( $pipelineSteps as $step ) {
         foreach ( $refTypes as $refType ) {
@@ -85,7 +77,7 @@ fi
   cd \"\$cdpdir\"/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType;
               echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"";
-              
+
               foreach ( $fileNames as $file ) {
                 echo "\n  file=\"" . $file . "\"
   if [[ -e \$file ]] ; then
@@ -95,7 +87,7 @@ fi
     else
       md5v=\"1\"
     fi
-    if [ \"\$md5v\" == \"1\" ]; then 
+    if [ \"\$md5v\" == \"1\" ]; then
       echo \"\$file NO MD5 HASH\"
     else
       if [ `md5_value \$file` != \$md5v ] ; then
@@ -112,7 +104,7 @@ fi
                   unset ( $newItems [$key] );
                 }
               }
-              
+
               echo "\n  if [ \$failed == 1 ]; then
     echo \"Something has gone wrong in the transfer of these files.\"
     echo \"Please remove FAILED files by hand and start this script again\"
@@ -150,7 +142,7 @@ fi
                   echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "\"";
                 }
-                
+
                 echo "\n  file=\"" . $item . "\"
   if [[ -e \$file ]] ; then
     md5v=`grep \"" . $item . "\" md5_miri_cdps | uniq`
@@ -180,7 +172,7 @@ fi
   cd \"\$cdpdir\"/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/" . "\n";
               echo "
   echo \"Checking files in \$cdpdir/CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "\"";
-              
+
               echo "\n  file=\"" . $item . "\"
   if [[ -e \$file ]] ; then
     md5v=`grep \"" . $item . "\" md5_miri_cdps | uniq`
@@ -259,7 +251,7 @@ do
      echo \"\"
      echo \"when run without arguments it will sync all the delivered CDPs in a flat directory structure.\"
      echo \"  --check\"
-     echo \"    for files in the delivery check if local files match those of the ftp\" 
+     echo \"    for files in the delivery check if local files match those of the ftp\"
      echo \"  --remove_old\"
      echo \"    remove any CDP files not in the CDP deliveries\"
      echo \"  --clean\"
@@ -290,17 +282,17 @@ else
 fi
 mkdir -p \"\$cdpdir\"
 cd \"\$cdpdir\"";
-  
+
   echo "\n";
   // Here, we add all files which belong to a certain CDP release.
   if ($release == "") {
     $deliveries = $objCdp->getDeliveries ();
   } else {
     $deliveries = array (
-        ($release) 
+        ($release)
     );
   }
-  
+
   foreach ( $deliveries as $delivery ) {
     // First we download the files which have no pipeline information
     $files = $objCdp->getFilesWithoutPipelineInformation ( $delivery [0] );
@@ -318,30 +310,30 @@ cd \"\$cdpdir\"";
         }
       }
     }
-    
+
     $keys = array_values ( array_unique ( $directories ) );
     if (sizeof ( $keys ) > 0) {
       foreach ( $keys as $key ) {
         echo "mkdir -p " . "CDP" . $delivery [0] . "/" . $key . "\n";
-        
+
         echo "
         HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
         LCD=\"\\\"\$cdpdir\\\"" . "/CDP" . $delivery [0] . "/" . $key . "\"
         RCD=\"$ftp_directory\"
-        
+
         lftp -c \"set ftp:list-options -a;
         open \$HOST ;
         lcd \$LCD ;
         cd \$RCD ;
         mirror --verbose \
         --include-glob md5_miri_cdps\"
-        
+
         if [ \$check ] ; then
         md5_check
         exit
         fi
         ";
-        
+
         echo "echo \"Updating CDP files to \"\$cdpdir/CDP" . $delivery [0] . "/" . $key . "
         echo \"Beware that this can take quite a long time\"
         echo \"\"
@@ -350,33 +342,33 @@ cd \"\$cdpdir\"";
 echo \"lcd \$LCD \"                        >> lftp_script
 echo \"cd \$RCD \"                         >> lftp_script
 echo \"mirror --verbose \\\\\"              >> lftp_script";
-        
+
         foreach ( $files as $filename ) {
           if ($directories [$filename] == $key) {
             echo "\necho \"       --include-glob '" . $filename . "' \\\\\" >> lftp_script";
           }
         }
-        
+
         echo "\necho \"       --parallel\"                >> lftp_script
-        
+
               lftp -f lftp_script
             ";
       }
     }
-    
+
     // All filenames
     $items = $objCdp->getFilesForDelivery ( $delivery [0] );
-    
+
     $newItems = array ();
     foreach ( $items as $item ) {
       $newItems [] = $item [0];
     }
-    
+
     $modules = $objCdp->getPipelineModulesFromFiles ( $items );
     $pipelineSteps = $objCdp->getPipelineSteps ( $items );
     $refTypes = $objCdp->getRefTypes ( $items );
     $fileTypes = $objCdp->getFileTypes ( $items );
-    
+
     foreach ( $modules as $module ) {
       foreach ( $pipelineSteps as $step ) {
         foreach ( $refTypes as $refType ) {
@@ -386,25 +378,25 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
             // If there are files, we make a directory for this combination and download the files
             if (count ( $fileNames ) > 0) {
               echo "mkdir -p " . "CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\n";
-              
+
               echo "
                   HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
                   LCD=\"\\\"\$cdpdir\\\"" . "/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"
                   RCD=\"$ftp_directory\"
-              
+
                   lftp -c \"set ftp:list-options -a;
                   open \$HOST ;
                   lcd \$LCD ;
                   cd \$RCD ;
                   mirror --verbose \
                   --include-glob md5_miri_cdps\"
-              
+
                   if [ \$check ] ; then
                   md5_check
                   exit
                   fi
               ";
-              
+
               echo "echo \"Updating CDP files to \"\$cdpdir/CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "
 echo \"Beware that this can take quite a long time\"
 echo \"\"
@@ -413,7 +405,7 @@ echo \"open \$HOST \"                      >> lftp_script
 echo \"lcd \$LCD \"                        >> lftp_script
 echo \"cd \$RCD \"                         >> lftp_script
 echo \"mirror --verbose \\\\\"              >> lftp_script";
-              
+
               foreach ( $fileNames as $file ) {
                 echo "\necho \"       --include-glob '" . $file . "' \\\\\" >> lftp_script";
                 // Here, we remove the file from the $items array
@@ -421,9 +413,9 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
                   unset ( $newItems [$key] );
                 }
               }
-              
+
               echo "\necho \"       --parallel\"                >> lftp_script
-              
+
               lftp -f lftp_script
               ";
             }
@@ -448,25 +440,25 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
                   $dir = "CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ste [2] . "/" . $ftype [2] . "/";
                 }
                 echo "mkdir -p " . $dir . "\n";
-                
+
                 echo "
                   HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
                   LCD=\"\\\"\$cdpdir\\\"/" . $dir . "\"
                                   RCD=\"$ftp_directory\"
-                
+
                                   lftp -c \"set ftp:list-options -a;
                                   open \$HOST ;
                                   lcd \$LCD ;
                                   cd \$RCD ;
                                   mirror --verbose \
                                   --include-glob md5_miri_cdps\"
-                
+
                                   if [ \$check ] ; then
                                   md5_check
                                   exit
                                   fi
                                   ";
-                
+
                 echo "echo \"Updating CDP files to \"" . $dir . "
 echo \"Beware that this can take quite a long time\"
 echo \"\"
@@ -477,7 +469,7 @@ echo \"cd \$RCD \"                         >> lftp_script
 echo \"mirror --verbose \\\\\"              >> lftp_script";
                 echo "\necho \"       --include-glob '" . $item . "' \\\\\" >> lftp_script";
                 echo "\necho \"       --parallel\"                >> lftp_script
-              
+
               lftp -f lftp_script
               ";
               }
@@ -485,27 +477,27 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
               $ft = $objCdp->getProperty ( $item, "FILETYPE" );
               $ftype = $ft [0];
               $dir = "CDP" . $delivery [0] . "/" . $modu [2] . "/" . $ftype [2] . "/";
-              
+
               echo "mkdir -p " . $dir . "\n";
-              
+
               echo "
                   HOST=\"" . $ftp_user . ":" . $ftp_password . "@" . $ftp_server . "\"
                   LCD=\"\\\"\$cdpdir\\\"/" . $dir . "\"
                                   RCD=\"$ftp_directory\"
-                
+
                                   lftp -c \"set ftp:list-options -a;
                                   open \$HOST ;
                                   lcd \$LCD ;
                                   cd \$RCD ;
                                   mirror --verbose \
                                   --include-glob md5_miri_cdps\"
-                
+
                                   if [ \$check ] ; then
                                   md5_check
                                   exit
                                   fi
                                   ";
-              
+
               echo "echo \"Updating CDP files to \"" . $dir . "
 echo \"Beware that this can take quite a long time\"
 echo \"\"
@@ -516,7 +508,7 @@ echo \"cd \$RCD \"                         >> lftp_script
 echo \"mirror --verbose \\\\\"              >> lftp_script";
               echo "\necho \"       --include-glob '" . $item . "' \\\\\" >> lftp_script";
               echo "\necho \"       --parallel\"                >> lftp_script
-              
+
               lftp -f lftp_script
               ";
             }
@@ -525,7 +517,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
       }
     }
   }
-  
+
   echo "\nmd5_check
 
 # Remove all the md5_miri_cdps and lftp_script files.
