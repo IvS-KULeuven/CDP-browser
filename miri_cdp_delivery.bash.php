@@ -69,7 +69,7 @@ fi
         foreach ( $refTypes as $refType ) {
           foreach ( $fileTypes as $fileType ) {
             // Here, we check the filenames for the different pipeline steps
-            $fileNames = $objCdp->getFileNamesCdp ( $delivery [0], $module, $step, $refType, $fileType );
+            $fileNames = $objCdp->getFileNames ( $module, $step, $refType, $delivery [0], $fileType );
             // If there are files, we make a directory for this combination and download the files
             if (count ( $fileNames ) > 0) {
               echo "
@@ -374,7 +374,7 @@ echo \"mirror --verbose \\\\\"              >> lftp_script";
         foreach ( $refTypes as $refType ) {
           foreach ( $fileTypes as $fileType ) {
             // Here, we check the filenames for the different pipeline steps
-            $fileNames = $objCdp->getFileNamesCdp ( $delivery [0], $module, $step, $refType, $fileType );
+            $fileNames = $objCdp->getFileNames ( $module, $step, $refType, $delivery [0], $fileType );
             // If there are files, we make a directory for this combination and download the files
             if (count ( $fileNames ) > 0) {
               echo "mkdir -p " . "CDP" . $delivery [0] . "/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\n";

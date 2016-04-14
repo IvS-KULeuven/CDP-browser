@@ -48,10 +48,6 @@ function md5_check {
     $newItems [] = $item [0];
   }
 
-  // TODO: /STER/wim/MIRI_CDPS/CDP/CALDETECTOR1/reset_correction/referencefile in checksum, but /STER/wim/MIRI_CDPS/CDP/CALDETECTOR1/reset_correction/RESET/referencefile in download.
-  // TODO: REFTYPE is missing
-  // TODO: Why do we have the same file 5 times in the checksum part?
-  // TODO: TEST SPEED AFTER IMPROVEMENTS IN lib/cdp.php.
   $modules = $objCdp->getPipelineModulesFromFiles ( $items );
   $pipelineSteps = $objCdp->getPipelineSteps ( $items );
   $refTypes = $objCdp->getRefTypes ( $items );

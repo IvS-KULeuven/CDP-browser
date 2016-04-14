@@ -306,32 +306,30 @@ class Cdp {
   public function getFileNames($module, $step, $refType, $delivery, $fileType) {
     global $objDatabase;
 
-    return $objDatabase->selectSingleArray ( "select a.filename from cdp as a, cdp as b, cdp as c, cdp as d, cdp as e
-                                                           where a.name=\"PIPELINE_MODULE\" and a.keyvalue=\"" . $module . "\"
-                                                           and b.name=\"PIPELINE_STEP\" and b.keyvalue=\"" . $step . "\"
-                                                           and c.name=\"REFTYPE\" and c.keyvalue=\"" . $refType . "\"
-                                                           and d.name=\"delivery\" and d.keyvalue=\"" . $delivery . "\"
-                                                           and e.name=\"FILETYPE\" and e.keyvalue=\"" . $fileType . "\"" );
-  }
-  public function getFileNamesCdp($delivery, $module, $step, $refType, $fileType) {
-    global $objDatabase;
-
-    return $objDatabase->selectSingleArray ( "select a.filename from cdp as a, cdp as b, cdp as c, cdp as d, cdp as e
-                                                           where a.name=\"delivery\" and a.keyvalue=\"" . $delivery . "\"
-                                                           and b.name=\"PIPELINE_MODULE\" and b.keyvalue=\"" . $module . "\"
-                                                           and c.name=\"PIPELINE_STEP\" and c.keyvalue=\"" . $step . "\"
-                                                           and d.name=\"REFTYPE\" and d.keyvalue=\"" . $refType . "\"
-                                                           and e.name=\"FILETYPE\" and e.keyvalue=\"" . $fileType . "\"" );
+    return $this->reworkArray($objDatabase->selectSingleArray ( "SELECT DISTINCT(filename) FROM cdp WHERE name=\"delivery\" AND keyvalue=\"" . $delivery . "\"
+                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"PIPELINE_MODULE\" AND keyvalue=\"" . $module . "\"
+                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"PIPELINE_STEP\" AND keyvalue=\"" . $step . "\"
+                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"REFTYPE\" AND keyvalue=\"" . $refType . "\"
+                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"FILETYPE\" AND keyvalue=\"" . $fileType . "\"))))" ));
   }
   public function getFileNamesFull($module, $step, $refType, $fileType) {
     global $objDatabase;
 
-    return $objDatabase->selectSingleArray ( "select a.filename from cdp as a, cdp as b, cdp as c, cdp as d, cdp as e
-                                                           where a.name=\"INCLUDE_IN_FULL_DELIVERY\" and a.keyvalue=\"y\"
-                                                           and b.name=\"PIPELINE_MODULE\" and b.keyvalue=\"" . $module . "\"
-                                                           and c.name=\"PIPELINE_STEP\" and c.keyvalue=\"" . $step . "\"
-                                                           and d.name=\"REFTYPE\" and d.keyvalue=\"" . $refType . "\"
-                                                           and e.name=\"FILETYPE\" and e.keyvalue=\"" . $fileType . "\"" );
+    return $this->reworkArray($objDatabase->selectSingleArray ( "SELECT DISTINCT(filename) FROM cdp WHERE name=\"INCLUDE_IN_FULL_DELIVERY\" AND keyvalue=\"y\"
+                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"PIPELINE_MODULE\" AND keyvalue=\"" . $module . "\"
+                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"PIPELINE_STEP\" AND keyvalue=\"" . $step . "\"
+                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"REFTYPE\" AND keyvalue=\"" . $refType . "\"
+                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"FILETYPE\" AND keyvalue=\"" . $fileType . "\"))))" ));
+  }
+  private function reworkArray($files) {
+    $toReturn = Array ();
+
+    if (count ( $files ) > 0) {
+      foreach ($files as $file) {
+        array_push ( $toReturn, $file [0] );
+      }
+    }
+    return $toReturn;
   }
   public function addKey($filename, $name, $keyvalue) {
     global $objDatabase, $entryMessage;
