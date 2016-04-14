@@ -306,7 +306,7 @@ class Cdp {
   public function getFileNames($module, $step, $refType, $delivery, $fileType) {
     global $objDatabase;
 
-    return $objDatabase->selectSingleArray ( "select a.filename from cdp as a, cdp as b, cdp as c, cdp as d, cdp as e,
+    return $objDatabase->selectSingleArray ( "select a.filename from cdp as a, cdp as b, cdp as c, cdp as d, cdp as e
                                                            where a.name=\"PIPELINE_MODULE\" and a.keyvalue=\"" . $module . "\"
                                                            and b.name=\"PIPELINE_STEP\" and b.keyvalue=\"" . $step . "\"
                                                            and c.name=\"REFTYPE\" and c.keyvalue=\"" . $refType . "\"
@@ -316,7 +316,7 @@ class Cdp {
   public function getFileNamesCdp($delivery, $module, $step, $refType, $fileType) {
     global $objDatabase;
 
-    return $objDatabase->selectSingleArray ( "select a.filename from cdp as a, cdp as b, cdp as c, cdp as d, cdp as e,
+    return $objDatabase->selectSingleArray ( "select a.filename from cdp as a, cdp as b, cdp as c, cdp as d, cdp as e
                                                            where a.name=\"delivery\" and a.keyvalue=\"" . $delivery . "\"
                                                            and b.name=\"PIPELINE_MODULE\" and b.keyvalue=\"" . $module . "\"
                                                            and c.name=\"PIPELINE_STEP\" and c.keyvalue=\"" . $step . "\"
@@ -326,7 +326,7 @@ class Cdp {
   public function getFileNamesFull($module, $step, $refType, $fileType) {
     global $objDatabase;
 
-    return $objDatabase->selectSingleArray ( "select a.filename from cdp as a, cdp as b, cdp as c, cdp as d, cdp as e,
+    return $objDatabase->selectSingleArray ( "select a.filename from cdp as a, cdp as b, cdp as c, cdp as d, cdp as e
                                                            where a.name=\"INCLUDE_IN_FULL_DELIVERY\" and a.keyvalue=\"y\"
                                                            and b.name=\"PIPELINE_MODULE\" and b.keyvalue=\"" . $module . "\"
                                                            and c.name=\"PIPELINE_STEP\" and c.keyvalue=\"" . $step . "\"
