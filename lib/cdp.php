@@ -312,15 +312,6 @@ class Cdp {
                                                   AND filename IN (SELECT filename FROM cdp WHERE name=\"REFTYPE\" AND keyvalue=\"" . $refType . "\"
                                                   AND filename IN (SELECT filename FROM cdp WHERE name=\"FILETYPE\" AND keyvalue=\"" . $fileType . "\"))))" ));
   }
-  public function getFileNamesCdp($delivery, $module, $step, $refType, $fileType) {
-    global $objDatabase;
-
-    return $this->reworkArray($objDatabase->selectSingleArray ( "SELECT DISTINCT(filename) FROM cdp WHERE name=\"delivery\" AND keyvalue=\"" . $delivery . "\"
-                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"PIPELINE_MODULE\" AND keyvalue=\"" . $module . "\"
-                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"PIPELINE_STEP\" AND keyvalue=\"" . $step . "\"
-                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"REFTYPE\" AND keyvalue=\"" . $refType . "\"
-                                                  AND filename IN (SELECT filename FROM cdp WHERE name=\"FILETYPE\" AND keyvalue=\"" . $fileType . "\"))))" ));
-  }
   public function getFileNamesFull($module, $step, $refType, $fileType) {
     global $objDatabase;
 
