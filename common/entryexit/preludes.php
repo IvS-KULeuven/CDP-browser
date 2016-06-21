@@ -7,7 +7,7 @@ if ($loginErrorCode || $loginErrorText) {
 }
 function preludesA() {
   global $objDatabase, $objUtil, $objFits, $objUser, $objMetadata, $objCdp;
-  
+
   if (! session_id ())
     session_start ();
   require_once "lib/setup/databaseInfo.php";
@@ -24,7 +24,7 @@ function preludesA() {
   require_once "lib/fits.php";
   $objFits = new Fits ();
   require_once "common/control/loginuser.php";
-  
+
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'add_csv', 'cdp/control/addcsv.php' )))
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'add_user', 'common/control/adduser.php' )))
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'add_metadata_keyword', 'metadata/control/addkeyword.php' )))
@@ -32,6 +32,7 @@ function preludesA() {
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'delete_keyword', 'metadata/control/deletekeyword.php' )))
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'deliver_cdp_file', 'cdp/control/deliver_cdp_file.php' )))
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'undeliver_cdp_file', 'cdp/control/undeliver_cdp_file.php' )))
+  if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'undeliver_selected_files', 'cdp/control/undeliver_files.php' )))
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'change_metadata_type', 'metadata/control/changekeyword.php' )))
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'change_metadata_value', 'metadata/control/changevalue.php' )))
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'change_metadata_location', 'metadata/control/changelocation.php' )))
@@ -40,7 +41,7 @@ function preludesA() {
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'delete_possible_metadata_value', 'metadata/control/deletevalue.php' )))
   if (! ($indexActionInclude = $objUtil->utilitiesCheckIndexActionAdmin ( 'change_role', 'common/control/changeUserRole.php' )))
   ;
-  
+
   if ($indexActionInclude != "") {
     require_once $indexActionInclude;
   }

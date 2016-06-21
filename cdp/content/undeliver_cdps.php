@@ -58,8 +58,7 @@ foreach ( $deliveredDatabase as $filename ) {
   }
 }
 
-echo "<form action=\"" . $baseURL . "index.php\" method=\"post\">
-        <input type=\"hidden\" name=\"indexAction\" value=\"undeliver_selected_files\" />
+echo "<form action=\"".$baseURL."index.php?indexAction=undeliver_selected_files\" enctype=\"multipart/form-data\" method=\"post\"><div>
         <button type=\"submit\" class=\"btn btn-danger\">
           <span class=\"glyphicon glyphicon-minus\"></span>&nbsp;Undeliver selected files
         </button>";
