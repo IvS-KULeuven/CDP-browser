@@ -58,6 +58,12 @@ foreach ( $deliveredDatabase as $filename ) {
   }
 }
 
+echo "<form action=\"" . $baseURL . "index.php\" method=\"post\">
+        <input type=\"hidden\" name=\"indexAction\" value=\"undeliver_selected_files\" />
+        <button type=\"submit\" class=\"btn btn-danger\">
+          <span class=\"glyphicon glyphicon-minus\"></span>&nbsp;Undeliver selected files
+        </button>";
+
 // The already delivered CDP files
 echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
 echo "    <thead>
@@ -99,4 +105,5 @@ echo "<br /><br />";
 
 $objUtil->addTableJavascript ( "1" );
 
+echo "</form>";
 ?>
