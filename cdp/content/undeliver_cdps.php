@@ -76,7 +76,7 @@ echo "    <tbody>";
 foreach ( $delivered as $key => $value ) {
   echo "<tr>";
 
-  echo '<td><input type="checkbox" name="undeliver" value="' . $value [0] . '">';
+  echo '<td><input type="checkbox" name="undeliver[]" value="' . $value [0] . '">';
   echo "<td style=\"vertical-align: middle\">" . $value [0] . "&nbsp;";
 
   // Here we check if the file is already delivered.
