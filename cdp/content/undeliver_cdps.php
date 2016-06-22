@@ -50,7 +50,7 @@ foreach ( $deliveredDatabase as $filename ) {
     $dateObj = $date [0];
     $fileSize = $objCdp->getProperty ( $filename [0], 'size' );
     $fileSizeObj = $fileSize [0];
-    $delivered [] = array (
+    $orphaned [] = array (
         $filename [0],
         $dateObj ['keyvalue'],
         $fileSizeObj ['keyvalue']
@@ -58,51 +58,78 @@ foreach ( $deliveredDatabase as $filename ) {
   }
 }
 
-echo "<form action=\"".$baseURL."index.php?indexAction=undeliver_selected_files\" enctype=\"multipart/form-data\" method=\"post\"><div>
+echo "<form action=\"".$baseURL."index.php?indexAction=undeliver_selected_files\" enctype=\"multipart/form-data\" method=\"post\">
         <button type=\"submit\" class=\"btn btn-danger\">
           <span class=\"glyphicon glyphicon-minus\"></span>&nbsp;Undeliver selected files
         </button>";
 
+// We make a tab for the delivered files and for the files that are not delivered yet.
+echo " <ul id=\"tabs\" class=\"nav nav-tabs\" data-tabs=\"tabs\">";
+
+echo "<li class=\"active\"><a href=\"#toUndeliver\" data-toggle=\"tab\">toUndeliver</a></li>";
+echo "<li><a href=\"#orphaned\" data-toggle=\"tab\">Orphaned files</a></li>";
+
+echo "</ul>";
+
+
 // The already delivered CDP files
-echo "   <table class=\"table table-striped table-hover tablesorter custom-popup\">";
-echo "    <thead>
-           <th class=\"filter-false columnSelector-disable\" data-sorter=\"false\" data-priority=\"critical\">Undeliver</th>
-           <th data-priority=\"critical\">Filename</th>
-           <th data-priority=\"2\">Delivery Date</th>
-           <th data-priority=\"4\">Size</th>
-          </thead>";
-echo "    <tbody>";
+echo " <div id=\"my-tab-content\" class=\"tab-content\">";
+echo "  <div class=\"tab-pane active\" id=\"toUndeliver\">";
 
-foreach ( $delivered as $key => $value ) {
-  echo "<tr>";
+showFilesToDeliver($delivered, 0);
 
-  echo '<td><input type="checkbox" name="undeliver[]" value="' . $value [0] . '">';
-  echo "<td style=\"vertical-align: middle\">" . $value [0] . "&nbsp;";
+echo "  </div>";
+echo "  <div class=\"tab-pane\" id=\"orphaned\">";
 
-  // Here we check if the file is already delivered.
-  $cdpDelivery = $objCdp->getDelivery ( $value [0] );
-  foreach ( $cdpDelivery as $number ) {
-    echo "<span class=\"pull-right badge alert-success\">CDP " . ($number ['keyvalue']) . "</span>&nbsp;";
-  }
+showFilesToDeliver($orphaned, 1);
 
-  echo "</td>";
-
-  $date = $objCdp->getProperty ( $value [0], "UPLOAD_DATE" );
-
-  echo "<td style=\"vertical-align: middle\">" . $date [0] ['keyvalue'] . "</td>";
-  echo "<td style=\"vertical-align: middle\">" . $value [2] . "</td>";
-
-  echo "</tr>\n";
-}
-
-echo "    </tbody>
-		 </table>";
-echo $objUtil->addTablePager ( "1" );
-
+echo "  </div>";
 echo " </div>";
-echo "<br /><br />";
-
-$objUtil->addTableJavascript ( "1" );
-
 echo "</form>";
+
+function showFilesToDeliver($files, $type) {
+  global $objUtil, $objCdp;
+
+  echo "<table class=\"table table-striped table-hover tablesorter custom-popup\">";
+  echo " <thead>
+          <th class=\"filter-false columnSelector-disable\" data-sorter=\"false\" data-priority=\"critical\">Undeliver</th>
+          <th data-priority=\"critical\">Filename</th>
+          <th data-priority=\"2\">Delivery Date</th>
+          <th data-priority=\"4\">Size</th>
+         </thead>";
+  echo " <tbody>
+          <br />";
+
+
+  foreach ( $files as $key => $value ) {
+    echo "<tr>";
+
+    echo ' <td>
+            <input type="checkbox" name="undeliver[]" value="' . $value [0] . '">
+           </td>';
+    echo " <td style=\"vertical-align: middle\">" . $value [0] . "&nbsp;";
+
+    // Here we check if the file is already delivered.
+    $cdpDelivery = $objCdp->getDelivery ( $value [0] );
+    foreach ( $cdpDelivery as $number ) {
+      echo "  <span class=\"pull-right badge alert-success\">CDP " . ($number ['keyvalue']) . "</span>&nbsp;";
+    }
+
+    echo " </td>";
+
+    $date = $objCdp->getProperty ( $value [0], "UPLOAD_DATE" );
+
+    echo " <td style=\"vertical-align: middle\">" . $date [0] ['keyvalue'] . "</td>";
+    echo " <td style=\"vertical-align: middle\">" . $value [2] . "</td>";
+
+    echo "</tr>";
+  }
+  echo " </tbody>
+  		  </table>";
+  echo $objUtil->addTablePager ( $type );
+
+  echo "<br /><br />";
+
+  $objUtil->addTableJavascript ( $type );
+}
 ?>
