@@ -82,7 +82,7 @@ class Metadata {
     $keyword = str_replace('_', ' ', $keyword);
     $values = $this->getValidValues ( $keyword );
     $type = $this->getType ( $keyword );
-    if ($type == "LIST" || $type == "MULTILIST") {
+    if ($type == "LIST" || $type == "MULITLIST") {
       foreach ( $values as $key ) {
         if ($key ['value'] == $value) {
           return true;
