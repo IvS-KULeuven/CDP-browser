@@ -7,20 +7,20 @@ if ($_FILES ['csv']) {
     $csvfile = $_FILES ['csv'] ['tmp_name'];
     ini_set('auto_detect_line_endings',true);
     $data_array = file ( $csvfile );
-    
+
     // The first line defines the keywords
     $keywords = $data_array [0];
-    
+
     $keys_array = explode ( "|", $keywords );
     $keys_array = array_map ( 'trim', $keys_array );
-    
+
     // We check if the first keyword is 'Filename'
     if (strtoupper ( $keys_array [0] ) != "FILENAME") {
       $entryMessage = "Problem importing CSV file! The first keyword on should be Filename!";
       $_GET ['indexAction'] = 'import_csv_file';
       return;
     }
-    
+
     $correctCSV = true;
     // We check the rest of the keywords. If they don't exist, we return with an error.
     for($i = 1; $i < sizeof ( $keys_array ); $i ++) {
@@ -29,7 +29,7 @@ if ($_FILES ['csv']) {
         $correctCSV = false;
       }
     }
-    
+
     // Check if all mandatory keywords are in the CSV file.
     foreach ( $objMetadata->getKeys () as $key => $value ) {
       if ($objMetadata->isRequired ( $value ['id'] )) {
@@ -42,22 +42,23 @@ if ($_FILES ['csv']) {
         }
       }
     }
-    
+
     if (! $correctCSV) {
       $entryMessage = "Incorrect keywords in the CSV file!";
       $_GET ['indexAction'] = 'import_csv_file';
     } else {
+      $sizes = $objCdp->getSizesFromFtp (  );
       for($i = 1; $i < sizeof ( $data_array ); $i ++) {
         // All keywords are correct, we read the first line.
         $line = explode ( "|", $data_array [$i] );
         $filename = $line [0];
-        
+
         if (sizeof ( $line ) > 1) {
           $delivery = $line [array_search ( "DELIVERY", $keys_array )];
-          
+
           // Check if the file exists... We only add the files which are available on the ftp server.
-          $size = $objCdp->getSizeFromFtp ( $filename );
-          
+          $size = $sizes[$filename];
+
           if ($size) {
             // We deliver the files.
             if (strpos ( $delivery, ',' ) === false) {
@@ -65,7 +66,7 @@ if ($_FILES ['csv']) {
             } else {
               // We make an array from our string
               $arr = explode ( ',', $delivery );
-              
+
               $cnt = 0;
               foreach ( $arr as $del ) {
                 if ($cnt == 0) {
@@ -76,10 +77,9 @@ if ($_FILES ['csv']) {
                 }
               }
             }
-            
+
             // Add the size of the file
             $objCdp->addKey ( $filename, "size", $size );
-            
             // // Add all the keys from the fits file
             // if (substr ( $filename, - 5 ) == ".fits") {
             // $fitsKeywords = $objFits->getHeader ( $filename );
@@ -89,13 +89,13 @@ if ($_FILES ['csv']) {
             // }
             // }
             // }
-            
+
             for($j = 1; $j < sizeof ( $keys_array ); $j ++) {
               if (strtoupper ( str_replace ( ' ', '_', trim ( $keys_array [$j] ) ) ) != "DELIVERY") {
                 // Check if the keywords have a valid value.
                 $keyToAdd = str_replace ( ' ', '_', trim ( $keys_array [$j] ) );
                 $valueToAdd = trim ( $line [$j] );
-                
+
                 if (trim ( $line [$j] ) != '') {
                   if ($objMetadata->isValidValue ( trim ( $keys_array [$j] ), $valueToAdd )) {
                     // If valueToAdd contains a ',', we have a MULTILIST keyword.

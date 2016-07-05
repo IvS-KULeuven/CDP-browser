@@ -15,6 +15,7 @@ class Cdp {
     } else {
       // try to login
       if (@ftp_login ( $conn_id, $ftp_user, $ftp_password)) {
+        ftp_pasv($conn_id, true);
         if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
           $items = array ();
 
@@ -53,6 +54,7 @@ class Cdp {
     } else {
       // try to login
       if (@ftp_login ( $conn_id, $ftp_user, $ftp_password)) {
+        ftp_pasv($conn_id, true);
         if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
           $items = array ();
 
@@ -84,7 +86,6 @@ class Cdp {
 
     // set up an ftp connection
     $conn_id = ftp_connect ( $ftp_server ) or die ( "Couldn't connect to $ftp_server" );
-
     $toReturn = 0;
 
     if (! $conn_id) {
@@ -93,6 +94,7 @@ class Cdp {
     } else {
       // try to login
       if (@ftp_login ( $conn_id, $ftp_user, $ftp_password)) {
+        ftp_pasv($conn_id, true);
         if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
           $items = array ();
 
@@ -109,6 +111,51 @@ class Cdp {
           foreach ( $items as $key => $value ) {
             if ($key == $filename) {
               return ($value ['size']);
+            }
+          }
+        }
+      } else {
+        // Close the connection to the ftp server
+        ftp_close ( $conn_id );
+
+        $entryMessage = "Couldn't connect to $ftp_server";
+      }
+
+      return $toReturn;
+    }
+  }
+  // Get sizes from all files from ftp server
+  public function getSizesFromFtp() {
+    global $ftp_server, $ftp_directory, $ftp_user, $ftp_password;
+
+    // set up an ftp connection
+    $conn_id = ftp_connect ( $ftp_server ) or die ( "Couldn't connect to $ftp_server" );
+    $toReturn = 0;
+
+    if (! $conn_id) {
+      $entryMessage = "Couldn't connect to $ftp_server";
+      return $toReturn;
+    } else {
+      // try to login
+      if (@ftp_login ( $conn_id, $ftp_user, $ftp_password)) {
+        ftp_pasv($conn_id, true);
+        if (is_array ( $children = @ftp_rawlist ( $conn_id, $ftp_directory ) )) {
+          $items = array ();
+
+          foreach ( $children as $child ) {
+            $chunks = preg_split ( "/\s+/", $child );
+            list ( $item ['rights'], $item ['number'], $item ['user'], $item ['group'], $item ['size'], $item ['month'], $item ['day'], $item ['time'] ) = $chunks;
+            $item ['type'] = $chunks [0] {0} === 'd' ? 'directory' : 'file';
+            array_splice ( $chunks, 0, 8 );
+            $items [implode ( " ", $chunks )] = $item;
+          }
+          // Close the connection to the ftp server
+          ftp_close ( $conn_id );
+          $toReturn = array();
+          foreach ( $items as $key => $value ) {
+            if ($key != "." && $key != "..") {
+              //print $key . ": " . $value['size'] . "<br />";
+              $toReturn[$key] = $value ['size'];
             }
           }
         }
