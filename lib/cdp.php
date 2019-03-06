@@ -359,6 +359,13 @@ class Cdp {
                                                   AND filename IN (SELECT filename FROM cdp WHERE name=\"REFTYPE\" AND keyvalue=\"" . $refType . "\"
                                                   AND filename IN (SELECT filename FROM cdp WHERE name=\"FILETYPE\" AND keyvalue=\"" . $fileType . "\"))))" ));
   }
+
+  public function getFileNamesFullAll() {
+    global $objDatabase;
+
+    return $objDatabase->selectSingleArray ( "select filename, GROUP_CONCAT(name) as name, GROUP_CONCAT(keyvalue) as keyvalue from cdp group by filename" );
+  }
+
   public function getFileNamesFull($module, $step, $refType, $fileType) {
     global $objDatabase;
 

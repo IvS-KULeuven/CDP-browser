@@ -1,25 +1,28 @@
 <?php
 // miri_cdp.bash
 // exports a bash file to download the CDP files
-header ( "Content-Type: text/plain" );
-header ( "Content-Disposition: attachment; filename=\"miri_cdp_pipeline.bash\"" );
+header("Content-Type: text/plain");
+header("Content-Disposition: attachment; filename=\"miri_cdp_pipeline.bash\"");
 
 ini_set('max_execution_time', 600);
 
-if (isset ( $_GET ['release'] )) {
-  $release = $_GET ['release'];
+if (isset($_GET['release'])) {
+    $release = $_GET['release'];
 } else {
-  $release = "";
+    $release = "";
 }
-miri_cdp_pipeline ( $release );
-function miri_cdp_pipeline($release) {
-  $loginErrorCode = "";
-  $loginErrorText = "";
-  require_once 'common/entryexit/preludes.php';
+
+miri_cdp_pipeline($release);
+
+function miri_cdp_pipeline($release) 
+{
+    $loginErrorCode = "";
+    $loginErrorText = "";
+    include_once 'common/entryexit/preludes.php';
   
-  global $ftp_server, $ftp_directory, $ftp_password, $ftp_user, $objCdp;
+    global $ftp_server, $ftp_directory, $ftp_password, $ftp_user, $objCdp;
   
-  print "#!/bin/bash
+    print "#!/bin/bash
 #
 # bash script to synchronize the CDPs between the miri ftp repository
 # and your drive. If you have DHAS installed and thus the environment
