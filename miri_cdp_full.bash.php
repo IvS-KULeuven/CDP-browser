@@ -1,19 +1,23 @@
 <?php
+
+include_once 'common/entryexit/preludes.php';
+
 // miri_cdp.bash
 // exports a bash file to download the CDP files
-header ( "Content-Type: text/plain" );
-header ( "Content-Disposition: attachment; filename=\"miri_cdp_full.bash\"" );
+header("Content-Type: text/plain");
+header("Content-Disposition: attachment; filename=\"miri_cdp_full.bash\"");
 
-ini_set ( 'max_execution_time', 600 );
+ini_set('max_execution_time', 600);
 
-miri_cdp_full ( );
-function miri_cdp_full() {
-  $loginErrorCode = "";
-  $loginErrorText = "";
-  require_once 'common/entryexit/preludes.php';
+miri_cdp_full( );
+function miri_cdp_full()
+{
+    $loginErrorCode = "";
+    $loginErrorText = "";
+    include_once 'common/entryexit/preludes.php';
 
-  global $ftp_server, $ftp_directory, $ftp_user, $ftp_password, $objCdp;
-  print "#!/bin/bash
+    global $ftp_server, $ftp_directory, $ftp_user, $ftp_password, $objCdp;
+    print "#!/bin/bash
 #
 # bash script to synchronize the CDPs between the miri ftp repository
 # and your drive. If you have DHAS installed and thus the environment
@@ -34,7 +38,7 @@ function md5_check {
 
   failed=0";
 
-  echo "
+    echo "
   if [[ -z \$CDP_DIR ]]; then
     cdpdir=`pwd`
   else
@@ -42,29 +46,51 @@ function md5_check {
   fi
   ";
 
-  // All filenames
-  $items = $objCdp->getFilesForFullDelivery ();
-  foreach ( $items as $item ) {
-    $newItems [] = $item [0];
-  }
+    // All filenames
+    $items = $objCdp->getFilesForFullDelivery();
+    foreach ($items as $item) {
+        $newItems[] = $item[0];
+    }
 
-  $modules = $objCdp->getPipelineModulesFromFiles ( $items );
-  $pipelineSteps = $objCdp->getPipelineSteps ( $items );
-  $refTypes = $objCdp->getRefTypes ( $items );
-  $fileTypes = $objCdp->getFileTypes ( $items );
+    $modules = $objCdp->getPipelineModulesFromFiles($items);
+    $pipelineSteps = $objCdp->getPipelineSteps($items);
+    $refTypes = $objCdp->getRefTypes($items);
+    $fileTypes = $objCdp->getFileTypes($items);
 
-  foreach ( $modules as $module ) {
-    foreach ( $pipelineSteps as $step ) {
-      foreach ( $refTypes as $refType ) {
-        foreach ( $fileTypes as $fileType ) {
-          // Here, we check the filenames for the different pipeline steps
-          $fileNames = $objCdp->getFileNamesFull ( $module, $step, $refType, $fileType );
-          // If there are files, we make a directory for this combination and download the files
-          if (count ( $fileNames ) > 0) {
-            echo "
+    $allFiles = $objCdp->getFileNamesFullAll();
+    
+    $myFiles = array();
+    
+    foreach ($allFiles as $key=>$value) {
+        $keys = explode(',', $value['name']);
+        $values = explode(',', $value['keyvalue']);
+        $my_array = array_combine($keys, $values);
+    
+        if (array_key_exists('INCLUDE_IN_FULL_DELIVERY', $my_array) && $my_array['INCLUDE_IN_FULL_DELIVERY'] == 'y') {
+            if (array_key_exists('PIPELINE_MODULE', $my_array)) {
+                if (array_key_exists('PIPELINE_STEP', $my_array)) {
+                    if (array_key_exists('REFTYPE', $my_array)) {
+                        if (array_key_exists('FILETYPE', $my_array)) {
+                            $myFiles[$my_array['PIPELINE_MODULE']][$my_array['PIPELINE_STEP']][$my_array['REFTYPE']][$my_array['FILETYPE']][] = $value['filename'];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    foreach ($modules as $module) {
+        foreach ($pipelineSteps as $step) {
+            foreach ($refTypes as $refType) {
+                foreach ($fileTypes as $fileType) {
+                    // Here, we check the filenames for the different pipeline steps
+                    $fileNames = $myFiles[$module][$step][$refType][$fileType];
+                    // If there are files, we make a directory for this combination and download the files
+                    if (count($fileNames) > 0) {
+                        echo "
   failed=0
   cd \"\$cdpdir\"/CDP/" . $module . "/" . $step . "/" . $refType . "/" . $fileType;
-            echo "
+                        echo "
   echo \"Checking files in \$cdpdir/CDP/" . $module . "/" . $step . "/" . $refType . "/" . $fileType . "\"";
 
             foreach ( $fileNames as $file ) {
@@ -107,6 +133,7 @@ function md5_check {
       }
     }
   }
+
   // Now we may have still some files over. We put them at the correct location.
   if (sizeof ( $newItems ) > 0) {
     foreach ( $newItems as $item ) {
@@ -349,12 +376,34 @@ lftp -f lftp_script
     $refTypes = $objCdp->getRefTypes ( $items );
     $fileTypes = $objCdp->getFileTypes ( $items );
 
+    $allFiles = $objCdp->getFileNamesFullAll();
+    
+    $myFiles = array();
+    
+    foreach ($allFiles as $key=>$value) {
+        $keys = explode(',', $value['name']);
+        $values = explode(',', $value['keyvalue']);
+        $my_array = array_combine($keys, $values);
+    
+        if (array_key_exists('INCLUDE_IN_FULL_DELIVERY', $my_array) && $my_array['INCLUDE_IN_FULL_DELIVERY'] == 'y') {
+            if (array_key_exists('PIPELINE_MODULE', $my_array)) {
+                if (array_key_exists('PIPELINE_STEP', $my_array)) {
+                    if (array_key_exists('REFTYPE', $my_array)) {
+                        if (array_key_exists('FILETYPE', $my_array)) {
+                            $myFiles[$my_array['PIPELINE_MODULE']][$my_array['PIPELINE_STEP']][$my_array['REFTYPE']][$my_array['FILETYPE']][] = $value['filename'];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     foreach ( $modules as $module ) {
       foreach ( $pipelineSteps as $step ) {
         foreach ( $refTypes as $refType ) {
           foreach ( $fileTypes as $fileType ) {
             // Here, we check the filenames for the different pipeline steps
-            $fileNames = $objCdp->getFileNamesFull ( $module, $step, $refType, $fileType );
+            $fileNames = $myFiles[$module][$step][$refType][$fileType];
             // If there are files, we make a directory for this combination and download the files
             if (count ( $fileNames ) > 0) {
               echo "

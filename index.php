@@ -44,7 +44,7 @@
 
   // Making the footer
   echo "<div class=\"navbar navbar-default navbar-fixed-bottom\">
-  		  <p class=\"navbar-text\">Copyright 2014-2016, <a href='mailto:wim.demeester@ster.kuleuven.be'>Wim De Meester</a>, <a href='http://www.ster.kuleuven.be/'>IvS</a>, KU Leuven.</p>
+  		  <p class=\"navbar-text\">Copyright 2014-2019, <a href='mailto:wim.demeester@ster.kuleuven.be'>Wim De Meester</a>, <a href='http://www.ster.kuleuven.be/'>IvS</a>, KU Leuven.</p>
   		</div>";
 
   // dispays $entryMessage if any
