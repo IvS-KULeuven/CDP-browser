@@ -60,18 +60,28 @@ function md5_check {
     $allFiles = $objCdp->getFileNamesFullAll();
     
     $myFiles = array();
-    
     foreach ($allFiles as $key=>$value) {
         $keys = explode(',', $value['name']);
         $values = explode(',', $value['keyvalue']);
-        $my_array = array_combine($keys, $values);
-    
+
+        $my_array = array();
+        foreach ($keys as $i => $k) {
+            $my_array[$k][] = $values[$i];
+        }
+        array_walk($my_array, create_function('&$v', '$v = (count($v) == 1)? array_pop($v): $v;'));
+        //$my_array = array_combine($keys, $values);
         if (array_key_exists('INCLUDE_IN_FULL_DELIVERY', $my_array) && $my_array['INCLUDE_IN_FULL_DELIVERY'] == 'y') {
             if (array_key_exists('PIPELINE_MODULE', $my_array)) {
                 if (array_key_exists('PIPELINE_STEP', $my_array)) {
                     if (array_key_exists('REFTYPE', $my_array)) {
                         if (array_key_exists('FILETYPE', $my_array)) {
-                            $myFiles[$my_array['PIPELINE_MODULE']][$my_array['PIPELINE_STEP']][$my_array['REFTYPE']][$my_array['FILETYPE']][] = $value['filename'];
+                            if (sizeof($my_array['PIPELINE_MODULE']) > 1) {
+                                foreach ($my_array['PIPELINE_MODULE'] as $mod) {
+                                    $myFiles[$mod][$my_array['PIPELINE_STEP']][$my_array['REFTYPE']][$my_array['FILETYPE']][] = $value['filename'];
+                                }
+                            } else {
+                                $myFiles[$my_array['PIPELINE_MODULE']][$my_array['PIPELINE_STEP']][$my_array['REFTYPE']][$my_array['FILETYPE']][] = $value['filename'];
+                            }
                         }
                     }
                 }
@@ -301,6 +311,7 @@ cd \"\$cdpdir\"";
     echo "\n";
     // First we download the files which have no pipeline information
     $files = $objCdp->getAllFilesWithoutPipelineInformation ( );
+  
     $directories = array ();
     if (sizeof ( $files ) > 0) {
       foreach ( $files as $filename ) {
@@ -377,20 +388,30 @@ lftp -f lftp_script
     $fileTypes = $objCdp->getFileTypes ( $items );
 
     $allFiles = $objCdp->getFileNamesFullAll();
-    
     $myFiles = array();
     
     foreach ($allFiles as $key=>$value) {
         $keys = explode(',', $value['name']);
         $values = explode(',', $value['keyvalue']);
-        $my_array = array_combine($keys, $values);
+
+        $my_array = array();
+        foreach ($keys as $i => $k) {
+            $my_array[$k][] = $values[$i];
+        }
+        array_walk($my_array, create_function('&$v', '$v = (count($v) == 1)? array_pop($v): $v;'));
     
         if (array_key_exists('INCLUDE_IN_FULL_DELIVERY', $my_array) && $my_array['INCLUDE_IN_FULL_DELIVERY'] == 'y') {
             if (array_key_exists('PIPELINE_MODULE', $my_array)) {
                 if (array_key_exists('PIPELINE_STEP', $my_array)) {
                     if (array_key_exists('REFTYPE', $my_array)) {
                         if (array_key_exists('FILETYPE', $my_array)) {
-                            $myFiles[$my_array['PIPELINE_MODULE']][$my_array['PIPELINE_STEP']][$my_array['REFTYPE']][$my_array['FILETYPE']][] = $value['filename'];
+                            if (sizeof($my_array['REFTYPE']) > 1) {
+                                foreach ($my_array['REFTYPE'] as $ref) {
+                                    $myFiles[$my_array['PIPELINE_MODULE']][$my_array['PIPELINE_STEP']][$ref][$my_array['FILETYPE']][] = $value['filename'];
+                                }
+                            } else {
+                                $myFiles[$my_array['PIPELINE_MODULE']][$my_array['PIPELINE_STEP']][$my_array['REFTYPE']][$my_array['FILETYPE']][] = $value['filename'];
+                            }
                         }
                     }
                 }
